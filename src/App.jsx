@@ -1357,9 +1357,9 @@ function MapView({ lang, deals, stores, onDealClick, dark }) {
   const isOpen = selected ? isStoreOpen(stores.find(s => s.id === selected.storeId)) : false;
 
   return (
-    <div style={{ position: "relative", background: "#101010", minHeight: "100vh" }}>
+    <div style={{ position: "relative", background: "#101010", height: "calc(100vh - 80px)" }}>
       {/* Dark map */}
-      <div ref={mapRef} style={{ width: "100%", height: "100vh" }} />
+      <div ref={mapRef} style={{ width: "100%", height: "calc(100vh - 80px)" }} />
 
       {/* Kategoriya chiplar — tepada overlay */}
       <div style={{
@@ -2107,7 +2107,7 @@ function MyCouponsPage({ lang, dark, coupons, onBack, onUseCoupon }) {
 // =====================================================
 function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings,
   onBack, onSubscribeToggle, onAddProduct, onApplyDiscount,
-  onRemoveDiscount, onDeleteProduct, onRateProduct, onRateStore, onOpenDeal,
+  onRemoveDiscount, onDeleteProduct, onEditProduct, onRateProduct, onRateStore, onOpenDeal,
   onBook, onChat }) {
   const tx = t[lang];
   const th = theme(dark);
@@ -2115,6 +2115,7 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
   const [discountTarget, setDiscountTarget] = useState(null);
   const [reviewTarget, setReviewTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [editTarget, setEditTarget] = useState(null);
   const storeRating = avgRating(store.reviews);
 
   const handleCall = () => { if (store.phone) window.location.href = `tel:${store.phone}`; };
@@ -2219,7 +2220,12 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
                     {hasDiscount && <span style={{ background: store.color, color: "#fff", borderRadius: 7, padding: "2px 7px", fontSize: 11, fontWeight: 800, marginLeft: "auto" }}>-{prod.discount.percent}%</span>}
                   </div>
                 </div>
-                {isOwner && <button onClick={() => setDeleteTarget(prod.id)} style={{ background: "none", border: "none", color: "#16A34A", fontSize: 13, cursor: "pointer", alignSelf: "flex-start" }}>✕</button>}
+                {isOwner && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, alignSelf: "flex-start" }}>
+                    <button onClick={() => setDeleteTarget(prod.id)} style={{ background: "none", border: "none", color: "#FF6B6B", fontSize: 13, cursor: "pointer", padding: 2 }}>✕</button>
+                    <button onClick={() => setEditTarget(prod)} style={{ background: "none", border: "none", color: "#16A34A", fontSize: 13, cursor: "pointer", padding: 2 }}>✏️</button>
+                  </div>
+                )}
               </div>
               <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
                 {isOwner ? (
@@ -2273,6 +2279,46 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
           <div style={{ display: "flex", gap: 10 }}>
             <button onClick={() => setDeleteTarget(null)} style={{ flex: 1, padding: 12, borderRadius: 12, border: `1.5px solid ${th.border}`, background: th.card, color: th.text, fontWeight: 700, cursor: "pointer" }}>{tx.no}</button>
             <button onClick={() => { onDeleteProduct(deleteTarget); setDeleteTarget(null); }} style={{ flex: 1, padding: 12, borderRadius: 12, border: "none", background: "#16A34A", color: "#fff", fontWeight: 700, cursor: "pointer" }}>{tx.yes}</button>
+          </div>
+        </ModalSheet>
+      )}
+      {editTarget && (
+        <ModalSheet onClose={() => setEditTarget(null)} dark={dark} maxHeight="80vh">
+          <h3 style={{ fontSize: 16, fontWeight: 800, color: th.text, marginBottom: 16, textAlign: "center" }}>
+            ✏️ {lang === "uz" ? "Mahsulotni tahrirlash" : "Редактировать товар"}
+          </h3>
+          <label style={{ fontSize: 12, fontWeight: 700, color: th.sub, display: "block", marginBottom: 6 }}>
+            {lang === "uz" ? "Mahsulot nomi" : "Название товара"}
+          </label>
+          <input
+            value={editTarget.name?.[lang] || editTarget.name?.uz || ""}
+            onChange={e => setEditTarget(prev => ({ ...prev, name: { ...prev.name, uz: e.target.value, ru: e.target.value } }))}
+            style={{ width: "100%", padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${th.border}`, background: th.card2, color: th.text, fontSize: 14, outline: "none", boxSizing: "border-box", marginBottom: 12 }}
+          />
+          <label style={{ fontSize: 12, fontWeight: 700, color: th.sub, display: "block", marginBottom: 6 }}>
+            {lang === "uz" ? "Tavsif" : "Описание"}
+          </label>
+          <textarea
+            value={editTarget.description?.[lang] || editTarget.description?.uz || ""}
+            onChange={e => setEditTarget(prev => ({ ...prev, description: { ...prev.description, uz: e.target.value, ru: e.target.value } }))}
+            rows={3}
+            style={{ width: "100%", padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${th.border}`, background: th.card2, color: th.text, fontSize: 14, outline: "none", boxSizing: "border-box", resize: "none", marginBottom: 12 }}
+          />
+          <label style={{ fontSize: 12, fontWeight: 700, color: th.sub, display: "block", marginBottom: 6 }}>
+            {lang === "uz" ? "Narxi (so'm)" : "Цена (сум)"}
+          </label>
+          <input
+            type="number"
+            value={editTarget.originalPrice || ""}
+            onChange={e => setEditTarget(prev => ({ ...prev, originalPrice: parseFloat(e.target.value) || 0 }))}
+            style={{ width: "100%", padding: "12px 14px", borderRadius: 12, border: `1.5px solid ${th.border}`, background: th.card2, color: th.text, fontSize: 14, outline: "none", boxSizing: "border-box", marginBottom: 16 }}
+          />
+          <div style={{ display: "flex", gap: 10 }}>
+            <button onClick={() => setEditTarget(null)} style={{ flex: 1, padding: 12, borderRadius: 12, border: `1.5px solid ${th.border}`, background: th.card, color: th.text, fontWeight: 700, cursor: "pointer" }}>{tx.cancel}</button>
+            <button onClick={() => { onEditProduct && onEditProduct(editTarget.id, editTarget); setEditTarget(null); }}
+              style={{ flex: 1, padding: 12, borderRadius: 12, border: "none", background: "#16A34A", color: "#fff", fontWeight: 700, cursor: "pointer" }}>
+              {lang === "uz" ? "Saqlash" : "Сохранить"}
+            </button>
           </div>
         </ModalSheet>
       )}
@@ -2559,7 +2605,7 @@ function AddProductForm({ lang, dark, store, onCancel, onSubmit }) {
             </div>
           </div>
         </div>
-        <div style={{ padding: "20px" }}>
+      <div style={{ padding: "20px", overflowY: "auto", maxHeight: "calc(100vh - 120px)", paddingBottom: 40 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {cats.map(c => (
               <button key={c.id} onClick={() => setSelectedCat(c.id)}
@@ -2805,10 +2851,44 @@ export default function App() {
   const [chatStore, setChatStore] = useState(null);
   const [chatMessages, setChatMessages] = useState(saved?.chatMessages ?? {});
   const [showAddSheet, setShowAddSheet] = useState(false);
+  const [showStatsModal, setShowStatsModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [locationName, setLocationName] = useState("Toshkent");
 
   const th = theme(dark);
   const s = mkStyles(dark);
   const tx = t[lang];
+
+  // Auto-detect location name
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      // O'zbekiston viloyatlari koordinatalari bo'yicha aniqlash
+      const regions = [
+        { name: "Toshkent", uz: "Toshkent", ru: "Ташкент", lat: 41.299, lng: 69.240, r: 0.5 },
+        { name: "Samarqand", uz: "Samarqand", ru: "Самарканд", lat: 39.655, lng: 66.975, r: 0.8 },
+        { name: "Buxoro", uz: "Buxoro", ru: "Бухара", lat: 39.767, lng: 64.455, r: 0.8 },
+        { name: "Namangan", uz: "Namangan", ru: "Наманган", lat: 41.000, lng: 71.668, r: 0.6 },
+        { name: "Andijon", uz: "Andijon", ru: "Андижан", lat: 40.783, lng: 72.344, r: 0.5 },
+        { name: "Farg'ona", uz: "Farg'ona", ru: "Фергана", lat: 40.384, lng: 71.787, r: 0.5 },
+        { name: "Qarshi", uz: "Qarshi", ru: "Карши", lat: 38.861, lng: 65.789, r: 0.6 },
+        { name: "Nukus", uz: "Nukus", ru: "Нукус", lat: 42.460, lng: 59.610, r: 0.7 },
+        { name: "Urganch", uz: "Urganch", ru: "Ургенч", lat: 41.548, lng: 60.633, r: 0.5 },
+        { name: "Termiz", uz: "Termiz", ru: "Термез", lat: 37.224, lng: 67.278, r: 0.5 },
+        { name: "Navoiy", uz: "Navoiy", ru: "Навои", lat: 40.084, lng: 65.379, r: 0.5 },
+        { name: "Jizzax", uz: "Jizzax", ru: "Джизак", lat: 40.123, lng: 67.842, r: 0.5 },
+        { name: "Guliston", uz: "Guliston", ru: "Гулистан", lat: 40.489, lng: 68.784, r: 0.5 },
+      ];
+      let found = null;
+      let minDist = Infinity;
+      regions.forEach(reg => {
+        const dist = Math.sqrt(Math.pow(latitude - reg.lat, 2) + Math.pow(longitude - reg.lng, 2));
+        if (dist < minDist) { minDist = dist; found = reg; }
+      });
+      if (found) setLocationName(lang === "ru" ? found.ru : found.uz);
+    }, () => {});
+  }, [lang]);
 
   // Persist to localStorage
   useEffect(() => {
@@ -3011,6 +3091,8 @@ export default function App() {
     setStores((prev) => prev.map((st) => st.id !== storeId ? st : { ...st, products: st.products.map((p) => p.id !== productId ? p : { ...p, discount: null }) }));
   const deleteProduct = (storeId, productId) =>
     setStores((prev) => prev.map((st) => st.id !== storeId ? st : { ...st, products: st.products.filter((p) => p.id !== productId) }));
+  const editProduct = (storeId, productId, updated) =>
+    setStores((prev) => prev.map((st) => st.id !== storeId ? st : { ...st, products: st.products.map((p) => p.id !== productId ? p : { ...p, ...updated }) }));
   const rateProduct = (storeId, productId, review) => {
     const author = userData.name || (lang === "uz" ? "Mehmon" : "Гость");
     setStores((prev) => prev.map((st) => st.id !== storeId ? st : { ...st, products: st.products.map((p) => p.id !== productId ? p : { ...p, reviews: [...(p.reviews || []), { ...review, author }] }) }));
@@ -3051,6 +3133,7 @@ export default function App() {
           onApplyDiscount={(pid, d) => applyDiscount(viewingStore.id, pid, d)}
           onRemoveDiscount={(pid) => removeDiscount(viewingStore.id, pid)}
           onDeleteProduct={(pid) => deleteProduct(viewingStore.id, pid)}
+          onEditProduct={(pid, updated) => editProduct(viewingStore.id, pid, updated)}
           onRateProduct={(pid, r) => rateProduct(viewingStore.id, pid, r)}
           onRateStore={(r) => rateStore(viewingStore.id, r)}
           onOpenDeal={(sid, pid) => { setSelectedKey({ storeId: sid, productId: pid }); setViewingStoreId(null); }}
@@ -3091,6 +3174,63 @@ export default function App() {
 
       {/* Edit profile modal */}
       {showEditProfile && <EditProfileModal lang={lang} dark={dark} userData={userData} onClose={() => setShowEditProfile(false)} onSave={(d) => { setUserData(d); setShowEditProfile(false); }} />}
+
+      {/* Statistika modal */}
+      {showStatsModal && (
+        <ModalSheet onClose={() => setShowStatsModal(false)} dark={dark} maxHeight="85vh">
+          <h3 style={{ fontSize: 18, fontWeight: 800, color: th.text, marginBottom: 20, textAlign: "center" }}>
+            📊 {lang === "uz" ? "Statistika" : "Статистика"}
+          </h3>
+          {/* Asosiy raqamlar */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+            {[
+              { icon: "❤️", value: savedKeys.length, label: lang === "uz" ? "Saqlangan" : "Сохранено", color: "#FF6B6B" },
+              { icon: "🎟️", value: coupons.filter(c => !c.used).length, label: lang === "uz" ? "Faol kuponlar" : "Активные купоны", color: "#FFB400" },
+              { icon: "🛒", value: cartCount, label: lang === "uz" ? "Savat" : "Корзина", color: "#00B894" },
+              { icon: "📅", value: bookings.length, label: lang === "uz" ? "Bronlar" : "Брони", color: "#0984E3" },
+              { icon: "🔔", value: subscriptions.length, label: lang === "uz" ? "Obunalar" : "Подписки", color: "#6C5CE7" },
+              { icon: "💬", value: Object.keys(chatMessages).length, label: lang === "uz" ? "Chatlar" : "Чаты", color: "#16A34A" },
+            ].map((item, i) => (
+              <div key={i} style={{ background: th.card2, borderRadius: 16, padding: "16px 12px", textAlign: "center", border: `1px solid ${th.border}` }}>
+                <div style={{ fontSize: 28, marginBottom: 6 }}>{item.icon}</div>
+                <div style={{ fontSize: 26, fontWeight: 900, color: item.color }}>{item.value}</div>
+                <div style={{ fontSize: 11, color: th.sub, marginTop: 4, fontWeight: 600 }}>{item.label}</div>
+              </div>
+            ))}
+          </div>
+          {/* Do'kon statistikasi */}
+          {myStore && (
+            <div style={{ background: th.card2, borderRadius: 16, padding: 16, border: `1px solid ${th.border}`, marginBottom: 10 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: th.sub, marginBottom: 12 }}>
+                🏪 {lang === "uz" ? "DO'KON STATISTIKASI" : "СТАТИСТИКА МАГАЗИНА"}
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+                {[
+                  { label: lang === "uz" ? "Mahsulotlar" : "Товары", value: myStore.products.length, icon: "📦" },
+                  { label: lang === "uz" ? "Ko'rishlar" : "Просмотры", value: myStore.views || 0, icon: "👁️" },
+                  { label: lang === "uz" ? "Obunchilar" : "Подписчики", value: myStore.subscriberBase || 0, icon: "👥" },
+                ].map((s, i) => (
+                  <div key={i} style={{ background: th.card, borderRadius: 12, padding: "12px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 20 }}>{s.icon}</div>
+                    <div style={{ fontSize: 20, fontWeight: 900, color: "#16A34A", margin: "4px 0" }}>{s.value}</div>
+                    <div style={{ fontSize: 10, color: th.sub }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+              {/* Chegirmali mahsulotlar */}
+              <div style={{ marginTop: 12, padding: "10px 12px", background: "#16A34A20", borderRadius: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 13, color: "#16A34A", fontWeight: 700 }}>🏷️ {lang === "uz" ? "Faol chegirmalar" : "Активные скидки"}</span>
+                <span style={{ fontSize: 18, fontWeight: 900, color: "#16A34A" }}>
+                  {myStore.products.filter(p => p.discount && !isExpired(p.discount.expiryDate)).length}
+                </span>
+              </div>
+            </div>
+          )}
+          <button onClick={() => setShowStatsModal(false)} style={{ width: "100%", padding: 14, background: "#16A34A", color: "#fff", border: "none", borderRadius: 14, fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
+            {lang === "uz" ? "Yopish" : "Закрыть"}
+          </button>
+        </ModalSheet>
+      )}
 
       {/* Filter modal */}
       {showFilter && <FilterModal lang={lang} dark={dark} filter={filter} onClose={() => setShowFilter(false)} onApply={(f) => { setFilter(f); setShowFilter(false); }} />}
@@ -3209,7 +3349,7 @@ export default function App() {
               <div style={{ width: 1, height: 16, background: th.border }} />
               <button onClick={() => {}} style={{ display: "flex", alignItems: "center", gap: 3, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                 <span style={{ fontSize: 12 }}>📍</span>
-                <span style={{ fontWeight: 600, fontSize: 14, color: th.text }}>Toshkent</span>
+                <span style={{ fontWeight: 600, fontSize: 14, color: th.text }}>{locationName}</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 2 }}><path d="m6 9 6 6 6-6"/></svg>
               </button>
             </div>
@@ -3652,8 +3792,10 @@ export default function App() {
 
       {/* ── MAP TAB ── */}
       {activeTab === "map" && (
-        <MapView lang={lang} dark={dark} deals={activeDeals} stores={stores}
-          onDealClick={(d) => setSelectedKey({ storeId: d.storeId, productId: d.productId })} />
+        <div style={{ position: "relative", paddingBottom: 80 }}>
+          <MapView lang={lang} dark={dark} deals={activeDeals} stores={stores}
+            onDealClick={(d) => setSelectedKey({ storeId: d.storeId, productId: d.productId })} />
+        </div>
       )}
 
 
@@ -3687,7 +3829,7 @@ export default function App() {
 
           {[
             { icon: "👤", label: lang === "uz" ? "Mening profilim" : "Мой профиль", count: 0, action: () => setProfileView("myprofile") },
-            { icon: "🎟️", label: tx.myCoupons, count: coupons.filter((c) => !c.used).length, action: () => setProfileView("coupons") },
+            { icon: "💬", label: lang === "uz" ? "Chatlarim" : "Мои чаты", count: Object.keys(chatMessages).length, action: () => setProfileView("chats") },
             { icon: "📅", label: tx.myBookings, count: bookings.filter(b => b.status === "pending").length, action: () => setProfileView("bookings") },
             { icon: "🏪", label: tx.subscribedStores, count: subscriptions.length, action: () => setProfileView("subscribed") },
             { icon: "⚙️", label: tx.settings, count: 0, action: () => setProfileView("settings") },
@@ -3750,7 +3892,7 @@ export default function App() {
           {/* Chat tugmasi */}
           <button
             onClick={() => setProfileView("chats")}
-            style={{ width: "100%", padding: "14px 18px", background: th.card, border: `1px solid ${th.border}`, borderRadius: 16, marginBottom: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+            style={{ width: "100%", padding: "14px 18px", background: th.card, border: `1px solid ${th.border}`, borderRadius: 16, marginBottom: 10, cursor: "pointer", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
             <span style={{ fontSize: 24 }}>💬</span>
             <span style={{ flex: 1, textAlign: "left" }}>
               <span style={{ display: "block", fontWeight: 700, fontSize: 14, color: th.text }}>
@@ -3767,6 +3909,22 @@ export default function App() {
                 {Object.keys(chatMessages).length}
               </span>
             )}
+            <span style={{ color: "#CCC" }}>›</span>
+          </button>
+
+          {/* Statistika tugmasi */}
+          <button
+            onClick={() => setShowStatsModal(true)}
+            style={{ width: "100%", padding: "14px 18px", background: th.card, border: `1px solid ${th.border}`, borderRadius: 16, marginBottom: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+            <span style={{ fontSize: 24 }}>📊</span>
+            <span style={{ flex: 1, textAlign: "left" }}>
+              <span style={{ display: "block", fontWeight: 700, fontSize: 14, color: th.text }}>
+                {lang === "uz" ? "Statistika" : "Статистика"}
+              </span>
+              <span style={{ display: "block", fontSize: 12, color: th.sub, marginTop: 2 }}>
+                {lang === "uz" ? "Saqlangan, kuponlar, savat" : "Сохранено, купоны, корзина"}
+              </span>
+            </span>
             <span style={{ color: "#CCC" }}>›</span>
           </button>
 
@@ -4072,25 +4230,19 @@ export default function App() {
             },
             {
               icon: "📦",
-              label: lang === "uz" ? "Mahsulot qo'shish" : "Добавить товар",
-              desc: lang === "uz" ? "Do'koningizga mahsulot qo'shing" : "Добавьте товар в ваш магазин",
-              action: () => { setShowAddSheet(false); if (myStore) { setViewingStoreId(myStore.id); setTimeout(() => setProfileView("storeAddProduct"), 100); } else { setActiveTab("profile"); setProfileView("createStore"); } },
-            },
-            {
-              icon: "🔧",
-              label: lang === "uz" ? "Xizmat qo'shish" : "Добавить услугу",
-              desc: lang === "uz" ? "Xizmatlaringizni e'lon qiling" : "Опубликуйте ваши услуги",
+              label: lang === "uz" ? "Mahsulot / Xizmat qo'shish" : "Добавить товар / услугу",
+              desc: lang === "uz" ? "Do'koningizga mahsulot yoki xizmat qo'shing" : "Добавьте товар или услугу в магазин",
               action: () => { setShowAddSheet(false); if (myStore) { setViewingStoreId(myStore.id); setTimeout(() => setProfileView("storeAddProduct"), 100); } else { setActiveTab("profile"); setProfileView("createStore"); } },
             },
           ].map((item, i) => (
             <div key={i} onClick={item.action} style={{
-              display: "flex", alignItems: "center", gap: 14, padding: "14px 16px",
+              display: "flex", alignItems: "center", gap: 14, padding: "16px 16px",
               background: th.card2, borderRadius: 14, marginBottom: 10, cursor: "pointer",
               border: `1px solid ${th.border}`,
             }}>
-              <span style={{ fontSize: 28 }}>{item.icon}</span>
+              <span style={{ fontSize: 30 }}>{item.icon}</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, fontSize: 14, color: th.text }}>{item.label}</div>
+                <div style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{item.label}</div>
                 <div style={{ fontSize: 12, color: th.sub, marginTop: 2 }}>{item.desc}</div>
               </div>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
