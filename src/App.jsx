@@ -808,49 +808,6 @@ function DealDetailSheet({ deal, lang, dark, saved, onClose, onSave, onChat }) {
 }
 
 // =====================================================
-// STATS MODAL
-// =====================================================
-function StatsModal({ lang, dark, store, bookings, onClose }) {
-  const th = theme(dark);
-  const storeBookings = (bookings||[]).filter(b=>b.storeId===store.id);
-  const weekDays = lang==="uz"?["Du","Se","Ch","Pa","Ju","Sh","Ya"]:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
-  const viewData = [120,85,200,145,310,280,190];
-  const maxV = Math.max(...viewData);
-  return (
-    <Sheet onClose={onClose} dark={dark} maxH="85vh">
-      <h3 style={{fontSize:17,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>{T[lang].stats}</h3>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
-        {[
-          {icon:"👁️",label:T[lang].views,value:(store.views||0).toLocaleString(),color:"#0984E3",bg:"#0984E315"},
-          {icon:"📅",label:T[lang].bookings,value:storeBookings.length,color:"#16A34A",bg:"#16A34A15"},
-          {icon:"🔔",label:T[lang].subscribedStores||"Obunchilar",value:store.subscriberBase||0,color:"#FFB400",bg:"#FFB40015"},
-          {icon:"📦",label:T[lang].products,value:store.products.length,color:"#6C5CE7",bg:"#6C5CE715"},
-        ].map((s,i)=>(
-          <div key={i} style={{background:s.bg,borderRadius:14,padding:"14px 12px",border:`1px solid ${s.color}30`}}>
-            <div style={{fontSize:22,marginBottom:6}}>{s.icon}</div>
-            <div style={{fontSize:22,fontWeight:900,color:s.color}}>{s.value}</div>
-            <div style={{fontSize:11,color:th.sub,marginTop:2}}>{s.label}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{background:th.card2,borderRadius:14,padding:"14px 12px",border:`1px solid ${th.border}`}}>
-        <div style={{fontSize:12,fontWeight:700,color:th.sub,marginBottom:12}}>📈 {T[lang].views} (7 {lang==="uz"?"kun":"дн."})</div>
-        <div style={{display:"flex",gap:5,alignItems:"flex-end",height:80}}>
-          {viewData.map((v,i)=>(
-            <div key={i} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:3}}>
-              <div style={{fontSize:8,color:th.sub}}>{v}</div>
-              <div style={{width:"100%",borderRadius:"3px 3px 0 0",background:"linear-gradient(180deg,#16A34A,#0D6B28)",height:`${Math.round((v/maxV)*60)}px`,minHeight:3,opacity:i===4?1:0.6}}/>
-              <div style={{fontSize:9,color:th.sub}}>{weekDays[i]}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div style={{marginTop:16}}><Btn onClick={onClose}>{lang==="uz"?"Yopish":"Закрыть"}</Btn></div>
-    </Sheet>
-  );
-}
-
-
 // =====================================================
 // BUSINESS PROFILE VIEW
 // =====================================================
