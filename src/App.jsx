@@ -514,7 +514,7 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
   },[catFilter,deals]);
   const open = sel ? isStoreOpen(stores.find(s=>s.id===sel.storeId)) : false;
   return (
-    <div style={{position:"relative",height:"calc(100vh - 80px)"}}>
+    <div style={{position:"relative",width:"100%",height:"100%"}}>
       <div ref={mapRef} style={{width:"100%",height:"100%"}}/>
       <div style={{position:"absolute",top:8,left:0,right:0,zIndex:20,padding:"0 12px",display:"flex",gap:6,overflowX:"auto",scrollbarWidth:"none"}}>
         {MAP_CATS.map(cat=>{
@@ -864,7 +864,6 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings,
   const [reviewTarget, setReviewTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [editTarget, setEditTarget] = useState(null);
-  const [showStats, setShowStats] = useState(false);
   const [prodMenu, setProdMenu] = useState(null);
   const open = isStoreOpen(store);
   const rating = avgRating(store.reviews);
@@ -881,7 +880,7 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings,
           <button onClick={onBack} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,width:34,height:34,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
-          {isOwner && <button onClick={()=>setShowStats(true)} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,padding:"7px 12px",color:"#fff",fontSize:12,fontWeight:700,cursor:"pointer"}}>📊 {tx.stats}</button>}
+          {isOwner && <div style={{width:34}}/>}
         </div>
         <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
           <div style={{width:66,height:66,borderRadius:18,background:"rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,flexShrink:0,border:"2px solid rgba(255,255,255,0.4)"}}>{store.logo}</div>
@@ -1013,8 +1012,6 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings,
       </div>
 
       {discTarget && <DiscountModal product={discTarget} lang={lang} dark={dark} onClose={()=>setDiscTarget(null)} onApply={d=>{onApplyDiscount(discTarget.id,d);setDiscTarget(null);}}/>}
-      {reviewTarget && <ReviewModal title={reviewTarget==="store"?tx.leaveReview+" — "+store.name:tx.rateProduct} lang={lang} dark={dark} onClose={()=>setReviewTarget(null)} onSubmit={r=>{if(reviewTarget==="store")onRateStore(r);else onRateProduct(reviewTarget,r);setReviewTarget(null);}}/>}
-      {showStats && <StatsModal lang={lang} dark={dark} store={store} bookings={bookings} onClose={()=>setShowStats(false)}/>}
       {deleteTarget && (
         <Sheet onClose={()=>setDeleteTarget(null)} dark={dark} maxH="35vh">
           <p style={{fontSize:15,color:th.text,fontWeight:600,marginBottom:20,textAlign:"center"}}>{tx.confirmDelete}</p>
@@ -1490,7 +1487,6 @@ function ProfileTab({ lang, dark, setLang, toggleDark, isGuest, userData, setUse
   const th = theme(dark);
   const tx = T[lang];
   const [showEdit, setShowEdit] = useState(false);
-  const [showStats, setShowStats] = useState(false);
 
   if (profileView==="settings") return (
     <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
@@ -1606,19 +1602,10 @@ function ProfileTab({ lang, dark, setLang, toggleDark, isGuest, userData, setUse
               <div style={{fontSize:12,color:"rgba(255,255,255,0.8)"}}>{userData.phone||""}</div>
             </div>
           </div>
-          <button onClick={()=>setShowStats(true)} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,padding:"8px 12px",color:"#fff",fontSize:12,fontWeight:700,cursor:"pointer"}}>📊</button>
         </div>
         {!isGuest && <button onClick={()=>setShowEdit(true)} style={{background:"rgba(255,255,255,0.15)",border:"1.5px solid rgba(255,255,255,0.4)",borderRadius:12,padding:"8px 18px",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>✏️ {tx.editProfile}</button>}
       </div>
       <div style={{padding:16}}>
-        <button onClick={()=>myStore?onViewBiz(myStore.id):onCreateBiz()} style={{width:"100%",display:"flex",alignItems:"center",gap:12,textAlign:"left",background:"linear-gradient(135deg,#16A34A,#0D6B28)",border:"none",borderRadius:16,padding:"14px 16px",marginBottom:10,cursor:"pointer",boxShadow:"0 4px 16px rgba(22,163,74,0.3)"}}>
-          <span style={{fontSize:24}}>{myStore?myStore.logo:"🏪"}</span>
-          <span style={{flex:1}}>
-            <span style={{display:"block",fontWeight:800,fontSize:14,color:"#fff"}}>{myStore?myStore.name:tx.myStore}</span>
-            <span style={{display:"block",fontSize:11,color:"rgba(255,255,255,0.85)",marginTop:2}}>{myStore?`${myStore.products.length} ${tx.products.toLowerCase()}`:tx.createBizSub}</span>
-          </span>
-          <span style={{color:"#fff",fontSize:18}}>›</span>
-        </button>
         {[
           {icon:"💬",label:tx.myChats,count:Object.keys(chatMessages).length,view:"myChats"},
           {icon:"📅",label:tx.myBookings,count:bookings.filter(b=>b.status==="pending").length,view:"bookings"},
@@ -1632,30 +1619,25 @@ function ProfileTab({ lang, dark, setLang, toggleDark, isGuest, userData, setUse
             <span style={{color:th.sub2}}>›</span>
           </div>
         ))}
+
+        {/* 🏪 DO'KONIM — pastda joylashgan */}
+        <div style={{height:1,background:th.border,margin:"8px 0 14px"}}/>
+        <div style={{fontSize:11,fontWeight:700,color:th.sub,marginBottom:8,paddingLeft:2}}>
+          {lang==="uz"?"🏪 DO'KONIM":"🏪 МОЙ МАГАЗИН"}
+        </div>
+        <button onClick={()=>myStore?onViewBiz(myStore.id):onCreateBiz()} style={{width:"100%",display:"flex",alignItems:"center",gap:12,textAlign:"left",background:th.card,border:`1px solid ${th.border}`,borderRadius:16,padding:"14px 16px",marginBottom:10,cursor:"pointer"}}>
+          <div style={{width:44,height:44,borderRadius:13,background:myStore?(myStore.color+"20"):"#16A34A20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>
+            {myStore?myStore.logo:"🏪"}
+          </div>
+          <span style={{flex:1}}>
+            <span style={{display:"block",fontWeight:700,fontSize:14,color:th.text}}>{myStore?myStore.name:tx.myStore}</span>
+            <span style={{display:"block",fontSize:11,color:th.sub,marginTop:2}}>{myStore?`${myStore.products.length} ${tx.products.toLowerCase()}`:tx.createBizSub}</span>
+          </span>
+          <span style={{color:myStore?"#16A34A":th.sub2,fontSize:18}}>›</span>
+        </button>
+
         <div style={{marginTop:6}}><Btn ghost onClick={onLogout}>{tx.logout}</Btn></div>
       </div>
-
-      {showStats && (
-        <Sheet onClose={()=>setShowStats(false)} dark={dark} maxH="75vh">
-          <h3 style={{fontSize:17,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>📊 {tx.stats}</h3>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
-            {[
-              {icon:"❤️",value:0,label:lang==="uz"?"Saqlangan":"Сохранено",color:"#FF6B6B"},
-              {icon:"💬",value:Object.keys(chatMessages).length,label:tx.myChats,color:"#16A34A"},
-              {icon:"📅",value:bookings.length,label:tx.bookings,color:"#0984E3"},
-              {icon:"🔔",value:subscriptions.length,label:tx.subscribedStores,color:"#FFB400"},
-              ...(myStore?[{icon:"📦",value:myStore.products.length,label:tx.products,color:"#6C5CE7"},{icon:"👁️",value:myStore.views||0,label:tx.views,color:"#00B894"}]:[]),
-            ].map((s,i)=>(
-              <div key={i} style={{background:th.card2,borderRadius:14,padding:"12px 8px",textAlign:"center",border:`1px solid ${th.border}`}}>
-                <div style={{fontSize:22}}>{s.icon}</div>
-                <div style={{fontSize:20,fontWeight:900,color:s.color,margin:"4px 0"}}>{s.value}</div>
-                <div style={{fontSize:9,color:th.sub}}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-          <Btn onClick={()=>setShowStats(false)}>{lang==="uz"?"Yopish":"Закрыть"}</Btn>
-        </Sheet>
-      )}
 
       {showEdit && (
         <Sheet onClose={()=>setShowEdit(false)} dark={dark} maxH="60vh">
@@ -1811,7 +1793,11 @@ export default function App() {
 
       {activeTab==="home" && <HomeTab lang={lang} dark={dark} setLang={setLang} stores={stores} activeDeals={activeDeals} savedKeys={savedKeys} onToggleSave={toggleSave} onBizClick={id=>setViewBizId(id)} onDealClick={(deal,action)=>{setViewBizId(deal.storeId);if(action==="chat")setTimeout(()=>{const st=stores.find(s=>s.id===deal.storeId);if(st)setChatStore(st);},200);}} searchVal={searchVal} onSetSearch={setSearchVal}/>}
       {activeTab==="saved" && <SavedTab lang={lang} dark={dark} savedDeals={savedDeals} onToggleSave={toggleSave} onDealClick={deal=>setViewBizId(deal.storeId)}/>}
-      {activeTab==="map" && <div style={{paddingBottom:80}}><MapView lang={lang} dark={dark} deals={activeDeals} stores={stores} onDealClick={deal=>setViewBizId(deal.storeId)}/></div>}
+      {activeTab==="map" && (
+        <div style={{position:"relative", height:"calc(100vh - 80px)"}}>
+          <MapView lang={lang} dark={dark} deals={activeDeals} stores={stores} onDealClick={deal=>setViewBizId(deal.storeId)}/>
+        </div>
+      )}
       {activeTab==="profile" && <ProfileTab lang={lang} dark={dark} setLang={setLang} toggleDark={toggleDark} isGuest={isGuest} userData={userData} setUserData={setUserData} myStore={myStore} stores={stores} subscriptions={subscriptions} onToggleSub={toggleSub} chatMessages={chatMessages} bookings={bookings} onViewBiz={(id,action)=>{setViewBizId(id);if(action==="chat")setTimeout(()=>{const st=stores.find(s=>s.id===id);if(st)setChatStore(st);},200);}} onCreateBiz={()=>setShowCreateBiz(true)} onAddProduct={()=>myStore?setShowAddProduct(true):setShowCreateBiz(true)} onLogout={handleLogout} profileView={profileView} onSetProfileView={setProfileView}/>}
 
       {showAddSheet && <AddSheet lang={lang} dark={dark} onClose={()=>setShowAddSheet(false)} onCreateBiz={()=>{setShowAddSheet(false);setShowCreateBiz(true);}} onAddProduct={()=>{setShowAddSheet(false);myStore?setShowAddProduct(true):setShowCreateBiz(true);}}/>}
