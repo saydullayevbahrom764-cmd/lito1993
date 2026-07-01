@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import DynamicCategoryForm from "./CategoryForms.jsx";
 
+// Eski cache ni tozalash
+if (typeof window !== "undefined") {
+  ["osontop_state","chegirma_state","osontop_v1","osontop_v10"].forEach(k => {
+    try { localStorage.removeItem(k); } catch {}
+  });
+}
+
 // =====================================================
 // THEME
 // =====================================================
