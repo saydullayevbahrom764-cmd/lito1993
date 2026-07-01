@@ -25,7 +25,6 @@ const useDark = () => {
   return [dark, toggle];
 };
 
-
 // =====================================================
 // TRANSLATIONS
 // =====================================================
@@ -50,14 +49,12 @@ const T = {
     bizPhone:"Telefon raqami", bizPhonePh:"+998 90 123 45 67",
     bizTelegram:"Telegram", bizTelegramPh:"@biznes_uz",
     pickOnMap:"Xaritadan joy belgilang", locationSet:"Joylashuv belgilandi ✓",
-    workHours:"Ish vaqti", monday:"Dushanba", tuesday:"Seshanba",
-    wednesday:"Chorshanba", thursday:"Payshanba", friday:"Juma",
-    saturday:"Shanba", sunday:"Yakshanba", closed:"Yopiq", open24:"00:00-24:00",
+    workHours:"Ish vaqti",
     photos:"Rasmlar", addPhoto:"Rasm qo'shish",
     productName:"Mahsulot / xizmat nomi", productNamePh:"Masalan: Erkaklar krossovkasi",
     productDesc:"Tavsif", productDescPh:"Qisqacha ma'lumot...",
     price:"Narx (so'm)", discountPct:"Chegirma %", discountExpiry:"Chegirma muddati",
-    addParam:"+ Parametr", paramName:"Ism", paramValue:"Qiymat",
+    addParam:"+ Parametr", paramName:"Nom", paramValue:"Qiymat",
     submitProduct:"Qo'shish", submitBiz:"Biznes yaratish",
     chooseCategory:"Kategoriya tanlang", chooseCategoryDesc:"Qaysi yo'nalish?",
     leaveReview:"Fikr qoldirish", yourRating:"Bahoyingiz",
@@ -69,7 +66,7 @@ const T = {
     makeDiscount:"🏷️ Chegirma", editDiscount:"Chegirmani o'zgartirish",
     removeDiscount:"Chegirmani olib tashlash", discountTitle:"Chegirma qo'yish",
     discountApply:"Chegirma qo'llash", expiryDate:"Muddati",
-    noDeals:"Takliflar topilmadi", noDealsDesc:"Boshqa kategoriya yoki so'z sinab ko'ring",
+    noDeals:"Takliflar topilmadi",
     saved:"❤️ Saqlanganlar", nothingSaved:"Hech narsa saqlanmagan",
     myChats:"Chatlarim", noChats:"Chatlar yo'q",
     stats:"📊 Statistika", views:"Ko'rishlar",
@@ -77,24 +74,21 @@ const T = {
     chooseDate:"Sana tanlang", chooseTime:"Vaqt tanlang",
     bookNow:"Bron qilish", bookSuccess:"Bron muvaffaqiyatli!",
     bookSuccessDesc:"Do'kon siz bilan bog'lanadi", noBookings:"Bronlar yo'q",
-    bookStatus:"Holat", bookPending:"Kutilmoqda", bookConfirmed:"Tasdiqlangan",
+    bookPending:"Kutilmoqda", bookConfirmed:"Tasdiqlangan",
     settings:"Sozlamalar", darkMode:"Tungi rejim",
-    notifications:"Bildirishnomalar", noNotifs:"Bildirishnomalar yo'q",
+    notifications:"Bildirishnomalar",
     subscribedStores:"Obuna bo'lgan do'konlar", noSubscribed:"Obunalar yo'q",
     editProfile:"Profilni tahrirlash", logout:"Chiqish",
-    welcome:"Xush kelibsiz", enterName:"Ism", enterSurname:"Familiya",
-    enterPhone:"Telefon", confirm:"Tasdiqlash", smsCode:"SMS kod",
+    welcome:"Xush kelibsiz", enterName:"Ism", enterPhone:"Telefon",
+    confirm:"Tasdiqlash", smsCode:"SMS kod",
     smsHint:"Raqamingizga 4 xonali kod yuborildi", resend:"Qayta yuborish",
     addProfilePhoto:"Profil rasmi", skip:"O'tkazib yuborish",
     allowNotif:"Bildirishnomalar", notifDesc:"Yangi takliflardan xabardor bo'ling",
     enable:"Yoqish", guestMode:"Mehmon sifatida kirish",
-    seeAll:"Barchasi ›", filterBtn:"Filter",
-    similarBiz:"O'xshash bizneslar", discountBadge:"CHEGIRMA",
-    expiresIn:"Muddat", daysLeft:"kun qoldi",
-    sum:"so'm", distance:"Masofa",
-    sortDefault:"Standart", sortDiscount:"Chegirma %",
-    sortRating:"Reyting", sortNew:"Yangi",
-    myProfile:"Mening profilim", bizSection:"Biznesim",
+    seeAll:"Barchasi ›", similarBiz:"O'xshash bizneslar",
+    discountBadge:"CHEGIRMA", expiresIn:"Muddat", sum:"so'm",
+    sortDefault:"Standart", sortDiscount:"Chegirma %", sortRating:"Reyting",
+    myProfile:"Mening profilim",
   },
   ru: {
     appName:"OsonTop", search:"Найдите бизнес, товар или услугу...",
@@ -116,9 +110,7 @@ const T = {
     bizPhone:"Номер телефона", bizPhonePh:"+998 90 123 45 67",
     bizTelegram:"Telegram", bizTelegramPh:"@biznes_uz",
     pickOnMap:"Отметьте на карте", locationSet:"Местоположение указано ✓",
-    workHours:"Часы работы", monday:"Понедельник", tuesday:"Вторник",
-    wednesday:"Среда", thursday:"Четверг", friday:"Пятница",
-    saturday:"Суббота", sunday:"Воскресенье", closed:"Закрыто", open24:"00:00-24:00",
+    workHours:"Часы работы",
     photos:"Фотографии", addPhoto:"Добавить фото",
     productName:"Название товара / услуги", productNamePh:"Например: Мужские кроссовки",
     productDesc:"Описание", productDescPh:"Краткая информация...",
@@ -135,7 +127,7 @@ const T = {
     makeDiscount:"🏷️ Скидка", editDiscount:"Изменить скидку",
     removeDiscount:"Убрать скидку", discountTitle:"Установить скидку",
     discountApply:"Применить скидку", expiryDate:"Срок действия",
-    noDeals:"Предложений не найдено", noDealsDesc:"Попробуйте другую категорию",
+    noDeals:"Предложений не найдено",
     saved:"❤️ Сохранённые", nothingSaved:"Ничего не сохранено",
     myChats:"Мои чаты", noChats:"Нет чатов",
     stats:"📊 Статистика", views:"Просмотры",
@@ -143,24 +135,21 @@ const T = {
     chooseDate:"Выберите дату", chooseTime:"Выберите время",
     bookNow:"Забронировать", bookSuccess:"Бронь успешна!",
     bookSuccessDesc:"Магазин свяжется с вами", noBookings:"Нет броней",
-    bookStatus:"Статус", bookPending:"Ожидание", bookConfirmed:"Подтверждено",
+    bookPending:"Ожидание", bookConfirmed:"Подтверждено",
     settings:"Настройки", darkMode:"Тёмный режим",
-    notifications:"Уведомления", noNotifs:"Нет уведомлений",
+    notifications:"Уведомления",
     subscribedStores:"Подписки", noSubscribed:"Нет подписок",
     editProfile:"Редактировать профиль", logout:"Выйти",
-    welcome:"Добро пожаловать", enterName:"Имя", enterSurname:"Фамилия",
-    enterPhone:"Телефон", confirm:"Подтвердить", smsCode:"SMS код",
+    welcome:"Добро пожаловать", enterName:"Имя", enterPhone:"Телефон",
+    confirm:"Подтвердить", smsCode:"SMS код",
     smsHint:"На ваш номер отправлен 4-значный код", resend:"Отправить снова",
     addProfilePhoto:"Фото профиля", skip:"Пропустить",
     allowNotif:"Уведомления", notifDesc:"Узнавайте о новых предложениях",
     enable:"Включить", guestMode:"Войти как гость",
-    seeAll:"Все ›", filterBtn:"Фильтр",
-    similarBiz:"Похожие бизнесы", discountBadge:"СКИДКА",
-    expiresIn:"Срок", daysLeft:"дней осталось",
-    sum:"сум", distance:"Расстояние",
-    sortDefault:"По умолчанию", sortDiscount:"По скидке",
-    sortRating:"По рейтингу", sortNew:"Новые",
-    myProfile:"Мой профиль", bizSection:"Мой бизнес",
+    seeAll:"Все ›", similarBiz:"Похожие бизнесы",
+    discountBadge:"СКИДКА", expiresIn:"Срок", sum:"сум",
+    sortDefault:"По умолчанию", sortDiscount:"По скидке", sortRating:"По рейтингу",
+    myProfile:"Мой профиль",
   }
 };
 
@@ -176,52 +165,32 @@ const CATS = [
   { id:"plumber",     emoji:"🚰", color:"#0984E3" },
   { id:"hotel",       emoji:"🏨", color:"#1289A7" },
   { id:"medical",     emoji:"👨‍⚕️", color:"#ED4C67" },
-  { id:"shopping",    emoji:"🛍", color:"#6C5CE7" },
-  { id:"food",        emoji:"🍕", color:"#E17055" },
-  { id:"clothing",    emoji:"👕", color:"#636E72" },
+  { id:"shopping",    emoji:"🛍",  color:"#6C5CE7" },
+  { id:"food",        emoji:"🍕",  color:"#E17055" },
+  { id:"clothing",    emoji:"👕",  color:"#636E72" },
   { id:"electronics", emoji:"📱", color:"#0984E3" },
   { id:"beauty",      emoji:"💄", color:"#E84393" },
   { id:"education",   emoji:"📚", color:"#F79F1F" },
   { id:"sport",       emoji:"⚽", color:"#00B894" },
-  { id:"kids",        emoji:"🧸", color:"#FDA7DF" },
+  { id:"kids",        emoji:"🧸",  color:"#FDA7DF" },
   { id:"cleaning",    emoji:"🧹", color:"#C4E538" },
-  { id:"pet",         emoji:"🐾", color:"#D980FA" },
+  { id:"pet",         emoji:"🐾",  color:"#D980FA" },
   { id:"repair",      emoji:"🔧", color:"#5758BB" },
 ];
 
 const CAT_LABELS = {
-  uz: {
-    auto:"Avto servis", restaurant:"Restoran/Kafe", pharmacy:"Dorixona",
-    services:"Elektrik", plumber:"Santexnik", hotel:"Mehmonxona",
-    medical:"Shifokor", shopping:"Savdo", food:"Ovqat", clothing:"Kiyim",
-    electronics:"Elektronika", beauty:"Go'zallik", education:"Ta'lim",
-    sport:"Sport", kids:"Bolalar", cleaning:"Tozalash", pet:"Hayvonlar",
-    repair:"Ta'mirlash",
-  },
-  ru: {
-    auto:"Авто сервис", restaurant:"Ресторан/Кафе", pharmacy:"Аптека",
-    services:"Электрик", plumber:"Сантехник", hotel:"Гостиница",
-    medical:"Врач", shopping:"Торговля", food:"Еда", clothing:"Одежда",
-    electronics:"Электроника", beauty:"Красота", education:"Образование",
-    sport:"Спорт", kids:"Детское", cleaning:"Уборка", pet:"Животные",
-    repair:"Ремонт",
-  }
+  uz: { auto:"Avto servis", restaurant:"Restoran/Kafe", pharmacy:"Dorixona", services:"Elektrik", plumber:"Santexnik", hotel:"Mehmonxona", medical:"Shifokor", shopping:"Savdo", food:"Ovqat", clothing:"Kiyim", electronics:"Elektronika", beauty:"Go'zallik", education:"Ta'lim", sport:"Sport", kids:"Bolalar", cleaning:"Tozalash", pet:"Hayvonlar", repair:"Ta'mirlash" },
+  ru: { auto:"Авто сервис", restaurant:"Ресторан/Кафе", pharmacy:"Аптека", services:"Электрик", plumber:"Сантехник", hotel:"Гостиница", medical:"Врач", shopping:"Торговля", food:"Еда", clothing:"Одежда", electronics:"Электроника", beauty:"Красота", education:"Образование", sport:"Спорт", kids:"Детское", cleaning:"Уборка", pet:"Животные", repair:"Ремонт" }
 };
 
 const QUICK_ACTIONS = [
-  { id:"auto",      emoji:"🚗" },
-  { id:"restaurant",emoji:"🍔" },
-  { id:"pharmacy",  emoji:"💊" },
-  { id:"services",  emoji:"⚡" },
-  { id:"plumber",   emoji:"🚰" },
-  { id:"hotel",     emoji:"🏨" },
-  { id:"medical",   emoji:"👨‍⚕️" },
-  { id:"shopping",  emoji:"🛍" },
+  { id:"auto", emoji:"🚗" }, { id:"restaurant", emoji:"🍔" }, { id:"pharmacy", emoji:"💊" },
+  { id:"services", emoji:"⚡" }, { id:"plumber", emoji:"🚰" }, { id:"hotel", emoji:"🏨" },
+  { id:"medical", emoji:"👨‍⚕️" }, { id:"shopping", emoji:"🛍" },
 ];
 
 const getCatColor = (id) => CATS.find(c => c.id === id)?.color || "#16A34A";
 const getCatEmoji = (id) => CATS.find(c => c.id === id)?.emoji || "🏪";
-
 
 // =====================================================
 // HELPERS
@@ -229,7 +198,6 @@ const getCatEmoji = (id) => CATS.find(c => c.id === id)?.emoji || "🏪";
 const LS_KEY = "osontop_v11";
 const saveLS = (d) => { try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch {} };
 const loadLS = () => { try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : null; } catch { return null; } };
-
 const isoFromNow = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0,10); };
 const isExpired  = (s) => { const t = new Date(); t.setHours(0,0,0,0); return new Date(s) < t; };
 const daysLeft   = (s, lang) => {
@@ -253,8 +221,6 @@ const isStoreOpen = (store) => {
   const now = new Date().getHours()*60 + new Date().getMinutes();
   return now >= sh*60+sm && now < eh*60+em;
 };
-
-// UZB viloyatlarini GPS bo'yicha aniqlash
 const detectRegion = (lat, lng) => {
   const R = [
     {uz:"Toshkent",ru:"Ташкент",lat:41.299,lng:69.240},
@@ -272,93 +238,23 @@ const detectRegion = (lat, lng) => {
     {uz:"Guliston",ru:"Гулистан",lat:40.489,lng:68.784},
   ];
   let best = R[0], minD = 999;
-  R.forEach(r => {
-    const d = Math.hypot(lat - r.lat, lng - r.lng);
-    if (d < minD) { minD = d; best = r; }
-  });
+  R.forEach(r => { const d = Math.hypot(lat - r.lat, lng - r.lng); if (d < minD) { minD = d; best = r; } });
   return best;
 };
 
 
 // =====================================================
-// DEMO STORES
+// DEMO DATA
 // =====================================================
 const DEMO_STORES = [
-  {
-    id:"s1", name:"Korzinka", logo:"🛒", color:"#FF6B35", type:"sell",
-    address:"Toshkent, Chilonzor", phone:"+998712000001", telegram:"@korzinka_uz",
-    description:{uz:"O'zbekistonning yetakchi supermarketi",ru:"Ведущий супермаркет Узбекистана"},
-    workHours:{mon:"08:00-22:00",tue:"08:00-22:00",wed:"08:00-22:00",thu:"08:00-22:00",fri:"08:00-22:00",sat:"08:00-22:00",sun:"09:00-21:00"},
-    lat:41.299, lng:69.240, views:1240, subscriberBase:320, verified:true,
-    reviews:[{stars:5,comment:"Ajoyib narxlar",author:"Anvar"}],
-    products:[{id:"p1",category:"food",active:true,name:{uz:"Mahsulotlarga chegirma",ru:"Скидка на продукты"},description:{uz:"Barcha oziq-ovqatlarga",ru:"На все продукты питания"},params:[],originalPrice:45000,photos:[],delivery:true,deliveryPrice:5000,discount:{percent:30,expiryDate:isoFromNow(2)},reviews:[{stars:4,comment:"Yaxshi",author:"Dilnoza"}]}],
-  },
-  {
-    id:"s2", name:"Zara Tashkent", logo:"👔", color:"#2D3436", type:"sell",
-    address:"Toshkent, Amir Temur ko'chasi", phone:"+998712000002", telegram:"@zara_tashkent",
-    description:{uz:"Jahon brendlari kiyimlari",ru:"Одежда мировых брендов"},
-    workHours:{mon:"10:00-21:00",tue:"10:00-21:00",wed:"10:00-21:00",thu:"10:00-21:00",fri:"10:00-21:00",sat:"10:00-22:00",sun:"11:00-20:00"},
-    lat:41.302, lng:69.245, views:890, subscriberBase:210, verified:true,
-    reviews:[],
-    products:[{id:"p2",category:"clothing",active:true,name:{uz:"Yozgi kolleksiya",ru:"Летняя коллекция"},description:{uz:"Yangi yozgi kiyimlar",ru:"Новая летняя коллекция"},params:[{name:"Razmer",value:"S-XL"}],originalPrice:320000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:50,expiryDate:isoFromNow(5)},reviews:[]}],
-  },
-  {
-    id:"s3", name:"Texnomart", logo:"📱", color:"#0984E3", type:"sell",
-    address:"Toshkent, Yunusobod", phone:"+998712000003", telegram:"@texnomart_uz",
-    description:{uz:"Elektronika va texnologiya",ru:"Электроника и технологии"},
-    workHours:{mon:"09:00-21:00",tue:"09:00-21:00",wed:"09:00-21:00",thu:"09:00-21:00",fri:"09:00-21:00",sat:"09:00-21:00",sun:"10:00-20:00"},
-    lat:41.295, lng:69.235, views:2100, subscriberBase:540, verified:true,
-    reviews:[{stars:5,comment:"Tez yetkazib berish",author:"Jasur"}],
-    products:[
-      {id:"p3",category:"electronics",active:true,name:{uz:"Smartfonlarga chegirma",ru:"Скидка на смартфоны"},description:{uz:"Eng yangi modellar",ru:"Новейшие модели"},params:[],originalPrice:4500000,photos:[],delivery:true,deliveryPrice:15000,discount:{percent:15,expiryDate:isoFromNow(3)},reviews:[]},
-      {id:"p3b",category:"electronics",active:true,name:{uz:"Noutbuklarga chegirma",ru:"Скидка на ноутбуки"},description:{uz:"",ru:""},params:[],originalPrice:5200000,photos:[],delivery:true,deliveryPrice:15000,discount:{percent:20,expiryDate:isoFromNow(4)},reviews:[]},
-    ],
-  },
-  {
-    id:"s4", name:"Dono Pizza", logo:"🍕", color:"#E17055", type:"sell",
-    address:"Toshkent, Shayxontohur", phone:"+998712000005", telegram:"@dono_pizza",
-    description:{uz:"Toshkentning eng mazali pizzasi",ru:"Самая вкусная пицца Ташкента"},
-    workHours:{mon:"11:00-23:00",tue:"11:00-23:00",wed:"11:00-23:00",thu:"11:00-23:00",fri:"11:00-00:00",sat:"11:00-00:00",sun:"12:00-23:00"},
-    lat:41.298, lng:69.242, views:1560, subscriberBase:430, verified:false,
-    reviews:[{stars:4,comment:"Juda mazali!",author:"Olim"}],
-    products:[{id:"p5",category:"restaurant",active:true,name:{uz:"Katta pizza",ru:"Большая пицца"},description:{uz:"Har qanday katta pizza",ru:"Любая большая пицца"},params:[],originalPrice:95000,photos:[],delivery:true,deliveryPrice:5000,discount:{percent:20,expiryDate:isoFromNow(2)},reviews:[]}],
-  },
-  {
-    id:"s5", name:"AutoServis Pro", logo:"🚗", color:"#0652DD", type:"service",
-    address:"Toshkent, Sergeli", phone:"+998712000008", telegram:"@autoservis_pro",
-    description:{uz:"Professional avto ta'mirlash",ru:"Профессиональный авто сервис"},
-    workHours:{mon:"08:00-18:00",tue:"08:00-18:00",wed:"08:00-18:00",thu:"08:00-18:00",fri:"08:00-18:00",sat:"09:00-16:00",sun:"Yopiq"},
-    lat:41.293, lng:69.238, views:560, subscriberBase:145, verified:true,
-    reviews:[{stars:5,comment:"Tez va sifatli",author:"Bobur"}],
-    products:[{id:"p8",category:"auto",active:true,name:{uz:"Motor ta'mirlash",ru:"Ремонт двигателя"},description:{uz:"Barcha turdagi dvigatellar",ru:"Двигатели всех марок"},params:[{name:"Xizmat",value:"Motor, KPP, Podveska"}],originalPrice:500000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:20,expiryDate:isoFromNow(5)},reviews:[]}],
-  },
-  {
-    id:"s6", name:"Najot Dorixona", logo:"💊", color:"#009432", type:"sell",
-    address:"Toshkent, Yunusobod", phone:"+998712000009", telegram:"@najot_pharmacy",
-    description:{uz:"24 soat ishlaydigan dorixona",ru:"Аптека 24 часа"},
-    workHours:{mon:"00:00-24:00",tue:"00:00-24:00",wed:"00:00-24:00",thu:"00:00-24:00",fri:"00:00-24:00",sat:"00:00-24:00",sun:"00:00-24:00"},
-    lat:41.307, lng:69.252, views:920, subscriberBase:280, verified:true,
-    reviews:[],
-    products:[{id:"p9",category:"pharmacy",active:true,name:{uz:"Vitaminlarga chegirma",ru:"Скидка на витамины"},description:{uz:"Barcha vitaminlar",ru:"Все витамины и добавки"},params:[],originalPrice:85000,photos:[],delivery:true,deliveryPrice:8000,discount:{percent:15,expiryDate:isoFromNow(6)},reviews:[]}],
-  },
-  {
-    id:"s7", name:"Grand Hotel", logo:"🏨", color:"#1289A7", type:"service",
-    address:"Toshkent, Mirobod", phone:"+998712000010", telegram:"@grandhotel_uz",
-    description:{uz:"5 yulduzli mehmonxona",ru:"Пятизвёздочный отель"},
-    workHours:{mon:"00:00-24:00",tue:"00:00-24:00",wed:"00:00-24:00",thu:"00:00-24:00",fri:"00:00-24:00",sat:"00:00-24:00",sun:"00:00-24:00"},
-    lat:41.303, lng:69.244, views:780, subscriberBase:195, verified:true,
-    reviews:[{stars:5,comment:"Ajoyib xizmat",author:"Kamol"}],
-    products:[{id:"p10",category:"hotel",active:true,name:{uz:"Xona bron qilish",ru:"Бронирование номера"},description:{uz:"Lux xonalar",ru:"Люксовые номера"},params:[{name:"Xona turi",value:"Standart / Lux"}],originalPrice:450000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:25,expiryDate:isoFromNow(10)},reviews:[]}],
-  },
-  {
-    id:"s8", name:"CleanPro", logo:"🧹", color:"#C4E538", type:"service",
-    address:"Toshkent, Uchtepa", phone:"+998712000011", telegram:"@cleanpro_uz",
-    description:{uz:"Professional tozalash xizmati",ru:"Профессиональная уборка"},
-    workHours:{mon:"08:00-20:00",tue:"08:00-20:00",wed:"08:00-20:00",thu:"08:00-20:00",fri:"08:00-20:00",sat:"09:00-18:00",sun:"10:00-16:00"},
-    lat:41.296, lng:69.233, views:310, subscriberBase:88, verified:false,
-    reviews:[],
-    products:[{id:"p11",category:"cleaning",active:true,name:{uz:"Kvartira tozalash",ru:"Уборка квартиры"},description:{uz:"Professional tozalash",ru:"Профессиональная уборка"},params:[{name:"Xona soni",value:"1-5"}],originalPrice:200000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:25,expiryDate:isoFromNow(4)},reviews:[]}],
-  },
+  { id:"s1", name:"Korzinka", logo:"🛒", color:"#FF6B35", type:"sell", address:"Toshkent, Chilonzor", phone:"+998712000001", telegram:"@korzinka_uz", description:{uz:"O'zbekistonning yetakchi supermarketi",ru:"Ведущий супермаркет Узбекистана"}, workHours:{mon:"08:00-22:00",tue:"08:00-22:00",wed:"08:00-22:00",thu:"08:00-22:00",fri:"08:00-22:00",sat:"08:00-22:00",sun:"09:00-21:00"}, lat:41.299, lng:69.240, views:1240, subscriberBase:320, verified:true, reviews:[{stars:5,comment:"Ajoyib narxlar",author:"Anvar"}], products:[{id:"p1",category:"food",active:true,name:{uz:"Mahsulotlarga chegirma",ru:"Скидка на продукты"},description:{uz:"Barcha oziq-ovqatlarga",ru:"На все продукты питания"},params:[],originalPrice:45000,photos:[],delivery:true,deliveryPrice:5000,discount:{percent:30,expiryDate:isoFromNow(2)},reviews:[{stars:4,comment:"Yaxshi",author:"Dilnoza"}]}] },
+  { id:"s2", name:"Zara Tashkent", logo:"👔", color:"#2D3436", type:"sell", address:"Toshkent, Amir Temur ko'chasi", phone:"+998712000002", telegram:"@zara_tashkent", description:{uz:"Jahon brendlari kiyimlari",ru:"Одежда мировых брендов"}, workHours:{mon:"10:00-21:00",tue:"10:00-21:00",wed:"10:00-21:00",thu:"10:00-21:00",fri:"10:00-21:00",sat:"10:00-22:00",sun:"11:00-20:00"}, lat:41.302, lng:69.245, views:890, subscriberBase:210, verified:true, reviews:[], products:[{id:"p2",category:"clothing",active:true,name:{uz:"Yozgi kolleksiya",ru:"Летняя коллекция"},description:{uz:"Yangi yozgi kiyimlar",ru:"Новая летняя коллекция"},params:[{name:"Razmer",value:"S-XL"}],originalPrice:320000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:50,expiryDate:isoFromNow(5)},reviews:[]}] },
+  { id:"s3", name:"Texnomart", logo:"📱", color:"#0984E3", type:"sell", address:"Toshkent, Yunusobod", phone:"+998712000003", telegram:"@texnomart_uz", description:{uz:"Elektronika va texnologiya",ru:"Электроника и технологии"}, workHours:{mon:"09:00-21:00",tue:"09:00-21:00",wed:"09:00-21:00",thu:"09:00-21:00",fri:"09:00-21:00",sat:"09:00-21:00",sun:"10:00-20:00"}, lat:41.295, lng:69.235, views:2100, subscriberBase:540, verified:true, reviews:[{stars:5,comment:"Tez yetkazib berish",author:"Jasur"}], products:[{id:"p3",category:"electronics",active:true,name:{uz:"Smartfonlarga chegirma",ru:"Скидка на смартфоны"},description:{uz:"Eng yangi modellar",ru:"Новейшие модели"},params:[],originalPrice:4500000,photos:[],delivery:true,deliveryPrice:15000,discount:{percent:15,expiryDate:isoFromNow(3)},reviews:[]},{id:"p3b",category:"electronics",active:true,name:{uz:"Noutbuklarga chegirma",ru:"Скидка на ноутбуки"},description:{uz:"",ru:""},params:[],originalPrice:5200000,photos:[],delivery:true,deliveryPrice:15000,discount:{percent:20,expiryDate:isoFromNow(4)},reviews:[]}] },
+  { id:"s4", name:"Dono Pizza", logo:"🍕", color:"#E17055", type:"sell", address:"Toshkent, Shayxontohur", phone:"+998712000005", telegram:"@dono_pizza", description:{uz:"Toshkentning eng mazali pizzasi",ru:"Самая вкусная пицца Ташкента"}, workHours:{mon:"11:00-23:00",tue:"11:00-23:00",wed:"11:00-23:00",thu:"11:00-23:00",fri:"11:00-00:00",sat:"11:00-00:00",sun:"12:00-23:00"}, lat:41.298, lng:69.242, views:1560, subscriberBase:430, verified:false, reviews:[{stars:4,comment:"Juda mazali!",author:"Olim"}], products:[{id:"p5",category:"restaurant",active:true,name:{uz:"Katta pizza",ru:"Большая пицца"},description:{uz:"Har qanday katta pizza",ru:"Любая большая пицца"},params:[],originalPrice:95000,photos:[],delivery:true,deliveryPrice:5000,discount:{percent:20,expiryDate:isoFromNow(2)},reviews:[]}] },
+  { id:"s5", name:"AutoServis Pro", logo:"🚗", color:"#0652DD", type:"service", address:"Toshkent, Sergeli", phone:"+998712000008", telegram:"@autoservis_pro", description:{uz:"Professional avto ta'mirlash",ru:"Профессиональный авто сервис"}, workHours:{mon:"08:00-18:00",tue:"08:00-18:00",wed:"08:00-18:00",thu:"08:00-18:00",fri:"08:00-18:00",sat:"09:00-16:00",sun:"Yopiq"}, lat:41.293, lng:69.238, views:560, subscriberBase:145, verified:true, reviews:[{stars:5,comment:"Tez va sifatli",author:"Bobur"}], products:[{id:"p8",category:"auto",active:true,name:{uz:"Motor ta'mirlash",ru:"Ремонт двигателя"},description:{uz:"Barcha turdagi dvigatellar",ru:"Двигатели всех марок"},params:[{name:"Xizmat",value:"Motor, KPP, Podveska"}],originalPrice:500000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:20,expiryDate:isoFromNow(5)},reviews:[]}] },
+  { id:"s6", name:"Najot Dorixona", logo:"💊", color:"#009432", type:"sell", address:"Toshkent, Yunusobod", phone:"+998712000009", telegram:"@najot_pharmacy", description:{uz:"24 soat ishlaydigan dorixona",ru:"Аптека 24 часа"}, workHours:{mon:"00:00-24:00",tue:"00:00-24:00",wed:"00:00-24:00",thu:"00:00-24:00",fri:"00:00-24:00",sat:"00:00-24:00",sun:"00:00-24:00"}, lat:41.307, lng:69.252, views:920, subscriberBase:280, verified:true, reviews:[], products:[{id:"p9",category:"pharmacy",active:true,name:{uz:"Vitaminlarga chegirma",ru:"Скидка на витамины"},description:{uz:"Barcha vitaminlar",ru:"Все витамины"},params:[],originalPrice:85000,photos:[],delivery:true,deliveryPrice:8000,discount:{percent:15,expiryDate:isoFromNow(6)},reviews:[]}] },
+  { id:"s7", name:"Grand Hotel", logo:"🏨", color:"#1289A7", type:"service", address:"Toshkent, Mirobod", phone:"+998712000010", telegram:"@grandhotel_uz", description:{uz:"5 yulduzli mehmonxona",ru:"Пятизвёздочный отель"}, workHours:{mon:"00:00-24:00",tue:"00:00-24:00",wed:"00:00-24:00",thu:"00:00-24:00",fri:"00:00-24:00",sat:"00:00-24:00",sun:"00:00-24:00"}, lat:41.303, lng:69.244, views:780, subscriberBase:195, verified:true, reviews:[{stars:5,comment:"Ajoyib xizmat",author:"Kamol"}], products:[{id:"p10",category:"hotel",active:true,name:{uz:"Xona bron qilish",ru:"Бронирование номера"},description:{uz:"Lux xonalar",ru:"Люксовые номера"},params:[{name:"Xona turi",value:"Standart / Lux"}],originalPrice:450000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:25,expiryDate:isoFromNow(10)},reviews:[]}] },
+  { id:"s8", name:"CleanPro", logo:"🧹", color:"#C4E538", type:"service", address:"Toshkent, Uchtepa", phone:"+998712000011", telegram:"@cleanpro_uz", description:{uz:"Professional tozalash xizmati",ru:"Профессиональная уборка"}, workHours:{mon:"08:00-20:00",tue:"08:00-20:00",wed:"08:00-20:00",thu:"08:00-20:00",fri:"08:00-20:00",sat:"09:00-18:00",sun:"10:00-16:00"}, lat:41.296, lng:69.233, views:310, subscriberBase:88, verified:false, reviews:[], products:[{id:"p11",category:"cleaning",active:true,name:{uz:"Kvartira tozalash",ru:"Уборка квартиры"},description:{uz:"Professional tozalash",ru:"Профессиональная уборка"},params:[{name:"Xona soni",value:"1-5"}],originalPrice:200000,photos:[],delivery:false,deliveryPrice:0,discount:{percent:25,expiryDate:isoFromNow(4)},reviews:[]}] },
 ];
 
 
@@ -381,10 +277,8 @@ function Stars({ value, onChange, size=20, readOnly=false }) {
 function Sheet({ onClose, children, maxH="85vh", dark }) {
   const th = theme(dark);
   return (
-    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.6)",zIndex:300,display:"flex",alignItems:"flex-end",justifyContent:"center",maxWidth:430,margin:"0 auto"}}
-      onClick={onClose}>
-      <div style={{background:th.card,borderRadius:"22px 22px 0 0",padding:24,width:"100%",maxWidth:430,maxHeight:maxH,overflowY:"auto",boxSizing:"border-box"}}
-        onClick={e=>e.stopPropagation()}>
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.6)",zIndex:300,display:"flex",alignItems:"flex-end",justifyContent:"center",maxWidth:430,margin:"0 auto"}} onClick={onClose}>
+      <div style={{background:th.card,borderRadius:"22px 22px 0 0",padding:24,width:"100%",maxWidth:430,maxHeight:maxH,overflowY:"auto",boxSizing:"border-box"}} onClick={e=>e.stopPropagation()}>
         <div style={{width:40,height:4,background:th.border,borderRadius:2,margin:"0 auto 18px"}}/>
         {children}
       </div>
@@ -403,14 +297,7 @@ function FullPage({ children, dark }) {
 
 function Btn({ children, onClick, ghost=false, disabled=false, color="#16A34A", style:s={} }) {
   return (
-    <button onClick={disabled?undefined:onClick} style={{
-      width:"100%",padding:"15px",borderRadius:14,fontSize:15,fontWeight:800,cursor:disabled?"not-allowed":"pointer",
-      background:disabled?"#555":(ghost?"transparent":color),
-      color:ghost?color:"#fff",
-      border:ghost?`1.5px solid ${color}`:"none",
-      opacity:disabled?0.6:1,
-      ...s
-    }}>{children}</button>
+    <button onClick={disabled?undefined:onClick} style={{width:"100%",padding:"15px",borderRadius:14,fontSize:15,fontWeight:800,cursor:disabled?"not-allowed":"pointer",background:disabled?"#555":(ghost?"transparent":color),color:ghost?color:"#fff",border:ghost?`1.5px solid ${color}`:"none",opacity:disabled?0.6:1,...s}}>{children}</button>
   );
 }
 
@@ -427,10 +314,9 @@ function BackHeader({ onBack, title, dark, right=null }) {
   );
 }
 
-function Toggle({ value, onChange, dark }) {
-  const th = theme(dark);
+function Toggle({ value, onChange }) {
   return (
-    <div onClick={()=>onChange(!value)} style={{width:48,height:26,borderRadius:13,background:value?"#16A34A":th.border,position:"relative",cursor:"pointer",transition:"background 0.2s",flexShrink:0}}>
+    <div onClick={()=>onChange(!value)} style={{width:48,height:26,borderRadius:13,background:value?"#16A34A":"#444",position:"relative",cursor:"pointer",transition:"background 0.2s",flexShrink:0}}>
       <div style={{position:"absolute",top:3,left:value?25:3,width:20,height:20,borderRadius:10,background:"#fff",transition:"left 0.2s",boxShadow:"0 1px 4px rgba(0,0,0,0.3)"}}/>
     </div>
   );
@@ -447,11 +333,9 @@ function Onboarding({ lang, setLang, dark, onDone, onGuest }) {
   const [code, setCode] = useState(["","","",""]);
   const codeRefs = [useRef(),useRef(),useRef(),useRef()];
   const th = theme(dark);
-
+  const tx = T[lang];
   const inp = {width:"100%",padding:"14px 16px",borderRadius:14,border:`1.5px solid ${th.border}`,background:th.card2,fontSize:15,outline:"none",boxSizing:"border-box",color:th.text,marginBottom:16};
-  const btnSt = {width:"100%",padding:"15px",background:"#16A34A",color:"#fff",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer"};
 
-  // Step 0 — splash
   if (step === 0) return (
     <div style={{minHeight:"100vh",background:"linear-gradient(160deg,#16A34A,#0D6B28)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:32,color:"#fff"}}>
       <div style={{position:"absolute",top:16,right:16,display:"flex",gap:6}}>
@@ -463,39 +347,31 @@ function Onboarding({ lang, setLang, dark, onDone, onGuest }) {
         <span style={{fontSize:50,fontWeight:900,color:"#fff"}}>O</span>
       </div>
       <div style={{fontSize:32,fontWeight:900,marginBottom:8}}><span style={{color:"#fff"}}>Oson</span><span style={{color:"#90EE90"}}>Top</span></div>
-      <p style={{opacity:0.9,fontSize:15,textAlign:"center",marginBottom:48,lineHeight:1.6}}>
-        {lang==="uz"?"O'zbekistondagi barcha bizneslar platformasi":"Платформа всех бизнесов Узбекистана"}
-      </p>
-      <button onClick={()=>setStep(1)} style={{...btnSt,background:"#fff",color:"#16A34A",marginBottom:12,maxWidth:280,width:"100%"}}>
-        {lang==="uz"?"Boshlash →":"Начать →"}
-      </button>
-      <button onClick={onGuest} style={{...btnSt,background:"rgba(255,255,255,0.15)",border:"1.5px solid rgba(255,255,255,0.4)",maxWidth:280,width:"100%"}}>
-        👁️ {T[lang].guestMode}
-      </button>
+      <p style={{opacity:0.9,fontSize:15,textAlign:"center",marginBottom:48,lineHeight:1.6}}>{lang==="uz"?"O'zbekistondagi barcha bizneslar platformasi":"Платформа всех бизнесов Узбекистана"}</p>
+      <button onClick={()=>setStep(1)} style={{width:"100%",maxWidth:280,padding:"15px",background:"#fff",color:"#16A34A",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",marginBottom:12}}>{lang==="uz"?"Boshlash →":"Начать →"}</button>
+      <button onClick={onGuest} style={{width:"100%",maxWidth:280,padding:"15px",background:"rgba(255,255,255,0.15)",color:"#fff",border:"1.5px solid rgba(255,255,255,0.4)",borderRadius:14,fontSize:15,fontWeight:700,cursor:"pointer"}}>👁️ {tx.guestMode}</button>
     </div>
   );
 
-  // Step 1 — name & phone
   if (step === 1) return (
     <div style={{minHeight:"100vh",background:th.bg,padding:"60px 24px 32px",display:"flex",flexDirection:"column"}}>
       <div style={{fontSize:40,marginBottom:8}}>👤</div>
-      <h2 style={{fontSize:24,fontWeight:800,color:th.text,margin:"0 0 6px"}}>{T[lang].welcome}</h2>
+      <h2 style={{fontSize:24,fontWeight:800,color:th.text,margin:"0 0 6px"}}>{tx.welcome}</h2>
       <p style={{color:th.sub,marginBottom:28,fontSize:14}}>{lang==="uz"?"Ma'lumotlaringizni kiriting":"Введите ваши данные"}</p>
-      <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{T[lang].enterName}</label>
+      <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.enterName}</label>
       <input placeholder={lang==="uz"?"Ismingiz":"Ваше имя"} value={name} onChange={e=>setName(e.target.value)} style={inp}/>
-      <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{T[lang].enterPhone}</label>
+      <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.enterPhone}</label>
       <input type="tel" placeholder="+998 90 123 45 67" value={phone} onChange={e=>setPhone(e.target.value)} style={inp}/>
       <div style={{flex:1}}/>
-      <button onClick={()=>name&&phone?setStep(2):null} style={{...btnSt,opacity:name&&phone?1:0.5}}>{T[lang].next}</button>
+      <button onClick={()=>name&&phone?setStep(2):null} style={{width:"100%",padding:"15px",background:name&&phone?"#16A34A":"#555",color:"#fff",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:name&&phone?"pointer":"not-allowed"}}>{tx.next}</button>
     </div>
   );
 
-  // Step 2 — SMS
   if (step === 2) return (
     <div style={{minHeight:"100vh",background:th.bg,padding:"60px 24px 32px",display:"flex",flexDirection:"column"}}>
       <div style={{fontSize:40,marginBottom:8}}>📱</div>
-      <h2 style={{fontSize:24,fontWeight:800,color:th.text,margin:"0 0 6px"}}>{T[lang].smsCode}</h2>
-      <p style={{color:th.sub,marginBottom:28,fontSize:14}}>{T[lang].smsHint}<br/><b style={{color:th.text}}>{phone}</b></p>
+      <h2 style={{fontSize:24,fontWeight:800,color:th.text,margin:"0 0 6px"}}>{tx.smsCode}</h2>
+      <p style={{color:th.sub,marginBottom:28,fontSize:14}}>{tx.smsHint}<br/><b style={{color:th.text}}>{phone}</b></p>
       <div style={{display:"flex",gap:12,justifyContent:"center",marginBottom:24}}>
         {code.map((c,i)=>(
           <input key={i} ref={codeRefs[i]} value={c} maxLength={1}
@@ -503,45 +379,19 @@ function Onboarding({ lang, setLang, dark, onDone, onGuest }) {
             style={{width:60,height:64,textAlign:"center",fontSize:26,fontWeight:800,border:`2px solid ${c?"#16A34A":th.border}`,borderRadius:14,background:th.card2,outline:"none",color:th.text}}/>
         ))}
       </div>
-      <p style={{textAlign:"center",color:th.sub,fontSize:13,marginBottom:28}}>
-        {lang==="uz"?"Kodni olmadingizmi? ":"Не получили код? "}
-        <span style={{color:"#16A34A",fontWeight:600,cursor:"pointer"}}>{T[lang].resend}</span>
-      </p>
       <div style={{flex:1}}/>
-      <button onClick={()=>setStep(3)} style={{...btnSt,opacity:code.every(c=>c)?1:0.5}}>{T[lang].confirm}</button>
+      <button onClick={()=>setStep(3)} style={{width:"100%",padding:"15px",background:code.every(c=>c)?"#16A34A":"#555",color:"#fff",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer"}}>{tx.confirm}</button>
     </div>
   );
 
-  // Step 3 — photo
   if (step === 3) return (
     <div style={{minHeight:"100vh",background:th.bg,padding:"60px 24px 32px",display:"flex",flexDirection:"column",alignItems:"center"}}>
       <div style={{fontSize:40,marginBottom:8}}>📸</div>
-      <h2 style={{fontSize:24,fontWeight:800,color:th.text,margin:"0 0 6px",textAlign:"center"}}>{T[lang].addProfilePhoto}</h2>
-      <p style={{color:th.sub,fontSize:14,marginBottom:32,textAlign:"center"}}>{lang==="uz"?"Profilingizni bezatib oling":"Персонализируйте профиль"}</p>
-      <div style={{width:110,height:110,borderRadius:55,background:"linear-gradient(135deg,#16A34A,#0D6B28)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:50,border:"3px dashed rgba(255,255,255,0.3)",marginBottom:28,cursor:"pointer"}}>😊</div>
+      <h2 style={{fontSize:24,fontWeight:800,color:th.text,margin:"0 0 6px",textAlign:"center"}}>{tx.addProfilePhoto}</h2>
+      <div style={{width:110,height:110,borderRadius:55,background:"linear-gradient(135deg,#16A34A,#0D6B28)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:50,border:"3px dashed rgba(255,255,255,0.3)",marginBottom:28,cursor:"pointer",marginTop:20}}>😊</div>
       <div style={{flex:1}}/>
-      <button onClick={()=>setStep(4)} style={{...btnSt,maxWidth:320,width:"100%"}}>{T[lang].next}</button>
-      <button onClick={()=>setStep(4)} style={{background:"none",border:"none",color:th.sub,fontSize:14,cursor:"pointer",marginTop:12}}>{T[lang].skip}</button>
-    </div>
-  );
-
-  // Step 4 — notifications
-  if (step === 4) return (
-    <div style={{minHeight:"100vh",background:th.bg,padding:"60px 24px 32px",display:"flex",flexDirection:"column",alignItems:"center"}}>
-      <div style={{fontSize:60,marginBottom:12}}>🔔</div>
-      <h2 style={{fontSize:22,fontWeight:800,color:th.text,margin:"0 0 8px",textAlign:"center"}}>{T[lang].allowNotif}</h2>
-      <p style={{color:th.sub,fontSize:14,textAlign:"center",marginBottom:36,lineHeight:1.6}}>{T[lang].notifDesc}</p>
-      <div style={{background:th.card,borderRadius:18,padding:20,width:"100%",marginBottom:36,border:`1px solid ${th.border}`}}>
-        {[{i:"🛒",uz:"Yangi takliflar va chegirmalar",ru:"Новые предложения и скидки"},{i:"⏰",uz:"Chegirma muddati tugaydi",ru:"Срок скидки истекает"},{i:"📍",uz:"Yaqin atrofdagi takliflar",ru:"Предложения поблизости"}].map((x,j)=>(
-          <div key={j} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 0",borderBottom:j<2?`1px solid ${th.border}`:"none"}}>
-            <span style={{fontSize:22}}>{x.i}</span>
-            <span style={{fontSize:13,color:th.sub}}>{x[lang]}</span>
-          </div>
-        ))}
-      </div>
-      <div style={{flex:1}}/>
-      <button onClick={()=>onDone({name,phone})} style={{...btnSt,maxWidth:320,width:"100%"}}>🔔 {T[lang].enable}</button>
-      <button onClick={()=>onDone({name,phone})} style={{background:"none",border:"none",color:th.sub,fontSize:14,cursor:"pointer",marginTop:12}}>{T[lang].skip}</button>
+      <button onClick={()=>onDone({name,phone})} style={{width:"100%",maxWidth:320,padding:"15px",background:"#16A34A",color:"#fff",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer"}}>{tx.next}</button>
+      <button onClick={()=>onDone({name,phone})} style={{background:"none",border:"none",color:th.sub,fontSize:14,cursor:"pointer",marginTop:12}}>{tx.skip}</button>
     </div>
   );
 
@@ -558,23 +408,18 @@ function BizCard({ store, lang, dark, onClick }) {
   const rating = avgRating(store.reviews);
   const deals = store.products.filter(p=>p.active&&p.discount&&!isExpired(p.discount.expiryDate));
   const topDisc = deals.length ? Math.max(...deals.map(p=>p.discount.percent)) : 0;
-  const dist = (Math.random()*1.5+0.2).toFixed(1);
-
+  const dist = ((Math.random()*1.5+0.2)).toFixed(1);
   return (
     <div onClick={onClick} style={{background:th.card,borderRadius:16,overflow:"hidden",cursor:"pointer",border:`1px solid ${th.border}`,marginBottom:10,boxShadow:"0 2px 8px rgba(0,0,0,0.08)"}}>
       <div style={{display:"flex",gap:12,padding:"14px 14px 12px"}}>
-        <div style={{width:54,height:54,borderRadius:14,flexShrink:0,background:store.color+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,border:`1px solid ${store.color}33`}}>
-          {store.logo}
-        </div>
+        <div style={{width:54,height:54,borderRadius:14,flexShrink:0,background:store.color+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,border:`1px solid ${store.color}33`}}>{store.logo}</div>
         <div style={{flex:1,minWidth:0}}>
-          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
+          <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:2}}>
             <span style={{fontWeight:700,fontSize:15,color:th.text,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{store.name}</span>
-            {store.verified && <span style={{color:"#16A34A",fontSize:12}}>✓</span>}
+            {store.verified && <span style={{color:"#16A34A",fontSize:12,flexShrink:0}}>✓</span>}
             {topDisc>0 && <span style={{background:"#16A34A",color:"#fff",borderRadius:6,padding:"1px 5px",fontSize:9,fontWeight:800,flexShrink:0}}>-{topDisc}%</span>}
           </div>
-          <div style={{fontSize:12,color:th.sub,marginBottom:3}}>
-            {getCatEmoji(store.products[0]?.category||"")} {CAT_LABELS[lang]?.[store.products[0]?.category||""]||""}
-          </div>
+          <div style={{fontSize:12,color:th.sub,marginBottom:3}}>{getCatEmoji(store.products[0]?.category||"")} {CAT_LABELS[lang]?.[store.products[0]?.category||""]||""}</div>
           {rating>0 && (
             <div style={{display:"flex",alignItems:"center",gap:3,marginBottom:3}}>
               {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:10,color:n<=Math.round(rating)?"#FFB400":"#444"}}>★</span>)}
@@ -584,9 +429,7 @@ function BizCard({ store, lang, dark, onClick }) {
           )}
           <div style={{display:"flex",alignItems:"center",gap:8}}>
             <span style={{fontSize:11,color:th.sub}}>📍 {dist} km</span>
-            <span style={{fontSize:10,fontWeight:700,borderRadius:5,padding:"1px 6px",background:open?"#16A34A20":"#55555520",color:open?"#16A34A":th.sub}}>
-              {open?T[lang].openNow:T[lang].closedNow}
-            </span>
+            <span style={{fontSize:10,fontWeight:700,borderRadius:5,padding:"1px 6px",background:open?"#16A34A20":"#55555520",color:open?"#16A34A":th.sub}}>{open?T[lang].openNow:T[lang].closedNow}</span>
           </div>
         </div>
         {store.phone && (
@@ -600,7 +443,7 @@ function BizCard({ store, lang, dark, onClick }) {
   );
 }
 
-// Product deal row (Karrot style)
+// Deal row (Karrot style)
 function DealRow({ deal, lang, dark, saved, onSave, onClick }) {
   const th = theme(dark);
   const discPrice = deal.originalPrice>0 ? Math.round(deal.originalPrice*(1-deal.discount/100)) : 0;
@@ -614,16 +457,14 @@ function DealRow({ deal, lang, dark, saved, onSave, onClick }) {
         <div style={{flex:1,minWidth:0,display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
           <div>
             <div style={{fontWeight:600,fontSize:14,color:th.text,lineHeight:1.4,marginBottom:3,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>{deal.title?.[lang]||deal.title?.uz}</div>
-            <div style={{fontSize:12,color:th.sub}}>{deal.storeName}</div>
+            <div style={{fontSize:12,color:th.sub}}>{deal.storeName} · {daysLeft(deal.expiryDate,lang)}</div>
           </div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <div>
               {discPrice>0&&<span style={{fontWeight:800,fontSize:15,color:th.text}}>{fmt(discPrice)} {T[lang].sum}</span>}
               {deal.originalPrice>0&&deal.discount>0&&<span style={{fontSize:12,color:th.sub,textDecoration:"line-through",marginLeft:5}}>{fmt(deal.originalPrice)}</span>}
             </div>
-            <button onClick={e=>{e.stopPropagation();onSave();}} style={{background:"none",border:"none",cursor:"pointer",padding:4,fontSize:18}}>
-              {saved?"❤️":"🤍"}
-            </button>
+            <button onClick={e=>{e.stopPropagation();onSave();}} style={{background:"none",border:"none",cursor:"pointer",padding:4,fontSize:18}}>{saved?"❤️":"🤍"}</button>
           </div>
         </div>
       </div>
@@ -633,7 +474,7 @@ function DealRow({ deal, lang, dark, saved, onSave, onClick }) {
 
 
 // =====================================================
-// MAP VIEW (Leaflet)
+// MAP VIEW
 // =====================================================
 function MapView({ lang, dark, deals, stores, onDealClick }) {
   const th = theme(dark);
@@ -642,19 +483,12 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
   const markers = useRef([]);
   const [sel, setSel] = useState(null);
   const [catFilter, setCatFilter] = useState("all");
-
   const MAP_CATS = [
-    {id:"all",uz:"Hammasi",ru:"Все",e:"🏷️"},
-    {id:"auto",uz:"Avto",ru:"Авто",e:"🚗"},
-    {id:"restaurant",uz:"Kafe",ru:"Кафе",e:"🍔"},
-    {id:"pharmacy",uz:"Dorixona",ru:"Аптека",e:"💊"},
-    {id:"medical",uz:"Tibbiyot",ru:"Медицина",e:"👨‍⚕️"},
-    {id:"hotel",uz:"Hotel",ru:"Отель",e:"🏨"},
-    {id:"shopping",uz:"Savdo",ru:"Магазин",e:"🛍"},
+    {id:"all",uz:"Hammasi",ru:"Все",e:"🏷️"},{id:"auto",uz:"Avto",ru:"Авто",e:"🚗"},
+    {id:"restaurant",uz:"Kafe",ru:"Кафе",e:"🍔"},{id:"pharmacy",uz:"Dorixona",ru:"Аптека",e:"💊"},
+    {id:"medical",uz:"Tibbiyot",ru:"Медицина",e:"👨‍⚕️"},{id:"hotel",uz:"Hotel",ru:"Отель",e:"🏨"},
   ];
-
   const filtered = catFilter==="all" ? deals : deals.filter(d=>d.category===catFilter);
-
   useEffect(()=>{
     if (!window.L || lMap.current) return;
     const L = window.L;
@@ -665,7 +499,6 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
     L.marker([41.299,69.240],{icon:userIcon}).addTo(map);
     map.on("click",()=>setSel(null));
   },[]);
-
   useEffect(()=>{
     if (!window.L || !lMap.current) return;
     const L = window.L;
@@ -678,14 +511,11 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
       m.on("click",e=>{e.originalEvent.stopPropagation();setSel(deal);lMap.current.setView([deal.lat,deal.lng],15,{animate:true});});
       markers.current.push(m);
     });
-  },[catFilter, deals]);
-
+  },[catFilter,deals]);
   const open = sel ? isStoreOpen(stores.find(s=>s.id===sel.storeId)) : false;
-
   return (
     <div style={{position:"relative",height:"calc(100vh - 80px)"}}>
       <div ref={mapRef} style={{width:"100%",height:"100%"}}/>
-      {/* Category chips */}
       <div style={{position:"absolute",top:8,left:0,right:0,zIndex:20,padding:"0 12px",display:"flex",gap:6,overflowX:"auto",scrollbarWidth:"none"}}>
         {MAP_CATS.map(cat=>{
           const active=catFilter===cat.id;
@@ -696,16 +526,12 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
           );
         })}
       </div>
-      {/* Locate me */}
       <button onClick={()=>{if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{lMap.current?.setView([p.coords.latitude,p.coords.longitude],15);});}}
-        style={{position:"absolute",right:14,bottom:sel?220:100,zIndex:20,width:44,height:44,borderRadius:12,background:"rgba(28,28,28,0.92)",border:"1px solid rgba(255,255,255,0.12)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(8px)"}}>
+        style={{position:"absolute",right:14,bottom:sel?220:60,zIndex:20,width:44,height:44,borderRadius:12,background:"rgba(28,28,28,0.92)",border:"1px solid rgba(255,255,255,0.12)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(8px)"}}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg>
       </button>
-      {/* Bottom sheet */}
       <div style={{position:"absolute",bottom:0,left:0,right:0,zIndex:30,background:"rgba(18,18,18,0.97)",borderRadius:"20px 20px 0 0",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.08)",transform:sel?"translateY(0)":"translateY(100%)",transition:"transform 0.3s cubic-bezier(0.4,0,0.2,1)",paddingBottom:12}}>
-        <div style={{display:"flex",justifyContent:"center",padding:"12px 0 8px"}}>
-          <div style={{width:36,height:4,borderRadius:2,background:"rgba(255,255,255,0.2)"}}/>
-        </div>
+        <div style={{display:"flex",justifyContent:"center",padding:"12px 0 8px"}}><div style={{width:36,height:4,borderRadius:2,background:"rgba(255,255,255,0.2)"}}/></div>
         {sel && (
           <div style={{padding:"0 16px 12px"}}>
             <div style={{display:"flex",gap:14,marginBottom:12,cursor:"pointer"}} onClick={()=>onDealClick(sel)}>
@@ -723,9 +549,7 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
               </div>
             </div>
             <div style={{display:"flex",gap:8}}>
-              <button onClick={()=>onDealClick(sel)} style={{flex:2,padding:"11px 0",borderRadius:12,background:"#16A34A",border:"none",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer"}}>
-                {lang==="uz"?"Batafsil":"Подробнее"}
-              </button>
+              <button onClick={()=>onDealClick(sel)} style={{flex:2,padding:"11px 0",borderRadius:12,background:"#16A34A",border:"none",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer"}}>{lang==="uz"?"Batafsil":"Подробнее"}</button>
               <button onClick={()=>setSel(null)} style={{width:44,borderRadius:12,background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.1)",color:"rgba(255,255,255,0.5)",fontSize:16,cursor:"pointer"}}>✕</button>
             </div>
           </div>
@@ -735,15 +559,14 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
   );
 }
 
-
 // =====================================================
-// LEAFLET MAP PICKER (mini)
+// MAP PICKER (mini)
 // =====================================================
 function MapPicker({ lang, location, onChange, dark }) {
   const mapRef = useRef(null);
   const lMap = useRef(null);
   const markerRef = useRef(null);
-
+  const th = theme(dark);
   useEffect(()=>{
     if (!window.L || lMap.current) return;
     const L = window.L;
@@ -759,17 +582,14 @@ function MapPicker({ lang, location, onChange, dark }) {
     });
     lMap.current = map;
   },[]);
-
-  const th = theme(dark);
   return (
     <div>
       <div ref={mapRef} style={{height:220,borderRadius:14,overflow:"hidden",border:`1.5px solid ${th.border}`}}/>
-      <p style={{fontSize:12,color:location?"#16A34A":th.sub,marginTop:6,textAlign:"center",fontWeight:600}}>
-        {location ? T[lang].locationSet : T[lang].pickOnMap}
-      </p>
+      <p style={{fontSize:12,color:location?"#16A34A":th.sub,marginTop:6,textAlign:"center",fontWeight:600}}>{location ? T[lang].locationSet : T[lang].pickOnMap}</p>
     </div>
   );
 }
+
 
 // =====================================================
 // CHAT MODAL
@@ -778,19 +598,15 @@ function ChatModal({ store, lang, dark, messages, onClose, onSend }) {
   const th = theme(dark);
   const [text, setText] = useState("");
   const endRef = useRef(null);
-
   useEffect(()=>{ endRef.current?.scrollIntoView({behavior:"smooth"}); },[messages]);
-
   const send = () => {
     if (!text.trim()) return;
     onSend({text:text.trim(),from:"user",time:new Date().toISOString()});
     setText("");
     setTimeout(()=>onSend({text:lang==="uz"?"Xabaringiz qabul qilindi! Tez javob beramiz 😊":"Ваше сообщение получено! Ответим скоро 😊",from:"store",time:new Date().toISOString()}),900);
   };
-
   return (
     <div style={{position:"fixed",inset:0,background:th.bg,zIndex:300,maxWidth:430,margin:"0 auto",display:"flex",flexDirection:"column"}}>
-      {/* Header */}
       <div style={{background:th.card,borderBottom:`1px solid ${th.border}`,padding:"50px 16px 12px",display:"flex",alignItems:"center",gap:12}}>
         <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",padding:4}}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={th.text} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
@@ -801,13 +617,12 @@ function ChatModal({ store, lang, dark, messages, onClose, onSend }) {
         </div>
         <div style={{flex:1}}>
           <div style={{fontWeight:700,fontSize:15,color:th.text}}>{store.name}</div>
-          <div style={{fontSize:12,color:"#16A34A",fontWeight:500}}>{lang==="uz"?"● Faol":"● Онлайн"}</div>
+          <div style={{fontSize:12,color:"#16A34A",fontWeight:500}}>● {lang==="uz"?"Faol":"Онлайн"}</div>
         </div>
         <button onClick={()=>window.location.href=`tel:${store.phone}`} style={{background:"none",border:"none",cursor:"pointer",padding:6}}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.4 2 2 0 0 1 3.55 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </button>
       </div>
-      {/* Messages */}
       <div style={{flex:1,overflowY:"auto",padding:"12px 16px 8px"}}>
         {messages.length===0 ? (
           <div style={{textAlign:"center",padding:"60px 20px",color:th.sub}}>
@@ -817,20 +632,18 @@ function ChatModal({ store, lang, dark, messages, onClose, onSend }) {
           </div>
         ) : messages.map((msg,i)=>{
           const isUser = msg.from==="user";
-          const timeStr = new Date(msg.time).toLocaleTimeString("uz",{hour:"2-digit",minute:"2-digit"});
           return (
             <div key={i} style={{display:"flex",justifyContent:isUser?"flex-end":"flex-start",marginBottom:8,alignItems:"flex-end",gap:8}}>
               {!isUser && <div style={{width:28,height:28,borderRadius:9,background:store.color+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,flexShrink:0,marginBottom:2}}>{store.logo}</div>}
               <div style={{maxWidth:"72%"}}>
                 <div style={{padding:"10px 14px",borderRadius:isUser?"18px 18px 4px 18px":"18px 18px 18px 4px",background:isUser?"#16A34A":th.card,color:isUser?"#fff":th.text,fontSize:14,lineHeight:1.5}}>{msg.text}</div>
-                <div style={{fontSize:10,color:th.sub,marginTop:4,textAlign:isUser?"right":"left",paddingLeft:isUser?0:4,paddingRight:isUser?4:0}}>{timeStr}{isUser?" ✓✓":""}</div>
+                <div style={{fontSize:10,color:th.sub,marginTop:4,textAlign:isUser?"right":"left"}}>{new Date(msg.time).toLocaleTimeString("uz",{hour:"2-digit",minute:"2-digit"})}{isUser?" ✓✓":""}</div>
               </div>
             </div>
           );
         })}
         <div ref={endRef}/>
       </div>
-      {/* Input */}
       <div style={{padding:"10px 12px 28px",background:th.card,borderTop:`1px solid ${th.border}`,display:"flex",gap:8,alignItems:"flex-end"}}>
         <div style={{flex:1,background:th.card2,borderRadius:22,padding:"10px 16px",display:"flex",alignItems:"center"}}>
           <textarea placeholder={lang==="uz"?"Xabar yozing...":"Написать сообщение..."} value={text} onChange={e=>setText(e.target.value)}
@@ -845,7 +658,6 @@ function ChatModal({ store, lang, dark, messages, onClose, onSend }) {
   );
 }
 
-
 // =====================================================
 // BOOKING MODAL
 // =====================================================
@@ -858,27 +670,16 @@ function BookingModal({ store, lang, dark, onClose, onSuccess }) {
   const times = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"];
   const today = new Date().toISOString().slice(0,10);
   const inp = {width:"100%",padding:"13px 15px",borderRadius:12,border:`1.5px solid ${th.border}`,background:th.card2,fontSize:14,outline:"none",boxSizing:"border-box",color:th.text,marginBottom:14};
-
-  const book = () => {
-    const b = {id:"BK-"+Date.now().toString().slice(-6),storeId:store.id,storeName:store.name,storeLogo:store.logo,storeColor:store.color,date,time,note,status:"pending",createdAt:new Date().toISOString()};
-    onSuccess(b); setDone(true);
-  };
-
   if (done) return (
     <Sheet onClose={onClose} dark={dark} maxH="50vh">
       <div style={{textAlign:"center",padding:"20px 0"}}>
         <div style={{fontSize:60,marginBottom:10}}>📅</div>
         <h3 style={{fontSize:18,fontWeight:800,color:th.text,margin:"0 0 6px"}}>{T[lang].bookSuccess}</h3>
-        <p style={{color:th.sub,fontSize:13,margin:"0 0 16px"}}>{T[lang].bookSuccessDesc}</p>
-        <div style={{background:th.card2,borderRadius:14,padding:14,border:`1px solid ${th.border}`,textAlign:"left"}}>
-          <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}><span style={{color:th.sub,fontSize:13}}>{T[lang].chooseDate}</span><span style={{fontWeight:700,color:th.text}}>{date}</span></div>
-          <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:th.sub,fontSize:13}}>{T[lang].chooseTime}</span><span style={{fontWeight:700,color:th.text}}>{time}</span></div>
-        </div>
+        <p style={{color:th.sub,fontSize:13}}>{T[lang].bookSuccessDesc}</p>
       </div>
-      <div style={{marginTop:20}}><Btn onClick={onClose}>OK</Btn></div>
+      <Btn onClick={onClose}>OK</Btn>
     </Sheet>
   );
-
   return (
     <Sheet onClose={onClose} dark={dark} maxH="85vh">
       <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18}}>
@@ -887,24 +688,19 @@ function BookingModal({ store, lang, dark, onClose, onSuccess }) {
       </div>
       <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{T[lang].chooseDate}</label>
       <input type="date" min={today} value={date} onChange={e=>setDate(e.target.value)} style={inp}/>
-      {date && (
-        <>
-          <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>{T[lang].chooseTime}</label>
-          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:14}}>
-            {times.map(t2=>(
-              <button key={t2} onClick={()=>setTime(t2)} style={{padding:"8px 13px",borderRadius:10,cursor:"pointer",fontWeight:700,fontSize:12,border:time===t2?"2px solid #16A34A":`2px solid ${th.border}`,background:time===t2?"#F0FDF4":th.card,color:time===t2?"#16A34A":th.sub}}>{t2}</button>
-            ))}
-          </div>
-        </>
-      )}
-      {time && (
-        <>
-          <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{lang==="uz"?"Izoh":"Примечание"}</label>
-          <textarea placeholder={lang==="uz"?"Masalan: 2 kishilik stol...":"Например: Столик на 2..."} value={note} onChange={e=>setNote(e.target.value)}
-            style={{...inp,minHeight:60,resize:"vertical",fontFamily:"inherit"}}/>
-        </>
-      )}
-      <Btn onClick={book} disabled={!date||!time}>{T[lang].bookNow}</Btn>
+      {date && <>
+        <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>{T[lang].chooseTime}</label>
+        <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:14}}>
+          {times.map(t2=>(
+            <button key={t2} onClick={()=>setTime(t2)} style={{padding:"8px 13px",borderRadius:10,cursor:"pointer",fontWeight:700,fontSize:12,border:time===t2?"2px solid #16A34A":`2px solid ${th.border}`,background:time===t2?"#F0FDF4":th.card,color:time===t2?"#16A34A":th.sub}}>{t2}</button>
+          ))}
+        </div>
+      </>}
+      {time && <>
+        <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{lang==="uz"?"Izoh":"Примечание"}</label>
+        <textarea placeholder={lang==="uz"?"Masalan: 2 kishilik stol...":"Например: Столик на 2..."} value={note} onChange={e=>setNote(e.target.value)} style={{...inp,minHeight:60,resize:"vertical",fontFamily:"inherit"}}/>
+      </>}
+      <Btn onClick={()=>{if(!date||!time)return;const b={id:"BK-"+Date.now().toString().slice(-6),storeId:store.id,storeName:store.name,storeLogo:store.logo,storeColor:store.color,date,time,note,status:"pending",createdAt:new Date().toISOString()};onSuccess(b);setDone(true);}} disabled={!date||!time}>{T[lang].bookNow}</Btn>
     </Sheet>
   );
 }
@@ -948,8 +744,7 @@ function DiscountModal({ product, lang, dark, onClose, onApply }) {
       {product.originalPrice>0 && pct && (
         <div style={{background:"#F0FDF4",borderRadius:12,padding:14,marginBottom:14,textAlign:"center"}}>
           <span style={{textDecoration:"line-through",color:th.sub,fontSize:13}}>{fmt(product.originalPrice)} {T[lang].sum}</span>
-          {" → "}
-          <b style={{color:"#16A34A",fontSize:17}}>{fmt(product.originalPrice*(1-Number(pct)/100))} {T[lang].sum}</b>
+          {" → "}<b style={{color:"#16A34A",fontSize:17}}>{fmt(product.originalPrice*(1-Number(pct)/100))} {T[lang].sum}</b>
         </div>
       )}
       <Btn onClick={()=>ok&&onApply({percent:Number(pct),expiryDate:expiry})} disabled={!ok}>{T[lang].discountApply}</Btn>
@@ -960,7 +755,60 @@ function DiscountModal({ product, lang, dark, onClose, onApply }) {
 
 
 // =====================================================
-// STATISTICS MODAL
+// DEAL DETAIL SHEET
+// =====================================================
+function DealDetailSheet({ deal, lang, dark, saved, onClose, onSave, onChat }) {
+  const th = theme(dark);
+  const discPrice = deal.originalPrice>0 ? Math.round(deal.originalPrice*(1-deal.discount/100)) : 0;
+  return (
+    <Sheet onClose={onClose} dark={dark} maxH="92vh">
+      {deal.photos?.length ? (
+        <div style={{display:"flex",gap:8,overflowX:"auto",marginBottom:14}}>
+          {deal.photos.map((src,i)=><img key={i} src={src} alt="" style={{width:100,height:100,borderRadius:12,objectFit:"cover",flexShrink:0}}/>)}
+        </div>
+      ) : <div style={{fontSize:56,textAlign:"center",marginBottom:10}}>{deal.logo}</div>}
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:8}}>
+        <div style={{flex:1}}>
+          <h2 style={{fontSize:19,fontWeight:800,color:th.text,margin:"0 0 4px"}}>{deal.storeName}</h2>
+          {deal.verified && <span style={{fontSize:12,color:"#16A34A",fontWeight:600}}>✓ {lang==="uz"?"Tasdiqlangan":"Подтверждён"}</span>}
+        </div>
+        <button onClick={onSave} style={{background:"none",border:"none",cursor:"pointer",fontSize:24,padding:4}}>{saved?"❤️":"🤍"}</button>
+      </div>
+      <p style={{color:th.sub,marginBottom:8,fontSize:14}}>{deal.title?.[lang]||deal.title?.uz}</p>
+      {deal.description?.[lang] && <p style={{color:th.sub,fontSize:13,lineHeight:1.6,marginBottom:12,background:th.card2,borderRadius:10,padding:12}}>{deal.description[lang]}</p>}
+      {deal.params?.length>0 && (
+        <div style={{marginBottom:12}}>
+          {deal.params.map((p,i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:`1px solid ${th.border}`}}>
+              <span style={{color:th.sub,fontSize:13}}>{p.name}</span>
+              <span style={{color:th.text,fontSize:13,fontWeight:600}}>{p.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      <div style={{background:deal.color+"15",borderRadius:14,padding:16,textAlign:"center",marginBottom:12}}>
+        <div style={{fontSize:52,fontWeight:900,color:deal.color,lineHeight:1}}>{deal.discount}%</div>
+        <div style={{color:deal.color,fontWeight:600,marginTop:4}}>{T[lang].discountBadge}</div>
+        {deal.originalPrice>0 && (
+          <div style={{marginTop:8,fontSize:13,color:th.sub}}>
+            <span style={{textDecoration:"line-through"}}>{fmt(deal.originalPrice)} {T[lang].sum}</span>{" → "}
+            <b style={{color:th.text}}>{fmt(discPrice)} {T[lang].sum}</b>
+          </div>
+        )}
+      </div>
+      <div style={{background:th.card2,borderRadius:12,padding:12,marginBottom:12,display:"flex",flexDirection:"column",gap:8}}>
+        <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:th.sub,fontSize:13}}>{T[lang].expiresIn}</span><span style={{color:th.text,fontSize:13,fontWeight:600}}>⏰ {daysLeft(deal.expiryDate,lang)}</span></div>
+        {deal.storeAddress && <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:th.sub,fontSize:13}}>📍</span><span style={{color:th.text,fontSize:13,fontWeight:600,textAlign:"right",flex:1,marginLeft:10}}>{deal.storeAddress}</span></div>}
+        {deal.storePhone && <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:th.sub,fontSize:13}}>📞</span><span style={{color:th.text,fontSize:13,fontWeight:600}}>{deal.storePhone}</span></div>}
+        {deal.delivery && <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:"#16A34A",fontSize:13}}>🚚 {lang==="uz"?"Yetkazib berish":"Доставка"}</span><span style={{color:"#16A34A",fontSize:13,fontWeight:700}}>{fmt(deal.deliveryPrice)} {T[lang].sum}</span></div>}
+      </div>
+      <button onClick={onChat} style={{width:"100%",padding:"13px",background:"transparent",color:"#16A34A",border:"1.5px solid #16A34A",borderRadius:12,fontSize:14,fontWeight:700,cursor:"pointer",marginBottom:8}}>💬 {T[lang].chat}</button>
+    </Sheet>
+  );
+}
+
+// =====================================================
+// STATS MODAL
 // =====================================================
 function StatsModal({ lang, dark, store, bookings, onClose }) {
   const th = theme(dark);
@@ -968,17 +816,16 @@ function StatsModal({ lang, dark, store, bookings, onClose }) {
   const weekDays = lang==="uz"?["Du","Se","Ch","Pa","Ju","Sh","Ya"]:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
   const viewData = [120,85,200,145,310,280,190];
   const maxV = Math.max(...viewData);
-  const stats = [
-    {icon:"👁️",label:T[lang].views,value:(store.views||0).toLocaleString(),color:"#0984E3",bg:"#0984E315"},
-    {icon:"📅",label:T[lang].bookings,value:storeBookings.length,color:"#16A34A",bg:"#16A34A15"},
-    {icon:"🔔",label:T[lang].subscribers||"Obunchilar",value:store.subscriberBase||0,color:"#FFB400",bg:"#FFB40015"},
-    {icon:"📦",label:T[lang].products,value:store.products.length,color:"#6C5CE7",bg:"#6C5CE715"},
-  ];
   return (
     <Sheet onClose={onClose} dark={dark} maxH="85vh">
-      <h3 style={{fontSize:18,fontWeight:800,color:th.text,marginBottom:18,textAlign:"center"}}>{T[lang].stats}</h3>
+      <h3 style={{fontSize:17,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>{T[lang].stats}</h3>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
-        {stats.map((s,i)=>(
+        {[
+          {icon:"👁️",label:T[lang].views,value:(store.views||0).toLocaleString(),color:"#0984E3",bg:"#0984E315"},
+          {icon:"📅",label:T[lang].bookings,value:storeBookings.length,color:"#16A34A",bg:"#16A34A15"},
+          {icon:"🔔",label:T[lang].subscribedStores||"Obunchilar",value:store.subscriberBase||0,color:"#FFB400",bg:"#FFB40015"},
+          {icon:"📦",label:T[lang].products,value:store.products.length,color:"#6C5CE7",bg:"#6C5CE715"},
+        ].map((s,i)=>(
           <div key={i} style={{background:s.bg,borderRadius:14,padding:"14px 12px",border:`1px solid ${s.color}30`}}>
             <div style={{fontSize:22,marginBottom:6}}>{s.icon}</div>
             <div style={{fontSize:22,fontWeight:900,color:s.color}}>{s.value}</div>
@@ -1003,82 +850,14 @@ function StatsModal({ lang, dark, store, bookings, onClose }) {
   );
 }
 
-// =====================================================
-// DEAL DETAIL SHEET
-// =====================================================
-function DealDetailSheet({ deal, lang, dark, saved, onClose, onSave, onChat }) {
-  const th = theme(dark);
-  const discPrice = deal.originalPrice>0 ? Math.round(deal.originalPrice*(1-deal.discount/100)) : 0;
-  return (
-    <Sheet onClose={onClose} dark={dark} maxH="92vh">
-      {deal.photos?.length ? (
-        <div style={{display:"flex",gap:8,overflowX:"auto",marginBottom:14}}>
-          {deal.photos.map((src,i)=><img key={i} src={src} alt="" style={{width:100,height:100,borderRadius:12,objectFit:"cover",flexShrink:0}}/>)}
-        </div>
-      ) : <div style={{fontSize:56,textAlign:"center",marginBottom:10}}>{deal.logo}</div>}
-
-      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:8}}>
-        <div style={{flex:1}}>
-          <h2 style={{fontSize:19,fontWeight:800,color:th.text,margin:"0 0 4px"}}>{deal.storeName}</h2>
-          {deal.verified && <span style={{fontSize:12,color:"#16A34A",fontWeight:600}}>✓ {lang==="uz"?"Tasdiqlangan":"Подтверждён"}</span>}
-        </div>
-        <button onClick={onSave} style={{background:"none",border:"none",cursor:"pointer",fontSize:24,padding:4}}>{saved?"❤️":"🤍"}</button>
-      </div>
-
-      <p style={{color:th.sub,marginBottom:8,fontSize:14}}>{deal.title?.[lang]||deal.title?.uz}</p>
-
-      {deal.description?.[lang] && (
-        <p style={{color:th.sub,fontSize:13,lineHeight:1.6,marginBottom:12,background:th.card2,borderRadius:10,padding:12}}>{deal.description[lang]}</p>
-      )}
-
-      {deal.params?.length>0 && (
-        <div style={{marginBottom:12}}>
-          {deal.params.map((p,i)=>(
-            <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:`1px solid ${th.border}`}}>
-              <span style={{color:th.sub,fontSize:13}}>{p.name}</span>
-              <span style={{color:th.text,fontSize:13,fontWeight:600}}>{p.value}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div style={{background:deal.color+"15",borderRadius:14,padding:16,textAlign:"center",marginBottom:12}}>
-        <div style={{fontSize:52,fontWeight:900,color:deal.color,lineHeight:1}}>{deal.discount}%</div>
-        <div style={{color:deal.color,fontWeight:600,marginTop:4}}>{T[lang].discountBadge}</div>
-        {deal.originalPrice>0 && (
-          <div style={{marginTop:8,fontSize:13,color:th.sub}}>
-            <span style={{textDecoration:"line-through"}}>{fmt(deal.originalPrice)} {T[lang].sum}</span>
-            {" → "}
-            <b style={{color:th.text}}>{fmt(discPrice)} {T[lang].sum}</b>
-          </div>
-        )}
-      </div>
-
-      <div style={{background:th.card2,borderRadius:12,padding:12,marginBottom:8,display:"flex",flexDirection:"column",gap:8}}>
-        <div style={{display:"flex",justifyContent:"space-between"}}>
-          <span style={{color:th.sub,fontSize:13}}>{T[lang].expiresIn}</span>
-          <span style={{color:th.text,fontSize:13,fontWeight:600}}>⏰ {daysLeft(deal.expiryDate,lang)}</span>
-        </div>
-        {deal.storeAddress && <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:th.sub,fontSize:13}}>📍</span><span style={{color:th.text,fontSize:13,fontWeight:600,textAlign:"right",flex:1,marginLeft:10}}>{deal.storeAddress}</span></div>}
-        {deal.storePhone && <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:th.sub,fontSize:13}}>📞</span><span style={{color:th.text,fontSize:13,fontWeight:600}}>{deal.storePhone}</span></div>}
-        {deal.delivery && <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:"#16A34A",fontSize:13}}>🚚 {lang==="uz"?"Yetkazib berish":"Доставка"}</span><span style={{color:"#16A34A",fontSize:13,fontWeight:700}}>{fmt(deal.deliveryPrice)} {T[lang].sum}</span></div>}
-      </div>
-
-      <button onClick={onChat} style={{width:"100%",padding:"13px",background:"transparent",color:"#16A34A",border:"1.5px solid #16A34A",borderRadius:12,fontSize:14,fontWeight:700,cursor:"pointer",marginBottom:8}}>
-        💬 {T[lang].chat}
-      </button>
-    </Sheet>
-  );
-}
-
 
 // =====================================================
 // BUSINESS PROFILE VIEW
 // =====================================================
-function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chatMsgs,
+function BizProfile({ store, lang, dark, isOwner, isSub, bookings,
   onBack, onToggleSub, onAddProduct, onApplyDiscount, onRemoveDiscount,
   onDeleteProduct, onEditProduct, onToggleActive, onDuplicateProduct,
-  onRateProduct, onRateStore, onBook, onChat, onOpenDeal }) {
+  onRateProduct, onRateStore, onBook, onChat }) {
   const th = theme(dark);
   const tx = T[lang];
   const [discTarget, setDiscTarget] = useState(null);
@@ -1086,40 +865,26 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [editTarget, setEditTarget] = useState(null);
   const [showStats, setShowStats] = useState(false);
-  const [prodMenu, setProdMenu] = useState(null); // productId of open context menu
-
+  const [prodMenu, setProdMenu] = useState(null);
   const open = isStoreOpen(store);
   const rating = avgRating(store.reviews);
   const days = ["sun","mon","tue","wed","thu","fri","sat"];
   const dk = days[new Date().getDay()];
   const todayH = store.workHours?.[dk];
-
-  const handleCall = () => store.phone && (window.location.href=`tel:${store.phone}`);
-  const handleTg = () => { if(store.telegram) window.open(`https://t.me/${store.telegram.replace("@","")}`, "_blank"); };
-  const handleShare = () => navigator.share?.({title:store.name,text:store.name+" — OsonTop"});
-
   const activeProds = isOwner ? store.products : store.products.filter(p=>p.active!==false);
-  const similarStores = []; // placeholder
 
   return (
     <div style={{minHeight:"100vh",background:th.bg,paddingBottom:30}}>
-      {/* Cover / Header */}
-      <div style={{background:"linear-gradient(135deg,#16A34A 0%,#0D6B28 100%)",padding:"50px 16px 20px",color:"#fff",position:"relative"}}>
+      {/* Header */}
+      <div style={{background:"linear-gradient(135deg,#16A34A 0%,#0D6B28 100%)",padding:"50px 16px 20px",color:"#fff"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
           <button onClick={onBack} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,width:34,height:34,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
-          {isOwner && (
-            <button onClick={()=>setShowStats(true)} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,padding:"7px 12px",color:"#fff",fontSize:12,fontWeight:700,cursor:"pointer"}}>
-              📊 {tx.stats}
-            </button>
-          )}
+          {isOwner && <button onClick={()=>setShowStats(true)} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,padding:"7px 12px",color:"#fff",fontSize:12,fontWeight:700,cursor:"pointer"}}>📊 {tx.stats}</button>}
         </div>
-        {/* Logo + Info */}
         <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
-          <div style={{width:66,height:66,borderRadius:18,background:"rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,flexShrink:0,border:"2px solid rgba(255,255,255,0.4)"}}>
-            {store.logo}
-          </div>
+          <div style={{width:66,height:66,borderRadius:18,background:"rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,flexShrink:0,border:"2px solid rgba(255,255,255,0.4)"}}>{store.logo}</div>
           <div style={{flex:1,minWidth:0}}>
             <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
               <span style={{fontSize:18,fontWeight:900}}>{store.name}</span>
@@ -1130,8 +895,7 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
               <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:4}}>
                 {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:11,color:n<=Math.round(rating)?"#FFD700":"rgba(255,255,255,0.3)"}}>★</span>)}
                 <span style={{fontSize:12,fontWeight:700}}>{rating.toFixed(1)}</span>
-                <span style={{fontSize:12,opacity:0.7}}>({store.reviews.length})</span>
-                <span style={{fontSize:12,opacity:0.6}}>· {store.subscriberBase||0} {tx.subscribers}</span>
+                <span style={{fontSize:12,opacity:0.7}}>({store.reviews.length}) · {store.subscriberBase||0} {tx.subscribers}</span>
               </div>
             )}
             <div style={{display:"flex",alignItems:"center",gap:6}}>
@@ -1141,39 +905,22 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
             </div>
           </div>
         </div>
-
-        {/* Action buttons */}
         {!isOwner ? (
           <div style={{display:"flex",gap:8,marginTop:14,flexWrap:"wrap"}}>
-            {store.phone && <button onClick={handleCall} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(255,255,255,0.22)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.callStore}</button>}
-            {store.telegram && <button onClick={handleTg} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(0,136,204,0.35)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.telegramStore}</button>}
+            {store.phone && <button onClick={()=>window.location.href=`tel:${store.phone}`} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(255,255,255,0.22)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.callStore}</button>}
+            {store.telegram && <button onClick={()=>window.open(`https://t.me/${store.telegram.replace("@","")}`, "_blank")} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(0,136,204,0.35)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.telegramStore}</button>}
             <button onClick={onChat} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(255,255,255,0.22)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.chat}</button>
             <button onClick={onBook} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(255,180,0,0.35)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.book}</button>
-            <button onClick={handleShare} style={{flex:1,minWidth:64,padding:"10px 6px",borderRadius:12,border:"none",background:"rgba(255,255,255,0.22)",color:"#fff",fontWeight:700,fontSize:11,cursor:"pointer"}}>{tx.share}</button>
           </div>
         ) : (
-          <div style={{marginTop:12,background:"rgba(255,255,255,0.2)",borderRadius:10,padding:"8px 12px",fontSize:12,fontWeight:700,textAlign:"center"}}>
-            {lang==="uz"?"Sizning biznesingiz":"Ваш бизнес"} · {isOwner&&store.products.length} {tx.products.toLowerCase()}
-          </div>
+          <div style={{marginTop:12,background:"rgba(255,255,255,0.2)",borderRadius:10,padding:"8px 12px",fontSize:12,fontWeight:700,textAlign:"center"}}>{lang==="uz"?"Sizning biznesingiz":"Ваш бизнес"} · {store.products.length} {tx.products.toLowerCase()}</div>
         )}
-
-        {/* Subscribe button */}
-        {!isOwner && (
-          <button onClick={onToggleSub} style={{marginTop:12,width:"100%",padding:"12px",borderRadius:14,border:"none",cursor:"pointer",fontWeight:800,fontSize:14,background:isSub?"rgba(255,255,255,0.2)":"#fff",color:isSub?"#fff":"#16A34A",transition:"all 0.2s"}}>
-            {isSub?tx.subscribed:tx.subscribe}
-          </button>
-        )}
+        {!isOwner && <button onClick={onToggleSub} style={{marginTop:12,width:"100%",padding:"12px",borderRadius:14,border:"none",cursor:"pointer",fontWeight:800,fontSize:14,background:isSub?"rgba(255,255,255,0.2)":"#fff",color:isSub?"#fff":"#16A34A"}}>{isSub?tx.subscribed:tx.subscribe}</button>}
       </div>
 
       <div style={{padding:16}}>
-        {/* Description */}
-        {store.description?.[lang] && (
-          <div style={{background:th.card,borderRadius:14,padding:14,marginBottom:14,border:`1px solid ${th.border}`}}>
-            <p style={{margin:0,fontSize:13,color:th.sub,lineHeight:1.6}}>{store.description[lang]}</p>
-          </div>
-        )}
+        {store.description?.[lang] && <div style={{background:th.card,borderRadius:14,padding:14,marginBottom:14,border:`1px solid ${th.border}`}}><p style={{margin:0,fontSize:13,color:th.sub,lineHeight:1.6}}>{store.description[lang]}</p></div>}
 
-        {/* Products section */}
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
           <h3 style={{margin:0,fontSize:16,fontWeight:800,color:th.text}}>{tx.products}</h3>
           {isOwner && <button onClick={onAddProduct} style={{background:"#16A34A",color:"#fff",border:"none",borderRadius:10,padding:"7px 12px",fontSize:12,fontWeight:700,cursor:"pointer"}}>{tx.addProduct}</button>}
@@ -1192,8 +939,7 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
           return (
             <div key={prod.id} style={{background:th.card,borderRadius:14,padding:13,marginBottom:10,boxShadow:"0 2px 8px rgba(0,0,0,0.06)",border:`1px solid ${th.border}`,opacity:isActive?1:0.6}}>
               <div style={{display:"flex",gap:12}}>
-                <div onClick={()=>!isOwner&&hasDeal&&onOpenDeal&&onOpenDeal(store.id,prod.id)}
-                  style={{width:58,height:58,borderRadius:12,overflow:"hidden",flexShrink:0,background:store.color+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,cursor:hasDeal?"pointer":"default",position:"relative"}}>
+                <div style={{width:58,height:58,borderRadius:12,overflow:"hidden",flexShrink:0,background:store.color+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,position:"relative"}}>
                   {prod.photos?.length?<img src={prod.photos[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:store.logo}
                   {hasDeal && <div style={{position:"absolute",top:3,left:3,background:"#16A34A",color:"#fff",borderRadius:5,padding:"1px 4px",fontSize:8,fontWeight:800}}>-{prod.discount.percent}%</div>}
                   {!isActive && <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.4)",display:"flex",alignItems:"center",justifyContent:"center",borderRadius:12,fontSize:16}}>⏸</div>}
@@ -1209,17 +955,11 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
                       </div>
                     ) : <div style={{fontSize:12,color:th.text,fontWeight:700}}>{fmt(prod.originalPrice)} {tx.sum}</div>
                   )}
-                  {pRating>0 && (
-                    <div style={{display:"flex",alignItems:"center",gap:3,marginTop:3}}>
-                      {[1,2,3,4,5].map(n=><span key={n} style={{fontSize:9,color:n<=Math.round(pRating)?"#FFB400":"#444"}}>★</span>)}
-                      <span style={{fontSize:10,color:th.sub}}>({prod.reviews?.length||0})</span>
-                    </div>
-                  )}
+                  {pRating>0 && <div style={{display:"flex",gap:2,marginTop:3}}>{[1,2,3,4,5].map(n=><span key={n} style={{fontSize:9,color:n<=Math.round(pRating)?"#FFB400":"#444"}}>★</span>)}<span style={{fontSize:10,color:th.sub}}>({prod.reviews?.length||0})</span></div>}
                 </div>
                 {isOwner && (
                   <div style={{position:"relative"}}>
-                    <button onClick={()=>setProdMenu(prodMenu===prod.id?null:prod.id)}
-                      style={{background:th.card2,border:"none",borderRadius:8,padding:"6px 8px",cursor:"pointer",color:th.sub,fontSize:16}}>⋯</button>
+                    <button onClick={()=>setProdMenu(prodMenu===prod.id?null:prod.id)} style={{background:th.card2,border:"none",borderRadius:8,padding:"6px 8px",cursor:"pointer",color:th.sub,fontSize:16}}>⋯</button>
                     {prodMenu===prod.id && (
                       <div style={{position:"absolute",right:0,top:32,background:th.card,border:`1px solid ${th.border}`,borderRadius:12,boxShadow:"0 8px 24px rgba(0,0,0,0.3)",zIndex:50,minWidth:160,overflow:"hidden"}}>
                         {[
@@ -1242,7 +982,7 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
               {!isOwner && (
                 <div style={{marginTop:10,display:"flex",gap:8}}>
                   <button onClick={()=>setReviewTarget(prod.id)} style={{flex:1,padding:"8px",borderRadius:10,border:`1.5px solid ${th.border}`,background:th.card2,color:th.sub,fontWeight:700,fontSize:12,cursor:"pointer"}}>⭐ {tx.rateProduct}</button>
-                  {hasDeal && <button onClick={()=>onOpenDeal&&onOpenDeal(store.id,prod.id)} style={{flex:1,padding:"8px",borderRadius:10,border:"none",background:"#16A34A",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer"}}>🏷️ -{prod.discount.percent}%</button>}
+                  {hasDeal && <div style={{flex:1,padding:"8px",borderRadius:10,border:"none",background:"#16A34A20",color:"#16A34A",fontWeight:700,fontSize:12,textAlign:"center"}}>🏷️ -{prod.discount.percent}%</div>}
                 </div>
               )}
             </div>
@@ -1266,24 +1006,19 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
           ))}
         </div>
 
-        {/* Similar businesses (placeholder) */}
         <div style={{marginTop:20}}>
-          <h3 style={{fontSize:15,fontWeight:800,color:th.text,marginBottom:10}}>{tx.similarBiz}</h3>
-          <p style={{color:th.sub,fontSize:12}}>{lang==="uz"?"O'xshash bizneslar tez orada ko'rinadi":"Похожие бизнесы скоро появятся"}</p>
+          <h3 style={{fontSize:15,fontWeight:800,color:th.text,marginBottom:8}}>{tx.similarBiz}</h3>
+          <p style={{color:th.sub,fontSize:12}}>{lang==="uz"?"O'xshash bizneslar tez orada":"Похожие бизнесы скоро появятся"}</p>
         </div>
       </div>
 
-      {/* Modals */}
       {discTarget && <DiscountModal product={discTarget} lang={lang} dark={dark} onClose={()=>setDiscTarget(null)} onApply={d=>{onApplyDiscount(discTarget.id,d);setDiscTarget(null);}}/>}
       {reviewTarget && <ReviewModal title={reviewTarget==="store"?tx.leaveReview+" — "+store.name:tx.rateProduct} lang={lang} dark={dark} onClose={()=>setReviewTarget(null)} onSubmit={r=>{if(reviewTarget==="store")onRateStore(r);else onRateProduct(reviewTarget,r);setReviewTarget(null);}}/>}
       {showStats && <StatsModal lang={lang} dark={dark} store={store} bookings={bookings} onClose={()=>setShowStats(false)}/>}
       {deleteTarget && (
         <Sheet onClose={()=>setDeleteTarget(null)} dark={dark} maxH="35vh">
           <p style={{fontSize:15,color:th.text,fontWeight:600,marginBottom:20,textAlign:"center"}}>{tx.confirmDelete}</p>
-          <div style={{display:"flex",gap:10}}>
-            <Btn ghost onClick={()=>setDeleteTarget(null)}>{tx.no}</Btn>
-            <Btn onClick={()=>{onDeleteProduct(deleteTarget);setDeleteTarget(null);}}>{tx.yes}</Btn>
-          </div>
+          <div style={{display:"flex",gap:10}}><Btn ghost onClick={()=>setDeleteTarget(null)}>{tx.no}</Btn><Btn onClick={()=>{onDeleteProduct(deleteTarget);setDeleteTarget(null);}}>{tx.yes}</Btn></div>
         </Sheet>
       )}
       {editTarget && (
@@ -1308,10 +1043,9 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings, coupons, chat
           <div style={{display:"flex",gap:10}}>
             <Btn ghost onClick={()=>setEditTarget(null)}>{tx.cancel}</Btn>
             <Btn onClick={()=>{
-              const upd = {...editTarget};
-              const nv = upd.nameVal!==undefined?upd.nameVal:editTarget.name?.[lang]||editTarget.name?.uz;
-              const dv = upd.descVal!==undefined?upd.descVal:editTarget.description?.[lang]||editTarget.description?.uz;
-              const pv = upd.priceVal!==undefined?parseFloat(upd.priceVal)||0:editTarget.originalPrice;
+              const nv = editTarget.nameVal!==undefined?editTarget.nameVal:editTarget.name?.[lang]||editTarget.name?.uz;
+              const dv = editTarget.descVal!==undefined?editTarget.descVal:editTarget.description?.[lang]||editTarget.description?.uz;
+              const pv = editTarget.priceVal!==undefined?parseFloat(editTarget.priceVal)||0:editTarget.originalPrice;
               onEditProduct(editTarget.id,{name:{uz:nv,ru:nv},description:{uz:dv,ru:dv},originalPrice:pv});
               setEditTarget(null);
             }}>{tx.save}</Btn>
@@ -1330,53 +1064,31 @@ function CreateBizWizard({ lang, dark, userData, onCreate, onCancel }) {
   const th = theme(dark);
   const tx = T[lang];
   const [step, setStep] = useState(1);
-  const [form, setForm] = useState({
-    category:"", name:"", phone:userData.phone||"", telegram:"",
-    address:"", location:null,
-    workHours:{mon:"09:00-18:00",tue:"09:00-18:00",wed:"09:00-18:00",thu:"09:00-18:00",fri:"09:00-18:00",sat:"10:00-16:00",sun:"Yopiq"},
-    photos:[], logo:"🏪",
-  });
+  const [form, setForm] = useState({category:"",name:"",phone:userData.phone||"",telegram:"",address:"",location:null,workHours:{mon:"09:00-18:00",tue:"09:00-18:00",wed:"09:00-18:00",thu:"09:00-18:00",fri:"09:00-18:00",sat:"10:00-16:00",sun:"Yopiq"},photos:[],logo:"🏪"});
   const upd = patch => setForm(p=>({...p,...patch}));
-
   const LOGOS = ["🏪","🛒","🍕","👕","📱","💄","☕","⚽","🛠️","🚗","💊","🏨","🧹","📚","🏥","🎮","🐾","🔧"];
   const DAY_KEYS = ["mon","tue","wed","thu","fri","sat","sun"];
-  const DAY_LABELS = lang==="uz"
-    ? ["Du","Se","Ch","Pa","Ju","Sh","Ya"]
-    : ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
-
+  const DAY_LABELS = lang==="uz"?["Du","Se","Ch","Pa","Ju","Sh","Ya"]:["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
   const inp = {width:"100%",padding:"13px 15px",borderRadius:12,border:`1.5px solid ${th.border}`,background:th.card2,fontSize:14,outline:"none",boxSizing:"border-box",color:th.text,marginBottom:12};
-  const prog = (step/6)*100;
-
-  const stepTitle = [
-    tx.chooseCategory,
-    lang==="uz"?"Biznes ma'lumotlari":"Информация о бизнесе",
-    lang==="uz"?"Telefon & Telegram":"Телефон и Telegram",
-    lang==="uz"?"Joylashuv":"Местоположение",
-    tx.workHours,
-    tx.photos
-  ][step-1];
+  const titles = [tx.chooseCategory,lang==="uz"?"Biznes ma'lumotlari":"Информация",lang==="uz"?"Telefon & Telegram":"Телефон",lang==="uz"?"Joylashuv":"Местоположение",tx.workHours,tx.photos];
 
   return (
     <FullPage dark={dark}>
-      {/* Header */}
       <div style={{background:"linear-gradient(135deg,#16A34A,#0D6B28)",padding:"50px 16px 16px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
           <button onClick={step>1?()=>setStep(s=>s-1):onCancel} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,width:34,height:34,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <div>
-            <div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{stepTitle}</div>
+            <div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{titles[step-1]}</div>
             <div style={{fontSize:11,color:"rgba(255,255,255,0.8)"}}>{tx.step} {step} {tx.of} 6</div>
           </div>
         </div>
         <div style={{height:4,background:"rgba(255,255,255,0.2)",borderRadius:2}}>
-          <div style={{height:"100%",width:`${prog}%`,background:"#fff",borderRadius:2,transition:"width 0.3s"}}/>
+          <div style={{height:"100%",width:`${(step/6)*100}%`,background:"#fff",borderRadius:2,transition:"width 0.3s"}}/>
         </div>
       </div>
-
       <div style={{padding:16,overflowY:"auto",maxHeight:"calc(100vh - 130px)",paddingBottom:40}}>
-
-        {/* Step 1 — Category */}
         {step===1 && (
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
             {CATS.map(cat=>(
@@ -1387,8 +1099,6 @@ function CreateBizWizard({ lang, dark, userData, onCreate, onCancel }) {
             ))}
           </div>
         )}
-
-        {/* Step 2 — Info */}
         {step===2 && (
           <div>
             <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizLogo}</label>
@@ -1397,75 +1107,59 @@ function CreateBizWizard({ lang, dark, userData, onCreate, onCancel }) {
                 <button key={l} onClick={()=>upd({logo:l})} style={{width:46,height:46,borderRadius:12,fontSize:22,cursor:"pointer",border:form.logo===l?"2px solid #16A34A":`2px solid ${th.border}`,background:form.logo===l?"#F0FDF4":th.card}}>{l}</button>
               ))}
             </div>
-            <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizName} <span style={{color:"#16A34A"}}>{tx.required}</span></label>
+            <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizName} <span style={{color:"#16A34A"}}>*</span></label>
             <input placeholder={tx.bizNamePh} value={form.name} onChange={e=>upd({name:e.target.value})} style={inp}/>
-            <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizAddress} <span style={{color:"#16A34A"}}>{tx.required}</span></label>
+            <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizAddress} <span style={{color:"#16A34A"}}>*</span></label>
             <input placeholder={tx.bizAddressPh} value={form.address} onChange={e=>upd({address:e.target.value})} style={inp}/>
-            <div style={{marginTop:4}}>
-              <Btn onClick={()=>form.name&&form.address?setStep(3):null} disabled={!form.name||!form.address}>{tx.next}</Btn>
-            </div>
+            <Btn onClick={()=>form.name&&form.address?setStep(3):null} disabled={!form.name||!form.address}>{tx.next}</Btn>
           </div>
         )}
-
-        {/* Step 3 — Phone */}
         {step===3 && (
           <div>
             <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizPhone}</label>
             <input type="tel" placeholder={tx.bizPhonePh} value={form.phone} onChange={e=>upd({phone:e.target.value})} style={inp}/>
             <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.bizTelegram}</label>
             <input placeholder={tx.bizTelegramPh} value={form.telegram} onChange={e=>upd({telegram:e.target.value})} style={inp}/>
-            <div style={{marginTop:8}}><Btn onClick={()=>setStep(4)}>{tx.next}</Btn></div>
+            <Btn onClick={()=>setStep(4)}>{tx.next}</Btn>
           </div>
         )}
-
-        {/* Step 4 — Location */}
         {step===4 && (
           <div>
             <MapPicker lang={lang} location={form.location} onChange={loc=>upd({location:loc})} dark={dark}/>
             <div style={{marginTop:16}}><Btn onClick={()=>setStep(5)}>{tx.next}</Btn></div>
           </div>
         )}
-
-        {/* Step 5 — Hours */}
         {step===5 && (
           <div>
-            {DAY_KEYS.map((dk,i)=>(
-              <div key={dk} style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+            {DAY_KEYS.map((dkey,i)=>(
+              <div key={dkey} style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
                 <span style={{width:26,fontSize:13,color:th.sub,fontWeight:600,flexShrink:0}}>{DAY_LABELS[i]}</span>
-                <input value={form.workHours[dk]} onChange={e=>upd({workHours:{...form.workHours,[dk]:e.target.value}})}
-                  placeholder="09:00-18:00"
+                <input value={form.workHours[dkey]} onChange={e=>upd({workHours:{...form.workHours,[dkey]:e.target.value}})} placeholder="09:00-18:00"
                   style={{...inp,marginBottom:0,flex:1,fontSize:13,padding:"10px 12px"}}/>
-                <button onClick={()=>upd({workHours:{...form.workHours,[dk]:"Yopiq"}})}
-                  style={{padding:"8px 10px",borderRadius:10,border:`1px solid ${th.border}`,background:form.workHours[dk]==="Yopiq"?"#FF6B6B20":th.card2,color:form.workHours[dk]==="Yopiq"?"#FF6B6B":th.sub,fontSize:11,cursor:"pointer",flexShrink:0}}>✕</button>
+                <button onClick={()=>upd({workHours:{...form.workHours,[dkey]:"Yopiq"}})}
+                  style={{padding:"8px 10px",borderRadius:10,border:`1px solid ${th.border}`,background:form.workHours[dkey]==="Yopiq"?"#FF6B6B20":th.card2,color:form.workHours[dkey]==="Yopiq"?"#FF6B6B":th.sub,fontSize:11,cursor:"pointer",flexShrink:0}}>✕</button>
               </div>
             ))}
             <div style={{marginTop:8}}><Btn onClick={()=>setStep(6)}>{tx.next}</Btn></div>
           </div>
         )}
-
-        {/* Step 6 — Photos */}
         {step===6 && (
           <div>
+            <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>{tx.photos}</label>
             <div style={{display:"flex",flexWrap:"wrap",gap:10,marginBottom:16}}>
               {form.photos.map((src,i)=>(
                 <div key={i} style={{width:90,height:90,borderRadius:12,overflow:"hidden",position:"relative"}}>
                   <img src={src} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-                  <button onClick={()=>upd({photos:form.photos.filter((_,j)=>j!==i)})}
-                    style={{position:"absolute",top:4,right:4,background:"rgba(0,0,0,0.6)",border:"none",borderRadius:"50%",width:20,height:20,cursor:"pointer",color:"#fff",fontSize:11,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+                  <button onClick={()=>upd({photos:form.photos.filter((_,j)=>j!==i)})} style={{position:"absolute",top:4,right:4,background:"rgba(0,0,0,0.6)",border:"none",borderRadius:"50%",width:20,height:20,cursor:"pointer",color:"#fff",fontSize:11}}>✕</button>
                 </div>
               ))}
               <label style={{width:90,height:90,borderRadius:12,border:`2px dashed ${th.border}`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,cursor:"pointer",background:th.card2}}>
                 <span style={{fontSize:24}}>📷</span>
                 <span style={{fontSize:10,color:th.sub}}>{tx.addPhoto}</span>
-                <input type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{
-                  const files=Array.from(e.target.files||[]);
-                  files.forEach(f=>{ const r=new FileReader(); r.onload=ev=>upd({photos:[...form.photos,ev.target.result]}); r.readAsDataURL(f); });
-                }}/>
+                <input type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{Array.from(e.target.files||[]).forEach(f=>{const r=new FileReader();r.onload=ev=>upd({photos:[...form.photos,ev.target.result]});r.readAsDataURL(f);});}}/>
               </label>
             </div>
-            <Btn onClick={()=>onCreate({...form,id:"biz-"+Date.now(),views:0,subscriberBase:0,reviews:[],products:[],verified:false,color:getCatColor(form.category),type:"sell"})}>
-              {tx.submitBiz}
-            </Btn>
+            <Btn onClick={()=>onCreate({...form,id:"biz-"+Date.now(),views:0,subscriberBase:0,reviews:[],products:[],verified:false,color:getCatColor(form.category),type:"sell"})}>{tx.submitBiz}</Btn>
           </div>
         )}
       </div>
@@ -1480,11 +1174,7 @@ function AddProductForm({ store, lang, dark, onCancel, onSubmit }) {
   const th = theme(dark);
   const tx = T[lang];
   const [cat, setCat] = useState("");
-  const [form, setForm] = useState({
-    name:"", description:"", originalPrice:"", discountPercent:0, discountExpiry:"",
-    photos:[], params:[], delivery:false, deliveryPrice:"",
-    address:store.address||"", phone:store.phone||"", telegram:store.telegram||"", location:null,
-  });
+  const [form, setForm] = useState({name:"",description:"",originalPrice:"",discountPercent:0,discountExpiry:"",photos:[],params:[],delivery:false,deliveryPrice:""});
   const upd = patch => setForm(p=>({...p,...patch}));
   const inp = {width:"100%",padding:"13px 15px",borderRadius:12,border:`1.5px solid ${th.border}`,background:th.card2,fontSize:14,outline:"none",boxSizing:"border-box",color:th.text,marginBottom:12};
 
@@ -1495,13 +1185,10 @@ function AddProductForm({ store, lang, dark, onCancel, onSubmit }) {
           <button onClick={onCancel} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,width:34,height:34,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
-          <div>
-            <div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{lang==="uz"?"Mahsulot / Xizmat qo'shish":"Добавить товар / услугу"}</div>
-            <div style={{fontSize:11,color:"rgba(255,255,255,0.8)"}}>{store.name}</div>
-          </div>
+          <div><div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{lang==="uz"?"Mahsulot qo'shish":"Добавить товар"}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.8)"}}>{store.name}</div></div>
         </div>
       </div>
-      <div style={{padding:16,overflowY:"auto",maxHeight:"calc(100vh-100px)"}}>
+      <div style={{padding:16,overflowY:"auto",maxHeight:"calc(100vh - 100px)",paddingBottom:30}}>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
           {CATS.map(c=>(
             <button key={c.id} onClick={()=>setCat(c.id)} style={{display:"flex",flexDirection:"column",alignItems:"flex-start",gap:8,padding:"16px 14px",borderRadius:14,cursor:"pointer",textAlign:"left",border:`2px solid ${th.border}`,background:th.card}}>
@@ -1514,7 +1201,6 @@ function AddProductForm({ store, lang, dark, onCancel, onSubmit }) {
     </FullPage>
   );
 
-  const catInfo = CATS.find(c=>c.id===cat);
   return (
     <FullPage dark={dark}>
       <div style={{background:"linear-gradient(135deg,#16A34A,#0D6B28)",padding:"50px 16px 16px"}}>
@@ -1522,78 +1208,49 @@ function AddProductForm({ store, lang, dark, onCancel, onSubmit }) {
           <button onClick={()=>setCat("")} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,width:34,height:34,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
-          <div>
-            <div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{catInfo?.emoji} {CAT_LABELS[lang]?.[cat]||cat}</div>
-            <div style={{fontSize:11,color:"rgba(255,255,255,0.8)"}}>{store.name}</div>
-          </div>
+          <div><div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{getCatEmoji(cat)} {CAT_LABELS[lang]?.[cat]||cat}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.8)"}}>{store.name}</div></div>
         </div>
       </div>
       <div style={{padding:16,overflowY:"auto",maxHeight:"calc(100vh - 110px)",paddingBottom:30}}>
-        {/* DynamicCategoryForm or basic form */}
-        <div>
-          <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.productName} <span style={{color:"#16A34A"}}>{tx.required}</span></label>
-          <input placeholder={tx.productNamePh} value={form.name} onChange={e=>upd({name:e.target.value})} style={inp}/>
-          <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.productDesc}</label>
-          <textarea placeholder={tx.productDescPh} value={form.description} onChange={e=>upd({description:e.target.value})}
-            style={{...inp,minHeight:70,resize:"vertical",fontFamily:"inherit"}}/>
-          <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.price}</label>
-          <input type="number" placeholder="0" value={form.originalPrice} onChange={e=>upd({originalPrice:e.target.value})} style={inp}/>
-
-          {/* Params */}
-          <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>Parametrlar</label>
-          {form.params.map((p,i)=>(
-            <div key={i} style={{display:"flex",gap:8,marginBottom:8}}>
-              <input placeholder={tx.paramName} value={p.name} onChange={e=>{const ps=[...form.params];ps[i]={...ps[i],name:e.target.value};upd({params:ps});}} style={{...inp,marginBottom:0,flex:1}}/>
-              <input placeholder={tx.paramValue} value={p.value} onChange={e=>{const ps=[...form.params];ps[i]={...ps[i],value:e.target.value};upd({params:ps});}} style={{...inp,marginBottom:0,flex:1}}/>
-              <button onClick={()=>upd({params:form.params.filter((_,j)=>j!==i)})} style={{background:"#FF6B6B20",border:"none",borderRadius:10,padding:"0 12px",color:"#FF6B6B",cursor:"pointer",fontSize:16}}>✕</button>
+        <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.productName} <span style={{color:"#16A34A"}}>*</span></label>
+        <input placeholder={tx.productNamePh} value={form.name} onChange={e=>upd({name:e.target.value})} style={inp}/>
+        <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.productDesc}</label>
+        <textarea placeholder={tx.productDescPh} value={form.description} onChange={e=>upd({description:e.target.value})} style={{...inp,minHeight:70,resize:"vertical",fontFamily:"inherit"}}/>
+        <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.price}</label>
+        <input type="number" placeholder="0" value={form.originalPrice} onChange={e=>upd({originalPrice:e.target.value})} style={inp}/>
+        <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>Parametrlar</label>
+        {form.params.map((p,i)=>(
+          <div key={i} style={{display:"flex",gap:8,marginBottom:8}}>
+            <input placeholder={tx.paramName} value={p.name} onChange={e=>{const ps=[...form.params];ps[i]={...ps[i],name:e.target.value};upd({params:ps});}} style={{...inp,marginBottom:0,flex:1}}/>
+            <input placeholder={tx.paramValue} value={p.value} onChange={e=>{const ps=[...form.params];ps[i]={...ps[i],value:e.target.value};upd({params:ps});}} style={{...inp,marginBottom:0,flex:1}}/>
+            <button onClick={()=>upd({params:form.params.filter((_,j)=>j!==i)})} style={{background:"#FF6B6B20",border:"none",borderRadius:10,padding:"0 12px",color:"#FF6B6B",cursor:"pointer",fontSize:16}}>✕</button>
+          </div>
+        ))}
+        <button onClick={()=>upd({params:[...form.params,{name:"",value:""}]})} style={{background:"none",border:`1.5px dashed ${th.border}`,borderRadius:10,padding:"8px 16px",color:th.sub,cursor:"pointer",fontSize:13,fontWeight:600,marginBottom:14,width:"100%"}}>{tx.addParam}</button>
+        <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.discountPct}</label>
+        <input type="number" min="0" max="99" placeholder="0" value={form.discountPercent||""} onChange={e=>upd({discountPercent:Number(e.target.value)||0})} style={inp}/>
+        {form.discountPercent>0 && <>
+          <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.discountExpiry}</label>
+          <input type="date" value={form.discountExpiry} min={new Date().toISOString().slice(0,10)} onChange={e=>upd({discountExpiry:e.target.value})} style={inp}/>
+        </>}
+        <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>{tx.photos}</label>
+        <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>
+          {form.photos.map((src,i)=>(
+            <div key={i} style={{width:80,height:80,borderRadius:10,overflow:"hidden",position:"relative"}}>
+              <img src={src} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+              <button onClick={()=>upd({photos:form.photos.filter((_,j)=>j!==i)})} style={{position:"absolute",top:3,right:3,background:"rgba(0,0,0,0.6)",border:"none",borderRadius:"50%",width:18,height:18,cursor:"pointer",color:"#fff",fontSize:10}}>✕</button>
             </div>
           ))}
-          <button onClick={()=>upd({params:[...form.params,{name:"",value:""}]})} style={{background:"none",border:`1.5px dashed ${th.border}`,borderRadius:10,padding:"8px 16px",color:th.sub,cursor:"pointer",fontSize:13,fontWeight:600,marginBottom:14,width:"100%"}}>{tx.addParam}</button>
-
-          {/* Discount */}
-          <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.discountPct}</label>
-          <input type="number" min="0" max="99" placeholder="0" value={form.discountPercent||""} onChange={e=>upd({discountPercent:Number(e.target.value)||0})} style={inp}/>
-          {form.discountPercent>0 && (
-            <>
-              <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{tx.discountExpiry}</label>
-              <input type="date" value={form.discountExpiry} min={new Date().toISOString().slice(0,10)} onChange={e=>upd({discountExpiry:e.target.value})} style={inp}/>
-            </>
-          )}
-
-          {/* Photos */}
-          <label style={{fontSize:13,color:th.sub,marginBottom:8,fontWeight:600,display:"block"}}>{tx.photos}</label>
-          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>
-            {form.photos.map((src,i)=>(
-              <div key={i} style={{width:80,height:80,borderRadius:10,overflow:"hidden",position:"relative"}}>
-                <img src={src} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-                <button onClick={()=>upd({photos:form.photos.filter((_,j)=>j!==i)})} style={{position:"absolute",top:3,right:3,background:"rgba(0,0,0,0.6)",border:"none",borderRadius:"50%",width:18,height:18,cursor:"pointer",color:"#fff",fontSize:10,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
-              </div>
-            ))}
-            <label style={{width:80,height:80,borderRadius:10,border:`2px dashed ${th.border}`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:3,cursor:"pointer",background:th.card2}}>
-              <span style={{fontSize:20}}>📷</span>
-              <span style={{fontSize:9,color:th.sub}}>{tx.addPhoto}</span>
-              <input type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{const files=Array.from(e.target.files||[]);files.forEach(f=>{const r=new FileReader();r.onload=ev=>upd({photos:[...form.photos,ev.target.result]});r.readAsDataURL(f);});}}/>
-            </label>
-          </div>
-
-          <Btn onClick={()=>{
-            if (!form.name) return;
-            onSubmit({
-              id:"prod-"+Date.now(),
-              category:cat,
-              active:true,
-              name:{uz:form.name,ru:form.name},
-              description:{uz:form.description,ru:form.description},
-              params:form.params.filter(p=>p.name&&p.value),
-              originalPrice:parseFloat(form.originalPrice)||0,
-              photos:form.photos,
-              delivery:form.delivery,
-              deliveryPrice:parseFloat(form.deliveryPrice)||0,
-              discount:(form.discountPercent>0&&form.discountExpiry)?{percent:form.discountPercent,expiryDate:form.discountExpiry}:null,
-              reviews:[],
-            });
-          }} disabled={!form.name}>{tx.submitProduct}</Btn>
+          <label style={{width:80,height:80,borderRadius:10,border:`2px dashed ${th.border}`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:3,cursor:"pointer",background:th.card2}}>
+            <span style={{fontSize:20}}>📷</span>
+            <span style={{fontSize:9,color:th.sub}}>{tx.addPhoto}</span>
+            <input type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{Array.from(e.target.files||[]).forEach(f=>{const r=new FileReader();r.onload=ev=>upd({photos:[...form.photos,ev.target.result]});r.readAsDataURL(f);});}}/>
+          </label>
         </div>
+        <Btn onClick={()=>{
+          if (!form.name) return;
+          onSubmit({id:"prod-"+Date.now(),category:cat,active:true,name:{uz:form.name,ru:form.name},description:{uz:form.description,ru:form.description},params:form.params.filter(p=>p.name&&p.value),originalPrice:parseFloat(form.originalPrice)||0,photos:form.photos,delivery:form.delivery,deliveryPrice:parseFloat(form.deliveryPrice)||0,discount:(form.discountPercent>0&&form.discountExpiry)?{percent:form.discountPercent,expiryDate:form.discountExpiry}:null,reviews:[]});
+        }} disabled={!form.name}>{tx.submitProduct}</Btn>
       </div>
     </FullPage>
   );
@@ -1603,23 +1260,19 @@ function AddProductForm({ store, lang, dark, onCancel, onSubmit }) {
 // =====================================================
 // HOME TAB
 // =====================================================
-function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
-  onBizClick, onDealClick, onSetSearch, searchVal }) {
+function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onBizClick, onDealClick, searchVal, onSetSearch, setLang }) {
   const th = theme(dark);
   const tx = T[lang];
   const [cat, setCat] = useState("all");
   const [sortBy, setSortBy] = useState("default");
   const [selDeal, setSelDeal] = useState(null);
 
-  const filteredStores = stores.filter(s => cat==="all" || s.products.some(p=>p.category===cat));
-  const filteredDeals = activeDeals
-    .filter(d => cat==="all" || d.category===cat)
-    .sort((a,b) => {
-      if (sortBy==="discount") return b.discount - a.discount;
-      if (sortBy==="rating") return avgRating(stores.find(s=>s.id===b.storeId)?.reviews||[]) - avgRating(stores.find(s=>s.id===a.storeId)?.reviews||[]);
-      if (sortBy==="new") return b.productId > a.productId ? 1 : -1;
-      return 0;
-    });
+  const filteredStores = cat==="all" ? stores : stores.filter(s=>s.products.some(p=>p.category===cat));
+  const filteredDeals = activeDeals.filter(d=>cat==="all"||d.category===cat).sort((a,b)=>{
+    if(sortBy==="discount") return b.discount-a.discount;
+    if(sortBy==="rating") return avgRating(stores.find(s=>s.id===b.storeId)?.reviews||[])-avgRating(stores.find(s=>s.id===a.storeId)?.reviews||[]);
+    return 0;
+  });
 
   const nearby = [...filteredStores].sort(()=>0.5-Math.random()).slice(0,5);
   const topRated = [...stores].filter(s=>s.reviews.length>0).sort((a,b)=>avgRating(b.reviews)-avgRating(a.reviews)).slice(0,4);
@@ -1627,9 +1280,8 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
 
   return (
     <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
-      {/* Sticky Header */}
+      {/* Sticky header */}
       <div style={{background:th.card,borderBottom:`1px solid ${th.border}`,padding:"50px 16px 0",position:"sticky",top:0,zIndex:50}}>
-        {/* Row 1 */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
           <div style={{display:"flex",alignItems:"center",gap:8}}>
             <div style={{width:28,height:28,borderRadius:9,background:"linear-gradient(135deg,#16A34A,#0D6B28)",display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -1637,23 +1289,22 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
             </div>
             <span style={{fontSize:15,fontWeight:800}}><span style={{color:th.text}}>Oson</span><span style={{color:"#16A34A"}}>Top</span></span>
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:8}}>
-            <div style={{background:th.card2,borderRadius:14,padding:2,display:"flex",gap:2}}>
-              {["uz","ru"].map(l=>(
-                <button key={l} onClick={()=>{}} style={{padding:"3px 8px",borderRadius:11,border:"none",background:"transparent",color:th.sub,fontWeight:700,fontSize:10,cursor:"pointer"}}>{l.toUpperCase()}</button>
-              ))}
-            </div>
+          <div style={{background:th.card2,borderRadius:14,padding:2,display:"flex",gap:2}}>
+            {["uz","ru"].map(l=>(
+              <button key={l} onClick={()=>setLang(l)} style={{padding:"3px 8px",borderRadius:11,border:"none",background:lang===l?"#16A34A":"transparent",color:lang===l?"#fff":th.sub,fontWeight:700,fontSize:10,cursor:"pointer"}}>{l.toUpperCase()}</button>
+            ))}
           </div>
         </div>
-        {/* Search bar */}
+        {/* Search */}
         <div style={{position:"relative",marginBottom:10}}>
           <svg style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)"}} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <input placeholder={tx.search} value={searchVal} onChange={e=>onSetSearch(e.target.value)}
             style={{width:"100%",padding:"11px 14px 11px 34px",borderRadius:12,border:"none",background:th.card2,fontSize:14,outline:"none",boxSizing:"border-box",color:th.text}}/>
+          {searchVal && <button onClick={()=>onSetSearch("")} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:th.sub,fontSize:16}}>✕</button>}
         </div>
-        {/* Category filters */}
+        {/* Category chips */}
         <div style={{display:"flex",gap:6,overflowX:"auto",scrollbarWidth:"none",paddingBottom:10}}>
-          {[{id:"all",emoji:"🏷️",uz:"Hammasi",ru:"Все"},...CATS.slice(0,9).map(c=>({...c,uz:CAT_LABELS.uz[c.id]||c.id,ru:CAT_LABELS.ru[c.id]||c.id}))].map(c=>{
+          {[{id:"all",uz:"Hammasi",ru:"Все"},...CATS.map(c=>({id:c.id,uz:CAT_LABELS.uz[c.id]||c.id,ru:CAT_LABELS.ru[c.id]||c.id}))].map(c=>{
             const active=cat===c.id;
             return (
               <button key={c.id} onClick={()=>setCat(c.id)} style={{flexShrink:0,padding:"6px 14px",borderRadius:20,border:`1.5px solid ${active?"#16A34A":th.border}`,background:active?"#16A34A":th.card2,color:active?"#fff":th.sub,fontWeight:600,fontSize:12,cursor:"pointer",whiteSpace:"nowrap"}}>
@@ -1664,13 +1315,13 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
         </div>
       </div>
 
-      {/* GPS location banner */}
+      {/* GPS Location */}
       <div style={{padding:"10px 16px 0"}}>
         <div style={{background:th.card,borderRadius:12,padding:"10px 14px",border:`1px solid ${th.border}`,display:"flex",alignItems:"center",gap:10}}>
           <span style={{fontSize:18}}>📍</span>
           <div>
-            <div style={{fontSize:12,color:th.sub}}>Joylashuvingiz</div>
-            <div style={{fontSize:14,fontWeight:700,color:th.text}} id="location-display">Toshkent</div>
+            <div style={{fontSize:11,color:th.sub}}>{lang==="uz"?"Joylashuvingiz":"Ваше местоположение"}</div>
+            <div style={{fontSize:14,fontWeight:700,color:th.text}} id="loc-display">{lang==="uz"?"Toshkent":"Ташкент"}</div>
           </div>
           <div style={{marginLeft:"auto",fontSize:10,color:"#16A34A",fontWeight:700}}>● GPS</div>
         </div>
@@ -1689,17 +1340,15 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
         </div>
       </div>
 
-      {/* All Categories Grid */}
+      {/* Categories Grid */}
       <div style={{padding:"14px 16px 0"}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-          <h3 style={{fontSize:14,fontWeight:800,color:th.text,margin:0}}>{tx.categories}</h3>
-        </div>
+        <h3 style={{fontSize:14,fontWeight:800,color:th.text,margin:"0 0 10px"}}>{tx.categories}</h3>
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
           {CATS.map(c=>{
             const active=cat===c.id;
             return (
-              <button key={c.id} onClick={()=>setCat(c.id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6,padding:"12px 4px 10px",borderRadius:12,cursor:"pointer",background:active?c.color+"20":th.card,border:`1.5px solid ${active?c.color:th.border}`,transition:"all 0.15s"}}>
-                <div style={{width:40,height:40,borderRadius:12,background:c.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{c.emoji}</div>
+              <button key={c.id} onClick={()=>setCat(c.id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6,padding:"12px 4px 10px",borderRadius:12,cursor:"pointer",background:active?c.color+"20":th.card,border:`1.5px solid ${active?c.color:th.border}`}}>
+                <div style={{width:38,height:38,borderRadius:11,background:c.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>{c.emoji}</div>
                 <span style={{fontSize:9,fontWeight:600,color:active?c.color:th.sub,textAlign:"center",lineHeight:1.2}}>{CAT_LABELS[lang]?.[c.id]||c.id}</span>
               </button>
             );
@@ -1707,7 +1356,7 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
         </div>
       </div>
 
-      {/* Nearby Businesses */}
+      {/* Nearby */}
       <div style={{height:8,background:th.card2,margin:"14px 0 0"}}/>
       <div style={{padding:"14px 16px 0"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
@@ -1728,23 +1377,23 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
         </>
       )}
 
-      {/* New Businesses */}
+      {/* New */}
       <div style={{height:8,background:th.card2,margin:"14px 0 0"}}/>
       <div style={{padding:"14px 16px 0"}}>
         <h3 style={{fontSize:15,fontWeight:800,color:th.text,margin:"0 0 10px"}}>🆕 {tx.newBiz}</h3>
         {newBiz.map(s=><BizCard key={s.id} store={s} lang={lang} dark={dark} onClick={()=>onBizClick(s.id)}/>)}
       </div>
 
-      {/* Special Offers */}
+      {/* Deals */}
       {filteredDeals.length>0 && (
         <>
           <div style={{height:8,background:th.card2,margin:"14px 0 0"}}/>
           <div style={{padding:"14px 16px 0"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
               <h3 style={{fontSize:15,fontWeight:800,color:th.text,margin:0}}>🏷️ {tx.offers} <span style={{fontSize:12,color:th.sub,fontWeight:400}}>({filteredDeals.length})</span></h3>
-              <div style={{display:"flex",gap:6}}>
+              <div style={{display:"flex",gap:5}}>
                 {[["default",tx.sortDefault],["discount",tx.sortDiscount],["rating",tx.sortRating]].map(([v,l])=>(
-                  <button key={v} onClick={()=>setSortBy(v)} style={{padding:"4px 10px",borderRadius:20,border:"none",background:sortBy===v?"#16A34A":th.card2,color:sortBy===v?"#fff":th.sub,fontSize:10,fontWeight:600,cursor:"pointer"}}>{l}</button>
+                  <button key={v} onClick={()=>setSortBy(v)} style={{padding:"4px 9px",borderRadius:20,border:"none",background:sortBy===v?"#16A34A":th.card2,color:sortBy===v?"#fff":th.sub,fontSize:10,fontWeight:600,cursor:"pointer"}}>{l}</button>
                 ))}
               </div>
             </div>
@@ -1758,7 +1407,6 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
         </>
       )}
 
-      {/* Deal detail sheet */}
       {selDeal && (
         <DealDetailSheet deal={selDeal} lang={lang} dark={dark}
           saved={savedKeys.includes(selDeal.key)}
@@ -1772,234 +1420,9 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave,
 
 
 // =====================================================
-// PROFILE TAB
-// =====================================================
-function ProfileTab({ lang, dark, setLang, toggleDark, isGuest, userData, setUserData,
-  myStore, stores, subscriptions, onToggleSub, chatMessages, bookings,
-  onViewBiz, onCreateBiz, onAddProduct, onLogout, onSetProfileView, profileView }) {
-  const th = theme(dark);
-  const tx = T[lang];
-  const [showEdit, setShowEdit] = useState(false);
-  const [showStats, setShowStats] = useState(false);
-
-  if (profileView==="settings") return (
-    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
-      <BackHeader onBack={()=>onSetProfileView("main")} title={"⚙️ "+tx.settings} dark={dark}/>
-      <div style={{padding:16}}>
-        {/* Dark mode */}
-        <div style={{background:th.card,borderRadius:16,overflow:"hidden",marginBottom:12,border:`1px solid ${th.border}`}}>
-          <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:th.sub,borderBottom:`1px solid ${th.border}`}}>{lang==="uz"?"KO'RINISH":"ВНЕШНИЙ ВИД"}</div>
-          <div style={{padding:"16px",display:"flex",alignItems:"center",gap:14}}>
-            <span style={{fontSize:22}}>{dark?"☀️":"🌙"}</span>
-            <span style={{flex:1,fontWeight:600,fontSize:14,color:th.text}}>{tx.darkMode}</span>
-            <Toggle value={dark} onChange={toggleDark} dark={dark}/>
-          </div>
-        </div>
-        {/* Language */}
-        <div style={{background:th.card,borderRadius:16,overflow:"hidden",marginBottom:12,border:`1px solid ${th.border}`}}>
-          <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:th.sub,borderBottom:`1px solid ${th.border}`}}>{lang==="uz"?"TIL":"ЯЗЫК"}</div>
-          <div style={{padding:"12px 16px",display:"flex",gap:10}}>
-            {[["uz","🇺🇿 O'zbekcha"],["ru","🇷🇺 Русский"]].map(([l,label])=>(
-              <button key={l} onClick={()=>setLang(l)} style={{flex:1,padding:"12px 8px",borderRadius:12,cursor:"pointer",border:lang===l?"2px solid #16A34A":`2px solid ${th.border}`,background:lang===l?"#F0FDF4":th.card,color:lang===l?"#16A34A":th.text,fontWeight:700,fontSize:13}}>{label}</button>
-            ))}
-          </div>
-        </div>
-        {/* About */}
-        <div style={{background:th.card,borderRadius:16,overflow:"hidden",marginBottom:16,border:`1px solid ${th.border}`}}>
-          <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:th.sub,borderBottom:`1px solid ${th.border}`}}>{lang==="uz"?"ILOVA":"О ПРИЛОЖЕНИИ"}</div>
-          {[["OsonTop v1.1","Versiya"],["OsonTop Team","Ishlab chiquvchi"],["@osontop_uz","Telegram"]].map(([v,l],i)=>(
-            <div key={i} style={{padding:"13px 16px",display:"flex",justifyContent:"space-between",borderBottom:i<2?`1px solid ${th.border}`:"none"}}>
-              <span style={{fontSize:13,color:th.text}}>{l}</span>
-              <span style={{fontSize:13,color:th.sub,fontWeight:600}}>{v}</span>
-            </div>
-          ))}
-        </div>
-        <Btn ghost onClick={onLogout}>{tx.logout}</Btn>
-      </div>
-    </div>
-  );
-
-  if (profileView==="myChats") return (
-    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
-      <BackHeader onBack={()=>onSetProfileView("main")} title={"💬 "+tx.myChats} dark={dark}/>
-      <div style={{padding:16}}>
-        {Object.keys(chatMessages).length===0 ? (
-          <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}>
-            <div style={{fontSize:52,marginBottom:10}}>💬</div>
-            <div style={{fontWeight:600,fontSize:16}}>{tx.noChats}</div>
-          </div>
-        ) : Object.entries(chatMessages).map(([sid,msgs])=>{
-          const st = stores.find(s=>s.id===sid);
-          if (!st||!msgs.length) return null;
-          const last = msgs[msgs.length-1];
-          return (
-            <div key={sid} onClick={()=>onViewBiz(sid,"chat")} style={{background:th.card,borderRadius:14,padding:"13px 14px",marginBottom:10,display:"flex",alignItems:"center",gap:12,cursor:"pointer",border:`1px solid ${th.border}`}}>
-              <div style={{width:46,height:46,borderRadius:13,background:st.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{st.logo}</div>
-              <div style={{flex:1,minWidth:0}}>
-                <div style={{fontWeight:700,fontSize:14,color:th.text}}>{st.name}</div>
-                <div style={{fontSize:12,color:th.sub,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{last.from==="user"?(lang==="uz"?"Siz: ":"Вы: "):""}{last.text}</div>
-              </div>
-              <div style={{fontSize:10,color:th.sub}}>{new Date(last.time).toLocaleTimeString("uz",{hour:"2-digit",minute:"2-digit"})}</div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  if (profileView==="bookings") return (
-    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
-      <BackHeader onBack={()=>onSetProfileView("main")} title={"📅 "+tx.myBookings} dark={dark}/>
-      <div style={{padding:16}}>
-        {bookings.length===0 ? (
-          <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}>
-            <div style={{fontSize:52,marginBottom:10}}>📅</div>
-            <div style={{fontWeight:600,fontSize:16}}>{tx.noBookings}</div>
-          </div>
-        ) : bookings.map((b,i)=>(
-          <div key={i} style={{background:th.card,borderRadius:14,padding:14,marginBottom:10,border:`1px solid ${th.border}`}}>
-            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
-              <div style={{width:42,height:42,borderRadius:12,background:(b.storeColor||"#16A34A")+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{b.storeLogo||"🏪"}</div>
-              <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:th.text}}>{b.storeName}</div><div style={{fontSize:11,color:th.sub}}>#{b.id}</div></div>
-              <span style={{background:b.status==="confirmed"?"#00B89420":"#FFB40020",color:b.status==="confirmed"?"#00B894":"#FFB400",borderRadius:8,padding:"3px 10px",fontSize:11,fontWeight:700}}>
-                {b.status==="confirmed"?tx.bookConfirmed:tx.bookPending}
-              </span>
-            </div>
-            <div style={{display:"flex",gap:10}}>
-              <div style={{flex:1,background:th.card2,borderRadius:10,padding:"9px 12px"}}><div style={{fontSize:11,color:th.sub}}>{tx.chooseDate}</div><div style={{fontWeight:700,fontSize:13,color:th.text}}>{b.date}</div></div>
-              <div style={{flex:1,background:th.card2,borderRadius:10,padding:"9px 12px"}}><div style={{fontSize:11,color:th.sub}}>{tx.chooseTime}</div><div style={{fontWeight:700,fontSize:13,color:th.text}}>{b.time}</div></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  if (profileView==="subscribed") return (
-    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
-      <BackHeader onBack={()=>onSetProfileView("main")} title={"🔔 "+tx.subscribedStores} dark={dark}/>
-      <div style={{padding:16}}>
-        {subscriptions.length===0 ? (
-          <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}>
-            <div style={{fontSize:52,marginBottom:10}}>🔔</div>
-            <div style={{fontWeight:600,fontSize:16}}>{tx.noSubscribed}</div>
-          </div>
-        ) : subscriptions.map(sid=>{
-          const st=stores.find(s=>s.id===sid); if(!st) return null;
-          return (
-            <div key={sid} onClick={()=>onViewBiz(sid)} style={{background:th.card,borderRadius:14,padding:"13px 14px",marginBottom:10,display:"flex",alignItems:"center",gap:12,cursor:"pointer",border:`1px solid ${th.border}`}}>
-              <div style={{width:44,height:44,borderRadius:12,background:st.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{st.logo}</div>
-              <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:th.text}}>{st.name}</div><div style={{fontSize:12,color:th.sub}}>📍 {st.address}</div></div>
-              <button onClick={e=>{e.stopPropagation();onToggleSub(sid);}} style={{background:"#FF6B6B20",border:"none",borderRadius:10,padding:"6px 10px",color:"#FF6B6B",fontSize:12,fontWeight:700,cursor:"pointer"}}>✕</button>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  // Main profile view
-  return (
-    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
-      {/* Header */}
-      <div style={{background:"linear-gradient(135deg,#16A34A,#0D6B28)",padding:"50px 16px 20px"}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
-          <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <div style={{width:60,height:60,borderRadius:30,background:"rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,border:"2px solid rgba(255,255,255,0.4)",cursor:"pointer"}} onClick={()=>setShowEdit(true)}>
-              {isGuest?"👁️":(userData.photo?"😊":"👤")}
-            </div>
-            <div>
-              <div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{isGuest?(lang==="uz"?"Mehmon":"Гость"):`${userData.name}`}</div>
-              <div style={{fontSize:12,color:"rgba(255,255,255,0.8)"}}>{userData.phone||""}</div>
-            </div>
-          </div>
-          <button onClick={()=>setShowStats(true)} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,padding:"8px 12px",color:"#fff",fontSize:12,fontWeight:700,cursor:"pointer"}}>📊</button>
-        </div>
-        {!isGuest && <button onClick={()=>setShowEdit(true)} style={{background:"rgba(255,255,255,0.15)",border:"1.5px solid rgba(255,255,255,0.4)",borderRadius:12,padding:"8px 18px",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>✏️ {tx.editProfile}</button>}
-      </div>
-
-      <div style={{padding:16}}>
-        {/* Business section */}
-        <button onClick={()=>myStore?onViewBiz(myStore.id):onCreateBiz()} style={{width:"100%",display:"flex",alignItems:"center",gap:12,textAlign:"left",background:"linear-gradient(135deg,#16A34A,#0D6B28)",border:"none",borderRadius:16,padding:"14px 16px",marginBottom:10,cursor:"pointer",boxShadow:"0 4px 16px rgba(22,163,74,0.3)"}}>
-          <span style={{fontSize:24}}>{myStore?myStore.logo:"🏪"}</span>
-          <span style={{flex:1}}>
-            <span style={{display:"block",fontWeight:800,fontSize:14,color:"#fff"}}>{myStore?myStore.name:tx.myStore}</span>
-            <span style={{display:"block",fontSize:11,color:"rgba(255,255,255,0.85)",marginTop:2}}>{myStore?`${myStore.products.length} ${tx.products.toLowerCase()}`:tx.createBizSub}</span>
-          </span>
-          <span style={{color:"#fff",fontSize:18}}>›</span>
-        </button>
-
-        {[
-          {icon:"💬",label:tx.myChats,count:Object.keys(chatMessages).length,view:"myChats"},
-          {icon:"📅",label:tx.myBookings,count:bookings.filter(b=>b.status==="pending").length,view:"bookings"},
-          {icon:"🔔",label:tx.subscribedStores,count:subscriptions.length,view:"subscribed"},
-          {icon:"⚙️",label:tx.settings,count:0,view:"settings"},
-        ].map((item,i)=>(
-          <div key={i} onClick={()=>onSetProfileView(item.view)} style={{background:th.card,borderRadius:14,padding:"14px 16px",marginBottom:8,display:"flex",alignItems:"center",gap:12,cursor:"pointer",border:`1px solid ${th.border}`}}>
-            <span style={{fontSize:22}}>{item.icon}</span>
-            <span style={{flex:1,fontWeight:600,fontSize:14,color:th.text}}>{item.label}</span>
-            {item.count>0 && <span style={{background:"#16A34A",color:"#fff",borderRadius:8,padding:"2px 8px",fontSize:12,fontWeight:700}}>{item.count}</span>}
-            <span style={{color:th.sub2}}>›</span>
-          </div>
-        ))}
-
-        <div style={{marginTop:6}}><Btn ghost onClick={onLogout}>{tx.logout}</Btn></div>
-      </div>
-
-      {/* Stats Modal */}
-      {showStats && (
-        <Sheet onClose={()=>setShowStats(false)} dark={dark} maxH="85vh">
-          <h3 style={{fontSize:17,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>📊 {tx.stats}</h3>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
-            {[
-              {icon:"❤️",value:0,label:"Saqlangan",color:"#FF6B6B"},
-              {icon:"💬",value:Object.keys(chatMessages).length,label:tx.myChats,color:"#16A34A"},
-              {icon:"📅",value:bookings.length,label:tx.bookings,color:"#0984E3"},
-              {icon:"🔔",value:subscriptions.length,label:tx.subscribedStores,color:"#FFB400"},
-              ...(myStore?[
-                {icon:"📦",value:myStore.products.length,label:tx.products,color:"#6C5CE7"},
-                {icon:"👁️",value:myStore.views||0,label:tx.views,color:"#00B894"},
-              ]:[]),
-            ].map((s,i)=>(
-              <div key={i} style={{background:th.card2,borderRadius:14,padding:"12px 8px",textAlign:"center",border:`1px solid ${th.border}`}}>
-                <div style={{fontSize:24}}>{s.icon}</div>
-                <div style={{fontSize:20,fontWeight:900,color:s.color,margin:"4px 0"}}>{s.value}</div>
-                <div style={{fontSize:10,color:th.sub}}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-          <Btn onClick={()=>setShowStats(false)}>{lang==="uz"?"Yopish":"Закрыть"}</Btn>
-        </Sheet>
-      )}
-
-      {/* Edit profile sheet */}
-      {showEdit && (
-        <Sheet onClose={()=>setShowEdit(false)} dark={dark} maxH="65vh">
-          <h3 style={{fontSize:16,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>{tx.editProfile}</h3>
-          {[
-            {label:tx.enterName,key:"name",ph:lang==="uz"?"Ismingiz":"Ваше имя"},
-            {label:lang==="uz"?"Familiya":"Фамилия",key:"surname",ph:""},
-            {label:tx.enterPhone,key:"phone",ph:"+998 90 ..."},
-          ].map((f,i)=>(
-            <div key={i}>
-              <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{f.label}</label>
-              <input placeholder={f.ph} value={userData[f.key]||""} onChange={e=>setUserData(p=>({...p,[f.key]:e.target.value}))}
-                style={{width:"100%",padding:"12px 14px",borderRadius:12,border:`1.5px solid ${th.border}`,background:th.card2,color:th.text,fontSize:14,outline:"none",boxSizing:"border-box",marginBottom:12}}/>
-            </div>
-          ))}
-          <Btn onClick={()=>setShowEdit(false)}>{tx.save}</Btn>
-          <div style={{marginTop:10}}><Btn ghost onClick={()=>setShowEdit(false)}>{tx.cancel}</Btn></div>
-        </Sheet>
-      )}
-    </div>
-  );
-}
-
-
-// =====================================================
 // SAVED TAB
 // =====================================================
-function SavedTab({ lang, dark, savedDeals, onDealClick, onToggleSave, savedKeys }) {
+function SavedTab({ lang, dark, savedDeals, onDealClick, onToggleSave }) {
   const th = theme(dark);
   const tx = T[lang];
   return (
@@ -2011,7 +1434,7 @@ function SavedTab({ lang, dark, savedDeals, onDealClick, onToggleSave, savedKeys
         {savedDeals.length===0 ? (
           <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}>
             <div style={{fontSize:56,marginBottom:12}}>🤍</div>
-            <div style={{fontWeight:600,fontSize:16,color:th.text}}>{lang==="uz"?"Hali hech narsa saqlanmagan":"Ничего не сохранено"}</div>
+            <div style={{fontWeight:600,fontSize:16,color:th.text}}>{tx.nothingSaved}</div>
             <div style={{fontSize:13,marginTop:6}}>❤️ {lang==="uz"?"bosib saqlab qo'ying":"нажмите чтобы сохранить"}</div>
           </div>
         ) : savedDeals.map(deal=>(
@@ -2036,15 +1459,13 @@ function SavedTab({ lang, dark, savedDeals, onDealClick, onToggleSave, savedKeys
 }
 
 // =====================================================
-// ADD SHEET (+ button)
+// ADD SHEET
 // =====================================================
-function AddSheet({ lang, dark, hasStore, onClose, onCreateBiz, onAddProduct }) {
+function AddSheet({ lang, dark, onClose, onCreateBiz, onAddProduct }) {
   const th = theme(dark);
   return (
-    <Sheet onClose={onClose} dark={dark} maxH="35vh">
-      <h3 style={{fontWeight:800,fontSize:16,color:th.text,textAlign:"center",marginBottom:18}}>
-        {lang==="uz"?"Nima qo'shmoqchisiz?":"Что хотите добавить?"}
-      </h3>
+    <Sheet onClose={onClose} dark={dark} maxH="32vh">
+      <h3 style={{fontWeight:800,fontSize:16,color:th.text,textAlign:"center",marginBottom:18}}>{lang==="uz"?"Nima qo'shmoqchisiz?":"Что хотите добавить?"}</h3>
       {[
         {icon:"🏪",label:lang==="uz"?"Biznes yaratish":"Создать бизнес",desc:lang==="uz"?"Biznesingizni ro'yxatga oling":"Зарегистрируйте бизнес",action:()=>{onClose();onCreateBiz();}},
         {icon:"📦",label:lang==="uz"?"Mahsulot / Xizmat qo'shish":"Добавить товар / услугу",desc:lang==="uz"?"Do'koningizga qo'shing":"Добавьте в свой магазин",action:()=>{onClose();onAddProduct();}},
@@ -2063,30 +1484,192 @@ function AddSheet({ lang, dark, hasStore, onClose, onCreateBiz, onAddProduct }) 
 }
 
 // =====================================================
-// PWA INSTALL PROMPT
+// PROFILE TAB
 // =====================================================
-function PWAPrompt({ dark }) {
+function ProfileTab({ lang, dark, setLang, toggleDark, isGuest, userData, setUserData, myStore, stores, subscriptions, onToggleSub, chatMessages, bookings, onViewBiz, onCreateBiz, onAddProduct, onLogout, profileView, onSetProfileView }) {
   const th = theme(dark);
-  const [prompt, setPrompt] = useState(null);
-  const [show, setShow] = useState(false);
-  useEffect(()=>{
-    if (window.matchMedia?.("(display-mode: standalone)")?.matches) return;
-    const h = e => { e.preventDefault(); setPrompt(e); setTimeout(()=>setShow(true),4000); };
-    window.addEventListener("beforeinstallprompt", h);
-    return () => window.removeEventListener("beforeinstallprompt", h);
-  },[]);
-  if (!show) return null;
+  const tx = T[lang];
+  const [showEdit, setShowEdit] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+
+  if (profileView==="settings") return (
+    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
+      <BackHeader onBack={()=>onSetProfileView("main")} title={"⚙️ "+tx.settings} dark={dark}/>
+      <div style={{padding:16}}>
+        <div style={{background:th.card,borderRadius:16,overflow:"hidden",marginBottom:12,border:`1px solid ${th.border}`}}>
+          <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:th.sub,borderBottom:`1px solid ${th.border}`}}>{lang==="uz"?"KO'RINISH":"ВНЕШНИЙ ВИД"}</div>
+          <div style={{padding:"16px",display:"flex",alignItems:"center",gap:14}}>
+            <span style={{fontSize:22}}>{dark?"☀️":"🌙"}</span>
+            <span style={{flex:1,fontWeight:600,fontSize:14,color:th.text}}>{tx.darkMode}</span>
+            <Toggle value={dark} onChange={toggleDark}/>
+          </div>
+        </div>
+        <div style={{background:th.card,borderRadius:16,overflow:"hidden",marginBottom:12,border:`1px solid ${th.border}`}}>
+          <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:th.sub,borderBottom:`1px solid ${th.border}`}}>{lang==="uz"?"TIL":"ЯЗЫК"}</div>
+          <div style={{padding:"12px 16px",display:"flex",gap:10}}>
+            {[["uz","🇺🇿 O'zbekcha"],["ru","🇷🇺 Русский"]].map(([l,label])=>(
+              <button key={l} onClick={()=>setLang(l)} style={{flex:1,padding:"12px 8px",borderRadius:12,cursor:"pointer",border:lang===l?"2px solid #16A34A":`2px solid ${th.border}`,background:lang===l?"#F0FDF4":th.card,color:lang===l?"#16A34A":th.text,fontWeight:700,fontSize:13}}>{label}</button>
+            ))}
+          </div>
+        </div>
+        <div style={{background:th.card,borderRadius:16,overflow:"hidden",marginBottom:16,border:`1px solid ${th.border}`}}>
+          <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:th.sub,borderBottom:`1px solid ${th.border}`}}>OSONTOP</div>
+          {[["OsonTop v1.1","Versiya"],["OsonTop Team","Jamoa"],["@osontop_uz","Telegram"]].map(([v,l],i)=>(
+            <div key={i} style={{padding:"13px 16px",display:"flex",justifyContent:"space-between",borderBottom:i<2?`1px solid ${th.border}`:"none"}}>
+              <span style={{fontSize:13,color:th.text}}>{l}</span>
+              <span style={{fontSize:13,color:th.sub,fontWeight:600}}>{v}</span>
+            </div>
+          ))}
+        </div>
+        <Btn ghost onClick={onLogout}>{tx.logout}</Btn>
+      </div>
+    </div>
+  );
+
+  if (profileView==="myChats") return (
+    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
+      <BackHeader onBack={()=>onSetProfileView("main")} title={"💬 "+tx.myChats} dark={dark}/>
+      <div style={{padding:16}}>
+        {Object.keys(chatMessages).length===0 ? (
+          <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}><div style={{fontSize:52,marginBottom:10}}>💬</div><div style={{fontWeight:600,fontSize:16}}>{tx.noChats}</div></div>
+        ) : Object.entries(chatMessages).map(([sid,msgs])=>{
+          const st=stores.find(s=>s.id===sid); if(!st||!msgs.length) return null;
+          const last=msgs[msgs.length-1];
+          return (
+            <div key={sid} onClick={()=>onViewBiz(sid,"chat")} style={{background:th.card,borderRadius:14,padding:"13px 14px",marginBottom:10,display:"flex",alignItems:"center",gap:12,cursor:"pointer",border:`1px solid ${th.border}`}}>
+              <div style={{width:46,height:46,borderRadius:13,background:st.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{st.logo}</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontWeight:700,fontSize:14,color:th.text}}>{st.name}</div>
+                <div style={{fontSize:12,color:th.sub,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{last.from==="user"?(lang==="uz"?"Siz: ":"Вы: "):""}{last.text}</div>
+              </div>
+              <div style={{fontSize:10,color:th.sub}}>{new Date(last.time).toLocaleTimeString("uz",{hour:"2-digit",minute:"2-digit"})}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  if (profileView==="bookings") return (
+    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
+      <BackHeader onBack={()=>onSetProfileView("main")} title={"📅 "+tx.myBookings} dark={dark}/>
+      <div style={{padding:16}}>
+        {bookings.length===0 ? (
+          <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}><div style={{fontSize:52,marginBottom:10}}>📅</div><div style={{fontWeight:600,fontSize:16}}>{tx.noBookings}</div></div>
+        ) : bookings.map((b,i)=>(
+          <div key={i} style={{background:th.card,borderRadius:14,padding:14,marginBottom:10,border:`1px solid ${th.border}`}}>
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+              <div style={{width:42,height:42,borderRadius:12,background:(b.storeColor||"#16A34A")+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>{b.storeLogo||"🏪"}</div>
+              <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:th.text}}>{b.storeName}</div><div style={{fontSize:11,color:th.sub}}>#{b.id}</div></div>
+              <span style={{background:b.status==="confirmed"?"#00B89420":"#FFB40020",color:b.status==="confirmed"?"#00B894":"#FFB400",borderRadius:8,padding:"3px 10px",fontSize:11,fontWeight:700}}>{b.status==="confirmed"?tx.bookConfirmed:tx.bookPending}</span>
+            </div>
+            <div style={{display:"flex",gap:10}}>
+              <div style={{flex:1,background:th.card2,borderRadius:10,padding:"9px 12px"}}><div style={{fontSize:11,color:th.sub}}>{tx.chooseDate}</div><div style={{fontWeight:700,fontSize:13,color:th.text}}>{b.date}</div></div>
+              <div style={{flex:1,background:th.card2,borderRadius:10,padding:"9px 12px"}}><div style={{fontSize:11,color:th.sub}}>{tx.chooseTime}</div><div style={{fontWeight:700,fontSize:13,color:th.text}}>{b.time}</div></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (profileView==="subscribed") return (
+    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
+      <BackHeader onBack={()=>onSetProfileView("main")} title={"🔔 "+tx.subscribedStores} dark={dark}/>
+      <div style={{padding:16}}>
+        {subscriptions.length===0 ? (
+          <div style={{textAlign:"center",padding:"60px 0",color:th.sub}}><div style={{fontSize:52,marginBottom:10}}>🔔</div><div style={{fontWeight:600,fontSize:16}}>{tx.noSubscribed}</div></div>
+        ) : subscriptions.map(sid=>{
+          const st=stores.find(s=>s.id===sid); if(!st) return null;
+          return (
+            <div key={sid} onClick={()=>onViewBiz(sid)} style={{background:th.card,borderRadius:14,padding:"13px 14px",marginBottom:10,display:"flex",alignItems:"center",gap:12,cursor:"pointer",border:`1px solid ${th.border}`}}>
+              <div style={{width:44,height:44,borderRadius:12,background:st.color+"20",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{st.logo}</div>
+              <div style={{flex:1}}><div style={{fontWeight:700,fontSize:14,color:th.text}}>{st.name}</div><div style={{fontSize:12,color:th.sub}}>📍 {st.address}</div></div>
+              <button onClick={e=>{e.stopPropagation();onToggleSub(sid);}} style={{background:"#FF6B6B20",border:"none",borderRadius:10,padding:"6px 10px",color:"#FF6B6B",fontSize:12,fontWeight:700,cursor:"pointer"}}>✕</button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
-    <div style={{position:"fixed",bottom:90,left:"50%",transform:"translateX(-50%)",width:"calc(100% - 32px)",maxWidth:398,background:th.card,borderRadius:16,padding:"14px 16px",boxShadow:"0 8px 32px rgba(0,0,0,0.4)",border:`1px solid ${th.border}`,zIndex:999,display:"flex",alignItems:"center",gap:12}}>
-      <div style={{width:44,height:44,borderRadius:12,background:"linear-gradient(135deg,#16A34A,#0D6B28)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-        <span style={{color:"#fff",fontWeight:900,fontSize:22}}>O</span>
+    <div style={{background:th.bg,minHeight:"100vh",paddingBottom:90}}>
+      <div style={{background:"linear-gradient(135deg,#16A34A,#0D6B28)",padding:"50px 16px 20px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
+          <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <div style={{width:60,height:60,borderRadius:30,background:"rgba(255,255,255,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,border:"2px solid rgba(255,255,255,0.4)",cursor:"pointer"}} onClick={()=>!isGuest&&setShowEdit(true)}>
+              {isGuest?"👁️":"👤"}
+            </div>
+            <div>
+              <div style={{fontSize:16,fontWeight:800,color:"#fff"}}>{isGuest?(lang==="uz"?"Mehmon":"Гость"):userData.name||lang==="uz"?"Foydalanuvchi":"Пользователь"}</div>
+              <div style={{fontSize:12,color:"rgba(255,255,255,0.8)"}}>{userData.phone||""}</div>
+            </div>
+          </div>
+          <button onClick={()=>setShowStats(true)} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,padding:"8px 12px",color:"#fff",fontSize:12,fontWeight:700,cursor:"pointer"}}>📊</button>
+        </div>
+        {!isGuest && <button onClick={()=>setShowEdit(true)} style={{background:"rgba(255,255,255,0.15)",border:"1.5px solid rgba(255,255,255,0.4)",borderRadius:12,padding:"8px 18px",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>✏️ {tx.editProfile}</button>}
       </div>
-      <div style={{flex:1}}>
-        <div style={{fontWeight:700,fontSize:13,color:th.text}}>OsonTop o'rnatish</div>
-        <div style={{fontSize:11,color:th.sub}}>Tezroq ishlaydi, offline ham!</div>
+      <div style={{padding:16}}>
+        <button onClick={()=>myStore?onViewBiz(myStore.id):onCreateBiz()} style={{width:"100%",display:"flex",alignItems:"center",gap:12,textAlign:"left",background:"linear-gradient(135deg,#16A34A,#0D6B28)",border:"none",borderRadius:16,padding:"14px 16px",marginBottom:10,cursor:"pointer",boxShadow:"0 4px 16px rgba(22,163,74,0.3)"}}>
+          <span style={{fontSize:24}}>{myStore?myStore.logo:"🏪"}</span>
+          <span style={{flex:1}}>
+            <span style={{display:"block",fontWeight:800,fontSize:14,color:"#fff"}}>{myStore?myStore.name:tx.myStore}</span>
+            <span style={{display:"block",fontSize:11,color:"rgba(255,255,255,0.85)",marginTop:2}}>{myStore?`${myStore.products.length} ${tx.products.toLowerCase()}`:tx.createBizSub}</span>
+          </span>
+          <span style={{color:"#fff",fontSize:18}}>›</span>
+        </button>
+        {[
+          {icon:"💬",label:tx.myChats,count:Object.keys(chatMessages).length,view:"myChats"},
+          {icon:"📅",label:tx.myBookings,count:bookings.filter(b=>b.status==="pending").length,view:"bookings"},
+          {icon:"🔔",label:tx.subscribedStores,count:subscriptions.length,view:"subscribed"},
+          {icon:"⚙️",label:tx.settings,count:0,view:"settings"},
+        ].map((item,i)=>(
+          <div key={i} onClick={()=>onSetProfileView(item.view)} style={{background:th.card,borderRadius:14,padding:"14px 16px",marginBottom:8,display:"flex",alignItems:"center",gap:12,cursor:"pointer",border:`1px solid ${th.border}`}}>
+            <span style={{fontSize:22}}>{item.icon}</span>
+            <span style={{flex:1,fontWeight:600,fontSize:14,color:th.text}}>{item.label}</span>
+            {item.count>0 && <span style={{background:"#16A34A",color:"#fff",borderRadius:8,padding:"2px 8px",fontSize:12,fontWeight:700}}>{item.count}</span>}
+            <span style={{color:th.sub2}}>›</span>
+          </div>
+        ))}
+        <div style={{marginTop:6}}><Btn ghost onClick={onLogout}>{tx.logout}</Btn></div>
       </div>
-      <button onClick={()=>setShow(false)} style={{padding:"6px 10px",borderRadius:9,background:th.card2,border:"none",color:th.sub,fontSize:11,cursor:"pointer"}}>Keyinroq</button>
-      <button onClick={async()=>{if(prompt){prompt.prompt();await prompt.userChoice;}setShow(false);}} style={{padding:"6px 12px",borderRadius:9,background:"#16A34A",border:"none",color:"#fff",fontSize:11,fontWeight:700,cursor:"pointer"}}>O'rnatish</button>
+
+      {showStats && (
+        <Sheet onClose={()=>setShowStats(false)} dark={dark} maxH="75vh">
+          <h3 style={{fontSize:17,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>📊 {tx.stats}</h3>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:16}}>
+            {[
+              {icon:"❤️",value:0,label:lang==="uz"?"Saqlangan":"Сохранено",color:"#FF6B6B"},
+              {icon:"💬",value:Object.keys(chatMessages).length,label:tx.myChats,color:"#16A34A"},
+              {icon:"📅",value:bookings.length,label:tx.bookings,color:"#0984E3"},
+              {icon:"🔔",value:subscriptions.length,label:tx.subscribedStores,color:"#FFB400"},
+              ...(myStore?[{icon:"📦",value:myStore.products.length,label:tx.products,color:"#6C5CE7"},{icon:"👁️",value:myStore.views||0,label:tx.views,color:"#00B894"}]:[]),
+            ].map((s,i)=>(
+              <div key={i} style={{background:th.card2,borderRadius:14,padding:"12px 8px",textAlign:"center",border:`1px solid ${th.border}`}}>
+                <div style={{fontSize:22}}>{s.icon}</div>
+                <div style={{fontSize:20,fontWeight:900,color:s.color,margin:"4px 0"}}>{s.value}</div>
+                <div style={{fontSize:9,color:th.sub}}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <Btn onClick={()=>setShowStats(false)}>{lang==="uz"?"Yopish":"Закрыть"}</Btn>
+        </Sheet>
+      )}
+
+      {showEdit && (
+        <Sheet onClose={()=>setShowEdit(false)} dark={dark} maxH="60vh">
+          <h3 style={{fontSize:16,fontWeight:800,color:th.text,marginBottom:16,textAlign:"center"}}>{tx.editProfile}</h3>
+          {[{label:tx.enterName,key:"name",ph:lang==="uz"?"Ismingiz":"Ваше имя"},{label:"Familiya",key:"surname",ph:""},{label:tx.enterPhone,key:"phone",ph:"+998 90 ..."}].map((f,i)=>(
+            <div key={i}>
+              <label style={{fontSize:13,color:th.sub,marginBottom:6,fontWeight:600,display:"block"}}>{f.label}</label>
+              <input placeholder={f.ph} value={userData[f.key]||""} onChange={e=>setUserData(p=>({...p,[f.key]:e.target.value}))} style={{width:"100%",padding:"12px 14px",borderRadius:12,border:`1.5px solid ${th.border}`,background:th.card2,color:th.text,fontSize:14,outline:"none",boxSizing:"border-box",marginBottom:12}}/>
+            </div>
+          ))}
+          <Btn onClick={()=>setShowEdit(false)}>{tx.save}</Btn>
+          <div style={{marginTop:10}}><Btn ghost onClick={()=>setShowEdit(false)}>{tx.cancel}</Btn></div>
+        </Sheet>
+      )}
     </div>
   );
 }
@@ -2103,18 +1686,15 @@ export default function App() {
   const [isGuest, setIsGuest] = useState(false);
   const [lang, setLang] = useState(saved0?.lang ?? "uz");
   const [userData, setUserData] = useState(saved0?.userData ?? {name:"",surname:"",phone:"",photo:""});
-  const [stores, setStores] = useState(saved0?.stores || DEMO_STORES);
+  const [stores, setStores] = useState(()=>saved0?.stores || DEMO_STORES);
   const [myStoreId, setMyStoreId] = useState(saved0?.myStoreId ?? null);
   const [savedKeys, setSavedKeys] = useState(saved0?.savedKeys ?? []);
   const [subscriptions, setSubscriptions] = useState(saved0?.subs ?? []);
   const [bookings, setBookings] = useState(saved0?.bookings ?? []);
   const [chatMessages, setChatMessages] = useState(saved0?.chatMessages ?? {});
-  const [notifications, setNotifications] = useState(saved0?.notifs ?? []);
-
   const [activeTab, setActiveTab] = useState("home");
   const [profileView, setProfileView] = useState("main");
   const [viewBizId, setViewBizId] = useState(null);
-  const [viewBizAction, setViewBizAction] = useState(null); // "chat" | "book" | null
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showCreateBiz, setShowCreateBiz] = useState(false);
   const [showAddSheet, setShowAddSheet] = useState(false);
@@ -2123,45 +1703,30 @@ export default function App() {
   const [searchVal, setSearchVal] = useState("");
 
   const th = theme(dark);
-  const tx = T[lang];
 
-  // Persist
-  useEffect(()=>{
-    saveLS({onboarded,lang,userData,stores,myStoreId,savedKeys,subs:subscriptions,bookings,chatMessages,notifs:notifications});
-  },[onboarded,lang,userData,stores,myStoreId,savedKeys,subscriptions,bookings,chatMessages,notifications]);
+  useEffect(()=>{ saveLS({onboarded,lang,userData,stores,myStoreId,savedKeys,subs:subscriptions,bookings,chatMessages}); },[onboarded,lang,userData,stores,myStoreId,savedKeys,subscriptions,bookings,chatMessages]);
 
-  // GPS location name
+  // GPS location
   useEffect(()=>{
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(pos=>{
       const r = detectRegion(pos.coords.latitude, pos.coords.longitude);
-      const el = document.getElementById("location-display");
+      const el = document.getElementById("loc-display");
       if (el) el.textContent = lang==="ru" ? r.ru : r.uz;
     },()=>{});
   },[lang]);
 
   // Expire cleanup
   useEffect(()=>{
-    const timer = setInterval(()=>{
-      setStores(prev=>prev.map(st=>({...st,products:st.products.map(p=>p.discount&&isExpired(p.discount.expiryDate)?{...p,discount:null}:p)})));
-    },60000);
+    const timer = setInterval(()=>{ setStores(prev=>prev.map(st=>({...st,products:st.products.map(p=>p.discount&&isExpired(p.discount.expiryDate)?{...p,discount:null}:p)}))); },60000);
     return ()=>clearInterval(timer);
   },[]);
 
-  // Derived: activeDeals
+  // Active deals
   const activeDeals = [];
   stores.forEach(st=>st.products.forEach(p=>{
     if (p.active!==false && p.discount && !isExpired(p.discount.expiryDate)) {
-      activeDeals.push({
-        key:`${st.id}:${p.id}`, storeId:st.id, productId:p.id,
-        storeName:st.name, storeAddress:st.address, storePhone:st.phone,
-        category:p.category, title:p.name, description:p.description,
-        params:p.params, originalPrice:p.originalPrice, discount:p.discount.percent,
-        expiryDate:p.discount.expiryDate, photos:p.photos, logo:st.logo,
-        color:st.color, lat:st.lat, lng:st.lng, reviews:p.reviews||[],
-        delivery:p.delivery, deliveryPrice:p.deliveryPrice,
-        verified:st.verified,
-      });
+      activeDeals.push({key:`${st.id}:${p.id}`,storeId:st.id,productId:p.id,storeName:st.name,storeAddress:st.address,storePhone:st.phone,category:p.category,title:p.name,description:p.description,params:p.params,originalPrice:p.originalPrice,discount:p.discount.percent,expiryDate:p.discount.expiryDate,photos:p.photos,logo:st.logo,color:st.color,lat:st.lat,lng:st.lng,reviews:p.reviews||[],delivery:p.delivery,deliveryPrice:p.deliveryPrice,verified:st.verified});
     }
   }));
 
@@ -2169,84 +1734,51 @@ export default function App() {
   const viewStore = viewBizId ? stores.find(s=>s.id===viewBizId) : null;
   const savedDeals = activeDeals.filter(d=>savedKeys.includes(d.key));
 
-  // Actions
   const toggleSave = key => setSavedKeys(p=>p.includes(key)?p.filter(x=>x!==key):[...p,key]);
   const toggleSub = sid => setSubscriptions(p=>p.includes(sid)?p.filter(x=>x!==sid):[...p,sid]);
 
-  const createBiz = (bizData) => {
-    setStores(p=>[...p,bizData]);
-    setMyStoreId(bizData.id);
-    setShowCreateBiz(false);
-    setViewBizId(bizData.id);
-    setActiveTab("profile");
-  };
-
-  const addProduct = (storeId, prod) => {
-    setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:[prod,...s.products]}));
-    setShowAddProduct(false);
-    setViewBizId(storeId);
-  };
-
-  const applyDiscount = (storeId, prodId, disc) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==prodId?pr:{...pr,discount:disc})}));
-  const removeDiscount = (storeId, prodId) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==prodId?pr:{...pr,discount:null})}));
-  const deleteProduct = (storeId, prodId) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.filter(pr=>pr.id!==prodId)}));
-  const editProduct = (storeId, prodId, upd) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==prodId?pr:{...pr,...upd})}));
-  const toggleActive = (storeId, prodId, val) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==prodId?pr:{...pr,active:val})}));
-  const duplicateProd = (storeId, prodId) => {
-    const st = stores.find(s=>s.id===storeId);
-    const pr = st?.products.find(p=>p.id===prodId);
-    if (!pr) return;
-    const copy = {...pr, id:"prod-"+Date.now(), name:{uz:(pr.name?.uz||"")+" (nusxa)",ru:(pr.name?.ru||"")+" (копия)"}, discount:null};
-    setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:[copy,...s.products]}));
-  };
-  const rateProduct = (storeId, prodId, review) => {
-    const author = userData.name || (lang==="uz"?"Mehmon":"Гость");
-    setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==prodId?pr:{...pr,reviews:[...(pr.reviews||[]),{...review,author}]})}));
-  };
-  const rateStore = (storeId, review) => {
-    const author = userData.name || (lang==="uz"?"Mehmon":"Гость");
-    setStores(p=>p.map(s=>s.id!==storeId?s:{...s,reviews:[...s.reviews,{...review,author}]}));
-  };
-  const sendChat = (storeId, msg) => setChatMessages(p=>({...p,[storeId]:[...(p[storeId]||[]),msg]}));
-
+  const createBiz = bizData => { setStores(p=>[...p,bizData]); setMyStoreId(bizData.id); setShowCreateBiz(false); setViewBizId(bizData.id); };
+  const addProduct = (storeId,prod) => { setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:[prod,...s.products]})); setShowAddProduct(false); };
+  const applyDiscount = (storeId,pid,disc) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==pid?pr:{...pr,discount:disc})}));
+  const removeDiscount = (storeId,pid) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==pid?pr:{...pr,discount:null})}));
+  const deleteProduct = (storeId,pid) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.filter(pr=>pr.id!==pid)}));
+  const editProduct = (storeId,pid,upd) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==pid?pr:{...pr,...upd})}));
+  const toggleActive = (storeId,pid,val) => setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==pid?pr:{...pr,active:val})}));
+  const duplicateProd = (storeId,pid) => { const st=stores.find(s=>s.id===storeId); const pr=st?.products.find(p=>p.id===pid); if(!pr) return; setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:[{...pr,id:"prod-"+Date.now(),name:{uz:(pr.name?.uz||"")+" (nusxa)",ru:(pr.name?.ru||"")+" (копия)"},discount:null},...s.products]})); };
+  const rateProduct = (storeId,pid,review) => { const author=userData.name||(lang==="uz"?"Mehmon":"Гость"); setStores(p=>p.map(s=>s.id!==storeId?s:{...s,products:s.products.map(pr=>pr.id!==pid?pr:{...pr,reviews:[...(pr.reviews||[]),{...review,author}]})})); };
+  const rateStore = (storeId,review) => { const author=userData.name||(lang==="uz"?"Mehmon":"Гость"); setStores(p=>p.map(s=>s.id!==storeId?s:{...s,reviews:[...s.reviews,{...review,author}]})); };
+  const sendChat = (storeId,msg) => setChatMessages(p=>({...p,[storeId]:[...(p[storeId]||[]),msg]}));
   const handleLogout = () => { setOnboarded(false); setIsGuest(false); setUserData({name:"",surname:"",phone:"",photo:""}); saveLS(null); };
-  const handleOnboardDone = ({name, phone}) => { setUserData(p=>({...p,name,phone})); setOnboarded(true); };
-  const handleGuest = () => { setIsGuest(true); setOnboarded(true); };
 
-  // Onboarding guard
+  // Onboarding
   if (!onboarded && !isGuest) return (
     <div style={{maxWidth:430,margin:"0 auto",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
-      <Onboarding lang={lang} setLang={setLang} dark={dark} onDone={handleOnboardDone} onGuest={handleGuest}/>
+      <Onboarding lang={lang} setLang={setLang} dark={dark}
+        onDone={({name,phone})=>{setUserData(p=>({...p,name,phone}));setOnboarded(true);}}
+        onGuest={()=>{setIsGuest(true);setOnboarded(true);}}/>
     </div>
   );
 
-  // --- Fullscreen overlays ---
-
-  // Create business wizard
   if (showCreateBiz) return (
     <div style={{maxWidth:430,margin:"0 auto",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
       <CreateBizWizard lang={lang} dark={dark} userData={userData} onCreate={createBiz} onCancel={()=>setShowCreateBiz(false)}/>
     </div>
   );
 
-  // Add product form
   if (showAddProduct && myStore) return (
     <div style={{maxWidth:430,margin:"0 auto",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
-      <AddProductForm store={myStore} lang={lang} dark={dark}
-        onCancel={()=>setShowAddProduct(false)}
-        onSubmit={prod=>addProduct(myStore.id, prod)}/>
+      <AddProductForm store={myStore} lang={lang} dark={dark} onCancel={()=>setShowAddProduct(false)} onSubmit={prod=>addProduct(myStore.id,prod)}/>
     </div>
   );
 
-  // Business profile view
   if (viewStore) {
     const isOwner = viewStore.id === myStoreId;
     return (
       <div style={{maxWidth:430,margin:"0 auto",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
         <BizProfile store={viewStore} lang={lang} dark={dark}
           isOwner={isOwner} isSub={subscriptions.includes(viewStore.id)}
-          bookings={bookings} coupons={[]} chatMsgs={chatMessages}
-          onBack={()=>{ setViewBizId(null); setViewBizAction(null); }}
+          bookings={bookings}
+          onBack={()=>setViewBizId(null)}
           onToggleSub={()=>toggleSub(viewStore.id)}
           onAddProduct={()=>setShowAddProduct(true)}
           onApplyDiscount={(pid,d)=>applyDiscount(viewStore.id,pid,d)}
@@ -2258,87 +1790,35 @@ export default function App() {
           onRateProduct={(pid,r)=>rateProduct(viewStore.id,pid,r)}
           onRateStore={r=>rateStore(viewStore.id,r)}
           onBook={()=>setBookStore(viewStore)}
-          onChat={()=>setChatStore(viewStore)}
-          onOpenDeal={(sid,pid)=>{ setViewBizId(null); }}/>
-        {chatStore && <ChatModal store={chatStore} lang={lang} dark={dark}
-          messages={chatMessages[chatStore.id]||[]}
-          onClose={()=>setChatStore(null)}
-          onSend={msg=>sendChat(chatStore.id,msg)}/>}
-        {bookStore && <BookingModal store={bookStore} lang={lang} dark={dark}
-          onClose={()=>setBookStore(null)}
-          onSuccess={b=>{setBookings(p=>[b,...p]);setBookStore(null);}}/>}
+          onChat={()=>setChatStore(viewStore)}/>
+        {chatStore && <ChatModal store={chatStore} lang={lang} dark={dark} messages={chatMessages[chatStore.id]||[]} onClose={()=>setChatStore(null)} onSend={msg=>sendChat(chatStore.id,msg)}/>}
+        {bookStore && <BookingModal store={bookStore} lang={lang} dark={dark} onClose={()=>setBookStore(null)} onSuccess={b=>{setBookings(p=>[b,...p]);setBookStore(null);}}/>}
       </div>
     );
   }
 
-  // --- Main shell ---
   const navItems = [
-    {id:"home", icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?"#16A34A":"none"} stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>, label:tx.home},
-    {id:"saved", icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?"#16A34A":"none"} stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>, label:lang==="uz"?"Saqlangan":"Сохр."},
-    {id:"plus", label:""},
-    {id:"map", icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>, label:tx.map},
-    {id:"profile", icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>, label:tx.profile},
+    {id:"home",label:T[lang].home,icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?"#16A34A":"none"} stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>},
+    {id:"saved",label:lang==="uz"?"Saqlangan":"Сохр.",icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?"#16A34A":"none"} stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>},
+    {id:"plus"},
+    {id:"map",label:T[lang].map,icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>},
+    {id:"profile",label:T[lang].profile,icon:(a)=><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={a?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>},
   ];
 
   return (
     <div style={{fontFamily:"'Segoe UI',system-ui,sans-serif",background:th.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative"}}>
-      <PWAPrompt dark={dark}/>
-      <style>{`@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}`}</style>
+      <style>{`@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}} *{-webkit-tap-highlight-color:transparent}`}</style>
 
-      {/* Content */}
-      {activeTab==="home" && (
-        <HomeTab lang={lang} dark={dark} stores={stores} activeDeals={activeDeals}
-          savedKeys={savedKeys} onToggleSave={toggleSave}
-          onBizClick={id=>setViewBizId(id)}
-          onDealClick={(deal,action)=>{setViewBizId(deal.storeId);if(action==="chat")setTimeout(()=>setChatStore(stores.find(s=>s.id===deal.storeId)),200);}}
-          onSetSearch={v=>{setSearchVal(v);}}
-          searchVal={searchVal}/>
-      )}
-      {activeTab==="saved" && (
-        <SavedTab lang={lang} dark={dark} savedDeals={savedDeals}
-          savedKeys={savedKeys} onToggleSave={toggleSave}
-          onDealClick={deal=>setViewBizId(deal.storeId)}/>
-      )}
-      {activeTab==="map" && (
-        <div style={{paddingBottom:80}}>
-          <MapView lang={lang} dark={dark} deals={activeDeals} stores={stores}
-            onDealClick={deal=>setViewBizId(deal.storeId)}/>
-        </div>
-      )}
-      {activeTab==="profile" && (
-        <ProfileTab lang={lang} dark={dark} setLang={setLang} toggleDark={toggleDark}
-          isGuest={isGuest} userData={userData} setUserData={setUserData}
-          myStore={myStore} stores={stores}
-          subscriptions={subscriptions} onToggleSub={toggleSub}
-          chatMessages={chatMessages} bookings={bookings}
-          onViewBiz={(id,action)=>{setViewBizId(id);if(action==="chat")setTimeout(()=>{const st=stores.find(s=>s.id===id);if(st)setChatStore(st);},200);}}
-          onCreateBiz={()=>setShowCreateBiz(true)}
-          onAddProduct={()=>myStore?setShowAddProduct(true):setShowCreateBiz(true)}
-          onLogout={handleLogout}
-          onSetProfileView={setProfileView}
-          profileView={profileView}/>
-      )}
+      {activeTab==="home" && <HomeTab lang={lang} dark={dark} setLang={setLang} stores={stores} activeDeals={activeDeals} savedKeys={savedKeys} onToggleSave={toggleSave} onBizClick={id=>setViewBizId(id)} onDealClick={(deal,action)=>{setViewBizId(deal.storeId);if(action==="chat")setTimeout(()=>{const st=stores.find(s=>s.id===deal.storeId);if(st)setChatStore(st);},200);}} searchVal={searchVal} onSetSearch={setSearchVal}/>}
+      {activeTab==="saved" && <SavedTab lang={lang} dark={dark} savedDeals={savedDeals} onToggleSave={toggleSave} onDealClick={deal=>setViewBizId(deal.storeId)}/>}
+      {activeTab==="map" && <div style={{paddingBottom:80}}><MapView lang={lang} dark={dark} deals={activeDeals} stores={stores} onDealClick={deal=>setViewBizId(deal.storeId)}/></div>}
+      {activeTab==="profile" && <ProfileTab lang={lang} dark={dark} setLang={setLang} toggleDark={toggleDark} isGuest={isGuest} userData={userData} setUserData={setUserData} myStore={myStore} stores={stores} subscriptions={subscriptions} onToggleSub={toggleSub} chatMessages={chatMessages} bookings={bookings} onViewBiz={(id,action)=>{setViewBizId(id);if(action==="chat")setTimeout(()=>{const st=stores.find(s=>s.id===id);if(st)setChatStore(st);},200);}} onCreateBiz={()=>setShowCreateBiz(true)} onAddProduct={()=>myStore?setShowAddProduct(true):setShowCreateBiz(true)} onLogout={handleLogout} profileView={profileView} onSetProfileView={setProfileView}/>}
 
-      {/* Add Sheet */}
-      {showAddSheet && (
-        <AddSheet lang={lang} dark={dark} hasStore={!!myStore}
-          onClose={()=>setShowAddSheet(false)}
-          onCreateBiz={()=>{setShowAddSheet(false);setShowCreateBiz(true);}}
-          onAddProduct={()=>{setShowAddSheet(false);myStore?setShowAddProduct(true):setShowCreateBiz(true);}}/>
-      )}
+      {showAddSheet && <AddSheet lang={lang} dark={dark} onClose={()=>setShowAddSheet(false)} onCreateBiz={()=>{setShowAddSheet(false);setShowCreateBiz(true);}} onAddProduct={()=>{setShowAddSheet(false);myStore?setShowAddProduct(true):setShowCreateBiz(true);}}/>}
+      {chatStore && <ChatModal store={chatStore} lang={lang} dark={dark} messages={chatMessages[chatStore.id]||[]} onClose={()=>setChatStore(null)} onSend={msg=>sendChat(chatStore.id,msg)}/>}
+      {bookStore && <BookingModal store={bookStore} lang={lang} dark={dark} onClose={()=>setBookStore(null)} onSuccess={b=>{setBookings(p=>[b,...p]);setBookStore(null);}}/>}
 
-      {/* Chat modal */}
-      {chatStore && <ChatModal store={chatStore} lang={lang} dark={dark}
-        messages={chatMessages[chatStore.id]||[]}
-        onClose={()=>setChatStore(null)}
-        onSend={msg=>sendChat(chatStore.id,msg)}/>}
-
-      {/* Booking modal */}
-      {bookStore && <BookingModal store={bookStore} lang={lang} dark={dark}
-        onClose={()=>setBookStore(null)}
-        onSuccess={b=>{setBookings(p=>[b,...p]);setBookStore(null);}}/>}
-
-      {/* Bottom Navigation */}
+      {/* Bottom Nav */}
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,background:th.card,borderTop:`1px solid ${th.border}`,display:"flex",alignItems:"flex-end",padding:"8px 0 20px",zIndex:100}}>
         {navItems.map(item=>{
           if (item.id==="plus") return (
@@ -2350,8 +1830,7 @@ export default function App() {
           );
           const isActive = activeTab===item.id;
           return (
-            <button key={item.id} onClick={()=>{ setActiveTab(item.id); if(item.id!=="profile") setProfileView("main"); }}
-              style={{flex:1,background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"2px 0"}}>
+            <button key={item.id} onClick={()=>{setActiveTab(item.id);if(item.id!=="profile")setProfileView("main");}} style={{flex:1,background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"2px 0"}}>
               {item.icon(isActive)}
               <span style={{fontSize:10,fontWeight:isActive?700:500,color:isActive?"#16A34A":th.sub}}>{item.label}</span>
             </button>
