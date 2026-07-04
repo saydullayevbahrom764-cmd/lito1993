@@ -1,5 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import DynamicCategoryForm from "./CategoryForms.jsx";
+import { db, auth } from "./firebase.js";
+import {
+  listenStores, createStore as fbCreateStore, updateStore,
+  addProduct as fbAddProduct, updateProduct as fbUpdateProduct,
+  deleteProduct as fbDeleteProduct,
+  onAuthChange, sendSmsCode, verifySmsCode, logOut,
+  createUser, getUser, updateUser,
+  getUserSubscriptions, subscribeToStore, unsubscribeFromStore,
+  getUserSaved, saveItem, unsaveItem,
+  getUserBookings, createBooking,
+} from "./firebaseService.js";
+
+// Firebase initialized indicator
+let firebaseReady = false;
+try { firebaseReady = !!db; } catch {}
+
 
 // =====================================================
 // PWA INSTALL PROMPT
@@ -3386,7 +3402,6 @@ export default function App() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [heartAnim, setHeartAnim] = useState(null);
   const [cartAnim, setCartAnim] = useState(false);
-  // Yangi state'lar
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState({ minPrice: "", maxPrice: "", minDiscount: 0, openNow: false, type: "all" });
   const [bookingStore, setBookingStore] = useState(null);
@@ -3397,6 +3412,44 @@ export default function App() {
   const [showStatsModal, setShowStatsModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [locationName, setLocationName] = useState("Toshkent");
+
+  // ── Firebase state ──
+  const [firebaseUser, setFirebaseUser] = useState(null);
+  const [fbLoading, setFbLoading] = useState(true);
+
+  // ── Firebase: Auth holati kuzatish ──
+  useEffect(() => {
+    if (!firebaseReady) { setFbLoading(false); return; }
+    const unsub = onAuthChange(async (user) => {
+      setFirebaseUser(user);
+      if (user) {
+        try {
+          const fbUserData = await getUser(user.uid);
+          if (fbUserData) {
+            setUserData(prev => ({ ...prev, ...fbUserData }));
+            if (fbUserData.myStoreId) setMyStoreId(fbUserData.myStoreId);
+          }
+          const subs = await getUserSubscriptions(user.uid);
+          setSubscriptions(subs);
+          const saved2 = await getUserSaved(user.uid);
+          setSavedKeys(saved2);
+        } catch (e) { console.warn("Firebase user load:", e); }
+      }
+      setFbLoading(false);
+    });
+    return () => unsub();
+  }, []);
+
+  // ── Firebase: Do'konlarni real-time kuzatish ──
+  useEffect(() => {
+    if (!firebaseReady) return;
+    const unsub = listenStores((fbStores) => {
+      if (fbStores && fbStores.length > 0) {
+        setStores(fbStores);
+      }
+    });
+    return () => unsub();
+  }, []);
 
   const th = theme(dark);
   const s = mkStyles(dark);
