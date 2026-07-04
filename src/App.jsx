@@ -2604,23 +2604,41 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
   const [reviewTarget, setReviewTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [editTarget, setEditTarget] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+  const [showReportConfirm, setShowReportConfirm] = useState(false);
   const storeRating = avgRating(store.reviews);
 
   const handleCall = () => { if (store.phone) window.location.href = `tel:${store.phone}`; };
-  const handleWhatsApp = () => { const p = (store.whatsapp || store.phone || "").replace(/\D/g, ""); window.open(`https://wa.me/${p}`, "_blank"); };
   const handleTelegram = () => {
     if (store.telegram) window.open(`https://t.me/${store.telegram.replace("@","")}`, "_blank");
     else { const p = (store.phone || "").replace(/\D/g, ""); window.open(`https://t.me/+${p}`, "_blank"); }
-  };
-  const handleShare = () => {
-    const text = `${store.name} — OsonTop`;
-    if (navigator.share) navigator.share({ title: store.name, text });
   };
 
   return (
     <div style={{ minHeight: "100vh", background: th.bg, maxWidth: 430, margin: "0 auto", paddingBottom: 30 }}>
       <div style={{ background: "linear-gradient(135deg,#16A34A 0%,#15803D 100%)", padding: "48px 20px 22px", color: "#fff" }}>
-        <button onClick={onBack} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: 10, width: 34, height: 34, color: "#fff", fontSize: 16, cursor: "pointer", marginBottom: 16 }}>←</button>
+        {/* Header row: ← va ⋮ */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <button onClick={onBack} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: 10, width: 34, height: 34, color: "#fff", fontSize: 16, cursor: "pointer" }}>←</button>
+          {/* ⋮ 3 nuqta + dropdown */}
+          <div style={{ position: "relative" }}>
+            <button onClick={() => setShowMenu(p => !p)} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: 10, width: 34, height: 34, color: "#fff", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>⋮</button>
+            {showMenu && (
+              <div style={{ position: "absolute", top: 40, right: 0, background: th.card, borderRadius: 14, boxShadow: "0 8px 32px rgba(0,0,0,0.4)", zIndex: 100, minWidth: 180, overflow: "hidden", border: `1px solid ${th.border}` }}>
+                {[
+                  { icon: "🔗", label: lang === "uz" ? "Ulashish" : "Поделиться", action: () => { navigator.share?.({ title: store.name, text: `${store.name} — OsonTop` }); setShowMenu(false); } },
+                  { icon: "🚫", label: lang === "uz" ? "Bloklash" : "Заблокировать", action: () => { setShowMenu(false); setShowBlockConfirm(true); }, red: true },
+                  { icon: "⚠️", label: lang === "uz" ? "Shikoyat qilish" : "Пожаловаться", action: () => { setShowMenu(false); setShowReportConfirm(true); }, red: true },
+                ].map((item, i, arr) => (
+                  <button key={i} onClick={item.action} style={{ width: "100%", padding: "13px 16px", background: "none", border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600, color: item.red ? "#FF3B30" : th.text, textAlign: "left", display: "flex", alignItems: "center", gap: 10, borderBottom: i < arr.length - 1 ? `1px solid ${th.border}` : "none" }}>
+                    <span>{item.icon}</span>{item.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{ width: 64, height: 64, borderRadius: 18, background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, flexShrink: 0 }}>{store.logo}</div>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -2654,8 +2672,6 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
             {store.phone && <button onClick={handleCall} style={{ flex: 1, minWidth: 70, padding: "10px 6px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.25)", color: "#fff", fontWeight: 700, fontSize: 11, cursor: "pointer" }}>{tx.callStore}</button>}
             {(store.telegram || store.phone) && <button onClick={handleTelegram} style={{ flex: 1, minWidth: 70, padding: "10px 6px", borderRadius: 12, border: "none", background: "rgba(0,136,204,0.4)", color: "#fff", fontWeight: 700, fontSize: 11, cursor: "pointer" }}>✈️ Telegram</button>}
             {onChat && <button onClick={onChat} style={{ flex: 1, minWidth: 70, padding: "10px 6px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.25)", color: "#fff", fontWeight: 700, fontSize: 11, cursor: "pointer" }}>💬 {tx.chatWith}</button>}
-            {onBook && <button onClick={onBook} style={{ flex: 1, minWidth: 70, padding: "10px 6px", borderRadius: 12, border: "none", background: "rgba(255,180,0,0.4)", color: "#fff", fontWeight: 700, fontSize: 11, cursor: "pointer" }}>{tx.bookService}</button>}
-            <button onClick={handleShare} style={{ flex: 1, minWidth: 70, padding: "10px 6px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.25)", color: "#fff", fontWeight: 700, fontSize: 11, cursor: "pointer" }}>{tx.shareDiscount}</button>
           </div>
         )}
         {isOwner
@@ -2770,6 +2786,45 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
           </div>
         </ModalSheet>
       )}
+
+      {/* Block modal */}
+      {showBlockConfirm && (
+        <ModalSheet onClose={() => setShowBlockConfirm(false)} dark={dark} maxHeight="38vh">
+          <div style={{ textAlign: "center", marginBottom: 16 }}>
+            <div style={{ fontSize: 48, marginBottom: 8 }}>🚫</div>
+            <p style={{ fontSize: 15, color: th.text, fontWeight: 700, margin: "0 0 6px" }}>{lang === "uz" ? `${store.name} ni bloklaysizmi?` : `Заблокировать ${store.name}?`}</p>
+            <p style={{ fontSize: 13, color: th.sub, margin: 0 }}>{lang === "uz" ? "Bu foydalanuvchi siz bilan bog'lana olmaydi" : "Этот пользователь не сможет с вами связаться"}</p>
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button onClick={() => setShowBlockConfirm(false)} style={{ flex: 1, padding: 13, borderRadius: 12, border: `1.5px solid ${th.border}`, background: th.card, color: th.text, fontWeight: 700, cursor: "pointer" }}>{lang === "uz" ? "Bekor" : "Отмена"}</button>
+            <button onClick={() => setShowBlockConfirm(false)} style={{ flex: 1, padding: 13, borderRadius: 12, border: "none", background: "#FF3B30", color: "#fff", fontWeight: 700, cursor: "pointer" }}>{lang === "uz" ? "Bloklash" : "Заблокировать"}</button>
+          </div>
+        </ModalSheet>
+      )}
+
+      {/* Report modal */}
+      {showReportConfirm && (
+        <ModalSheet onClose={() => setShowReportConfirm(false)} dark={dark} maxHeight="55vh">
+          <div style={{ textAlign: "center", marginBottom: 16 }}>
+            <div style={{ fontSize: 48, marginBottom: 8 }}>⚠️</div>
+            <p style={{ fontSize: 15, color: th.text, fontWeight: 700, margin: "0 0 6px" }}>{lang === "uz" ? "Shikoyat sababi" : "Причина жалобы"}</p>
+          </div>
+          {[
+            lang === "uz" ? "Spam yoki aldov" : "Спам или мошенничество",
+            lang === "uz" ? "Haqoratli kontent" : "Оскорбительный контент",
+            lang === "uz" ? "Noto'g'ri ma'lumot" : "Неверная информация",
+            lang === "uz" ? "Boshqa sabab" : "Другая причина",
+          ].map((reason, i) => (
+            <button key={i} onClick={() => setShowReportConfirm(false)} style={{ width: "100%", padding: "13px 16px", background: th.card2, border: `1px solid ${th.border}`, borderRadius: 12, marginBottom: 8, fontSize: 14, color: th.text, fontWeight: 500, cursor: "pointer", textAlign: "left" }}>
+              {reason}
+            </button>
+          ))}
+          <button onClick={() => setShowReportConfirm(false)} style={{ width: "100%", padding: 13, background: "none", border: "none", color: th.sub, fontSize: 14, cursor: "pointer", marginTop: 4 }}>{lang === "uz" ? "Bekor qilish" : "Отмена"}</button>
+        </ModalSheet>
+      )}
+
+      {/* Menu backdrop */}
+      {showMenu && <div style={{ position: "fixed", inset: 0, zIndex: 99 }} onClick={() => setShowMenu(false)} />}
       {editTarget && (
         <ModalSheet onClose={() => setEditTarget(null)} dark={dark} maxHeight="80vh">
           <h3 style={{ fontSize: 16, fontWeight: 800, color: th.text, marginBottom: 16, textAlign: "center" }}>
