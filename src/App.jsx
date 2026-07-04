@@ -3902,15 +3902,15 @@ export default function App() {
           <div style={{ background: th.bg }}>
             {[
               { icon: "🏪", bg: "#16A34A", label: lang === "uz" ? "Mening do'konim" : "Мой магазин", action: () => myStore ? setViewingStoreId(myStore.id) : setProfileView("createStore") },
-              { icon: "❤️", bg: "#FF3B30", label: lang === "uz" ? "Qiziq e'lonlar" : "Избранные", action: () => {} },
-              { icon: "📋", bg: "#007AFF", label: lang === "uz" ? "E'lonlarim" : "Мои объявления", action: () => myStore ? setViewingStoreId(myStore.id) : setProfileView("createStore") },
-              { icon: "📍", bg: "#5856D6", label: lang === "uz" ? "Mening hududim" : "Мой район", action: () => {} },
-              { icon: "👍", bg: "#FF9500", label: lang === "uz" ? "Sharhlarim" : "Мои отзывы", action: () => {} },
+              { icon: "❤️", bg: "#FF3B30", label: lang === "uz" ? "Qiziq e'lonlar" : "Избранные", action: () => setProfileView("saved_items") },
+              { icon: "📋", bg: "#007AFF", label: lang === "uz" ? "E'lonlarim" : "Мои объявления", action: () => setProfileView("my_listings") },
+              { icon: "📍", bg: "#5856D6", label: lang === "uz" ? "Mening hududim" : "Мой район", action: () => setProfileView("my_region") },
+              { icon: "👍", bg: "#FF9500", label: lang === "uz" ? "Sharhlarim" : "Мои отзывы", action: () => setProfileView("my_reviews") },
               { icon: "⚙️", bg: "#8E8E93", label: lang === "uz" ? "Sozlamalar" : "Настройки", action: () => setProfileView("settings") },
-              { icon: "🎧", bg: "#32ADE6", label: lang === "uz" ? "Yordam xizmati" : "Поддержка", action: () => {} },
+              { icon: "🎧", bg: "#32ADE6", label: lang === "uz" ? "Yordam xizmati" : "Поддержка", action: () => setProfileView("help_center") },
               { icon: "📤", bg: "#FF6B6B", label: lang === "uz" ? "Ilovani tavsiya qilish" : "Поделиться", action: () => navigator.share?.({ title: "OsonTop", url: "https://osontop.uz" }) },
-              { icon: "⭐", bg: "#FFB400", label: lang === "uz" ? "Ilovani baholash" : "Оценить", action: () => {} },
-              { icon: "ℹ️", bg: "#5856D6", label: lang === "uz" ? "Ilova haqida" : "О приложении", action: () => setProfileView("settings") },
+              { icon: "⭐", bg: "#FFB400", label: lang === "uz" ? "Ilovani baholash" : "Оценить", action: () => window.open("https://play.google.com", "_blank") },
+              { icon: "ℹ️", bg: "#5856D6", label: lang === "uz" ? "Ilova haqida" : "О приложении", action: () => setProfileView("about_app") },
             ].map((item, i, arr) => (
               <div key={i} onClick={item.action} style={{
                 display: "flex", alignItems: "center", gap: 14,
@@ -4311,6 +4311,228 @@ export default function App() {
         </div>
       )}
 
+      {/* PROFILE — saved (❤️ Saqlanganlar) */}
+      {activeTab === "profile" && profileView === "saved_items" && (
+        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setProfileView("main")} style={{ background: th.card, border: `1.5px solid ${th.border}`, borderRadius: 10, width: 34, height: 34, fontSize: 16, cursor: "pointer", color: th.text }}>←</button>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: th.text, margin: 0 }}>❤️ {lang === "uz" ? "Saqlanganlar" : "Избранные"}</h2>
+          </div>
+          {/* Bizneslar */}
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: th.sub, marginBottom: 10 }}>{lang === "uz" ? "🏪 BIZNESLAR" : "🏪 БИЗНЕСЫ"}</div>
+            {subscriptions.length === 0 ? (
+              <div style={{ color: th.sub, fontSize: 13, textAlign: "center", padding: "20px 0" }}>{lang === "uz" ? "Saqlangan bizneslar yo'q" : "Нет сохранённых бизнесов"}</div>
+            ) : subscriptions.slice(0, 5).map(sid => {
+              const st = stores.find(s => s.id === sid); if (!st) return null;
+              return (
+                <div key={sid} onClick={() => setViewingStoreId(sid)} style={{ background: th.card, borderRadius: 14, padding: "12px 14px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12, cursor: "pointer", border: `1px solid ${th.border}` }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: st.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{st.logo}</div>
+                  <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 14, color: th.text }}>{st.name}</div><div style={{ fontSize: 12, color: th.sub }}>📍 {st.address}</div></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+              );
+            })}
+          </div>
+          {/* Mahsulotlar (saved deals) */}
+          <div style={{ fontSize: 13, fontWeight: 700, color: th.sub, marginBottom: 10 }}>{lang === "uz" ? "📦 MAHSULOTLAR" : "📦 ТОВАРЫ"}</div>
+          {savedList.length === 0 ? (
+            <div style={{ color: th.sub, fontSize: 13, textAlign: "center", padding: "20px 0" }}>{lang === "uz" ? "Saqlangan mahsulotlar yo'q" : "Нет сохранённых товаров"}</div>
+          ) : savedList.map(deal => (
+            <div key={deal.key} onClick={() => setSelectedKey({ storeId: deal.storeId, productId: deal.productId })} style={{ background: th.card, borderRadius: 14, padding: "12px 14px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12, cursor: "pointer", border: `1px solid ${th.border}` }}>
+              <div style={{ width: 52, height: 52, borderRadius: 12, background: deal.color + "18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0, overflow: "hidden" }}>
+                {deal.photos?.length ? <img src={deal.photos[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : deal.logo}
+              </div>
+              <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 14, color: th.text }}>{deal.storeName}</div><div style={{ fontSize: 12, color: th.sub }}>{deal.title[lang]}</div></div>
+              <div style={{ background: deal.color, color: "#fff", borderRadius: 8, padding: "3px 10px", fontWeight: 800, fontSize: 13 }}>-{deal.discount}%</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* PROFILE — e'lonlarim (📋) */}
+      {activeTab === "profile" && profileView === "my_listings" && (
+        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setProfileView("main")} style={{ background: th.card, border: `1.5px solid ${th.border}`, borderRadius: 10, width: 34, height: 34, fontSize: 16, cursor: "pointer", color: th.text }}>←</button>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: th.text, margin: 0 }}>📋 {lang === "uz" ? "E'lonlarim" : "Мои объявления"}</h2>
+          </div>
+          {!myStore ? (
+            <div style={{ textAlign: "center", padding: "60px 20px", color: th.sub }}>
+              <div style={{ fontSize: 56, marginBottom: 12 }}>🏪</div>
+              <div style={{ fontWeight: 700, fontSize: 16, color: th.text, marginBottom: 8 }}>{lang === "uz" ? "Do'kon yo'q" : "Нет магазина"}</div>
+              <div style={{ fontSize: 13, marginBottom: 20 }}>{lang === "uz" ? "Avval do'kon yarating" : "Сначала создайте магазин"}</div>
+              <button onClick={() => setProfileView("createStore")} style={{ background: "#16A34A", color: "#fff", border: "none", borderRadius: 12, padding: "12px 24px", fontWeight: 700, cursor: "pointer" }}>{lang === "uz" ? "Do'kon yaratish" : "Создать магазин"}</button>
+            </div>
+          ) : (
+            <>
+              {/* Biznes */}
+              <div style={{ background: "linear-gradient(135deg,#16A34A,#15803D)", borderRadius: 16, padding: "14px 16px", marginBottom: 16, display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }} onClick={() => setViewingStoreId(myStore.id)}>
+                <div style={{ width: 48, height: 48, borderRadius: 13, background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{myStore.logo}</div>
+                <div style={{ flex: 1 }}><div style={{ fontWeight: 800, fontSize: 15, color: "#fff" }}>{myStore.name}</div><div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)" }}>📍 {myStore.address}</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+              {/* Mahsulotlar */}
+              <div style={{ fontSize: 13, fontWeight: 700, color: th.sub, marginBottom: 10 }}>{lang === "uz" ? "📦 MAHSULOTLAR" : "📦 ТОВАРЫ"} ({myStore.products.length})</div>
+              {myStore.products.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "30px 0", color: th.sub }}>
+                  <div style={{ fontSize: 40, marginBottom: 8 }}>📦</div>
+                  <div style={{ fontSize: 14 }}>{lang === "uz" ? "Mahsulot yo'q" : "Нет товаров"}</div>
+                </div>
+              ) : myStore.products.map(prod => {
+                const hasDisc = prod.discount && !isExpired(prod.discount.expiryDate);
+                return (
+                  <div key={prod.id} style={{ background: th.card, borderRadius: 14, padding: "12px 14px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12, border: `1px solid ${th.border}` }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 12, background: myStore.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, overflow: "hidden" }}>
+                      {prod.photos?.[0] ? <img src={prod.photos[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : myStore.logo}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: th.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{prod.name[lang] || prod.name.uz}</div>
+                      <div style={{ fontSize: 12, color: th.sub }}>{formatPrice(prod.originalPrice)} {tx.sumShort}</div>
+                    </div>
+                    {hasDisc && <span style={{ background: "#16A34A", color: "#fff", borderRadius: 7, padding: "2px 8px", fontSize: 11, fontWeight: 800 }}>-{prod.discount.percent}%</span>}
+                  </div>
+                );
+              })}
+              <button onClick={() => { setViewingStoreId(myStore.id); setTimeout(() => setProfileView("storeAddProduct"), 100); }}
+                style={{ width: "100%", padding: "14px", background: "#16A34A", color: "#fff", border: "none", borderRadius: 14, fontWeight: 700, fontSize: 14, cursor: "pointer", marginTop: 8 }}>
+                + {lang === "uz" ? "Mahsulot qo'shish" : "Добавить товар"}
+              </button>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* PROFILE — mening hududim (📍) */}
+      {activeTab === "profile" && profileView === "my_region" && (
+        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setProfileView("main")} style={{ background: th.card, border: `1.5px solid ${th.border}`, borderRadius: 10, width: 34, height: 34, fontSize: 16, cursor: "pointer", color: th.text }}>←</button>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: th.text, margin: 0 }}>📍 {lang === "uz" ? "Mening hududim" : "Мой район"}</h2>
+          </div>
+          {/* Viloyat */}
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ fontSize: 13, fontWeight: 700, color: th.sub, display: "block", marginBottom: 8 }}>{lang === "uz" ? "Viloyat" : "Область"}</label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["Toshkent","Samarqand","Buxoro","Namangan","Andijon","Farg'ona","Qarshi","Nukus","Urganch","Termiz","Navoiy","Jizzax","Guliston"].map(r => (
+                <button key={r} onClick={() => setLocationName(r)} style={{ padding: "8px 14px", borderRadius: 20, border: `1.5px solid ${locationName === r ? "#16A34A" : th.border}`, background: locationName === r ? "#16A34A" : th.card, color: locationName === r ? "#fff" : th.text, fontSize: 13, fontWeight: 600, cursor: "pointer" }}>{r}</button>
+              ))}
+            </div>
+          </div>
+          {/* Radius */}
+          <div style={{ marginBottom: 20 }}>
+            <label style={{ fontSize: 13, fontWeight: 700, color: th.sub, display: "block", marginBottom: 8 }}>{lang === "uz" ? "Qidiruv radiusi" : "Радиус поиска"}</label>
+            <div style={{ display: "flex", gap: 10 }}>
+              {[3, 5, 10, 20].map(r => (
+                <button key={r} onClick={() => {}} style={{ flex: 1, padding: "12px 6px", borderRadius: 12, border: `2px solid ${th.border}`, background: th.card, color: th.text, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>{r} km</button>
+              ))}
+            </div>
+          </div>
+          {/* Joriy joylashuv */}
+          <div style={{ background: "#16A34A20", borderRadius: 14, padding: 16, border: "1.5px solid #16A34A33", marginBottom: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 24 }}>📍</span>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{locationName}</div>
+                <div style={{ fontSize: 12, color: th.sub }}>{lang === "uz" ? "Joriy joylashuv" : "Текущее местоположение"}</div>
+              </div>
+              <div style={{ marginLeft: "auto", fontSize: 10, color: "#16A34A", fontWeight: 700 }}>● GPS</div>
+            </div>
+          </div>
+          <button onClick={() => { if (navigator.geolocation) navigator.geolocation.getCurrentPosition(pos => { const r = detectRegion ? detectRegion(pos.coords.latitude, pos.coords.longitude) : null; if (r) setLocationName(lang === "ru" ? r.ru : r.uz); }); setProfileView("main"); }}
+            style={{ width: "100%", padding: "14px", background: "#16A34A", color: "#fff", border: "none", borderRadius: 14, fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+            {lang === "uz" ? "GPS dan aniqlash" : "Определить по GPS"}
+          </button>
+        </div>
+      )}
+
+      {/* PROFILE — sharhlarim (⭐) */}
+      {activeTab === "profile" && profileView === "my_reviews" && (
+        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setProfileView("main")} style={{ background: th.card, border: `1.5px solid ${th.border}`, borderRadius: 10, width: 34, height: 34, fontSize: 16, cursor: "pointer", color: th.text }}>←</button>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: th.text, margin: 0 }}>👍 {lang === "uz" ? "Sharhlarim" : "Мои отзывы"}</h2>
+          </div>
+          {/* Barcha do'konlardagi sharhlar */}
+          {(() => {
+            const myReviews = [];
+            stores.forEach(st => {
+              st.reviews.filter(r => r.author === userData.name).forEach(r => myReviews.push({ ...r, storeName: st.name, storeLogo: st.logo, storeId: st.id }));
+              st.products.forEach(p => p.reviews?.filter(r => r.author === userData.name).forEach(r => myReviews.push({ ...r, storeName: st.name, prodName: p.name[lang] || p.name.uz, storeLogo: st.logo })));
+            });
+            if (myReviews.length === 0) return (
+              <div style={{ textAlign: "center", padding: "60px 0", color: th.sub }}>
+                <div style={{ fontSize: 52, marginBottom: 12 }}>⭐</div>
+                <div style={{ fontWeight: 600, fontSize: 16 }}>{lang === "uz" ? "Hozircha sharhlar yo'q" : "Пока нет отзывов"}</div>
+                <div style={{ fontSize: 13, marginTop: 6 }}>{lang === "uz" ? "Do'konlarga sharh qoldiring" : "Оставьте отзывы о магазинах"}</div>
+              </div>
+            );
+            return myReviews.map((r, i) => (
+              <div key={i} style={{ background: th.card, borderRadius: 14, padding: 14, marginBottom: 10, border: `1px solid ${th.border}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                  <span style={{ fontSize: 22 }}>{r.storeLogo}</span>
+                  <div><div style={{ fontWeight: 700, fontSize: 14, color: th.text }}>{r.storeName}</div>
+                  {r.prodName && <div style={{ fontSize: 12, color: th.sub }}>{r.prodName}</div>}</div>
+                  <div style={{ marginLeft: "auto", display: "flex", gap: 2 }}>{[1,2,3,4,5].map(n => <span key={n} style={{ color: n <= r.stars ? "#FFB400" : th.border, fontSize: 14 }}>★</span>)}</div>
+                </div>
+                {r.comment && <p style={{ margin: 0, fontSize: 13, color: th.sub, fontStyle: "italic" }}>"{r.comment}"</p>}
+              </div>
+            ));
+          })()}
+        </div>
+      )}
+
+      {/* PROFILE — yordam markazi (🎧) */}
+      {activeTab === "profile" && profileView === "help_center" && (
+        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setProfileView("main")} style={{ background: th.card, border: `1.5px solid ${th.border}`, borderRadius: 10, width: 34, height: 34, fontSize: 16, cursor: "pointer", color: th.text }}>←</button>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: th.text, margin: 0 }}>🎧 {lang === "uz" ? "Yordam markazi" : "Центр помощи"}</h2>
+          </div>
+          {[
+            { icon: "❓", label: "FAQ", desc: lang === "uz" ? "Ko'p so'raladigan savollar" : "Часто задаваемые вопросы", action: () => {} },
+            { icon: "✈️", label: "Telegram", desc: "@osontop_uz", action: () => window.open("https://t.me/osontop_uz", "_blank") },
+            { icon: "📞", label: lang === "uz" ? "Call Center" : "Call Center", desc: "+998 71 200 00 00", action: () => window.location.href = "tel:+998712000000" },
+            { icon: "📧", label: "Email", desc: "support@osontop.uz", action: () => window.location.href = "mailto:support@osontop.uz" },
+          ].map((item, i, arr) => (
+            <div key={i} onClick={item.action} style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 16px", borderBottom: i < arr.length-1 ? `1px solid ${th.border}` : "none", cursor: "pointer", background: th.card, borderRadius: i === 0 ? "14px 14px 0 0" : i === arr.length-1 ? "0 0 14px 14px" : 0, marginBottom: i === arr.length-1 ? 0 : 0 }}>
+              <div style={{ width: 42, height: 42, borderRadius: 12, background: "#32ADE620", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>{item.icon}</div>
+              <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{item.label}</div><div style={{ fontSize: 12, color: th.sub }}>{item.desc}</div></div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* PROFILE — ilova haqida (ℹ️) */}
+      {activeTab === "profile" && profileView === "about_app" && (
+        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setProfileView("main")} style={{ background: th.card, border: `1.5px solid ${th.border}`, borderRadius: 10, width: 34, height: 34, fontSize: 16, cursor: "pointer", color: th.text }}>←</button>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: th.text, margin: 0 }}>ℹ️ {lang === "uz" ? "Ilova haqida" : "О приложении"}</h2>
+          </div>
+          {/* Logo */}
+          <div style={{ textAlign: "center", padding: "20px 0 24px" }}>
+            <div style={{ width: 72, height: 72, borderRadius: 20, background: "linear-gradient(135deg,#16A34A,#15803D)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", boxShadow: "0 4px 16px rgba(22,163,74,0.3)" }}>
+              <span style={{ color: "#fff", fontWeight: 900, fontSize: 38 }}>O</span>
+            </div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: th.text }}>OsonTop</div>
+            <div style={{ fontSize: 13, color: th.sub, marginTop: 4 }}>{lang === "uz" ? "O'zbekistondagi barcha bizneslar" : "Все бизнесы Узбекистана"}</div>
+          </div>
+          {[
+            { label: lang === "uz" ? "Versiya" : "Версия", value: "1.0.0" },
+            { label: lang === "uz" ? "Ishlab chiquvchi" : "Разработчик", value: "OsonTop Team" },
+            { label: "Privacy Policy", value: "→", action: () => {} },
+            { label: "Terms of Service", value: "→", action: () => {} },
+          ].map((item, i, arr) => (
+            <div key={i} onClick={item.action} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", background: th.card, borderBottom: i < arr.length-1 ? `1px solid ${th.border}` : "none", borderRadius: i === 0 ? "14px 14px 0 0" : i === arr.length-1 ? "0 0 14px 14px" : 0, cursor: item.action ? "pointer" : "default" }}>
+              <span style={{ fontSize: 14, color: th.text }}>{item.label}</span>
+              <span style={{ fontSize: 13, color: th.sub, fontWeight: 600 }}>{item.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* ── + ADD SHEET ── */}
       {showAddSheet && (
         <ModalSheet onClose={() => setShowAddSheet(false)} dark={dark} maxHeight="40vh">
@@ -4347,7 +4569,7 @@ export default function App() {
         </ModalSheet>
       )}
 
-      {/* ── FOOTER NAV: Asosiy | Toifalar | Qidiruv | Yozishmalar | Profil ── */}
+      {/* ── FOOTER NAV: Bosh | Qidiruv | [+] | Xarita | Profil ── */}
       <div style={{
         position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
         width: "100%", maxWidth: 430,
@@ -4357,39 +4579,40 @@ export default function App() {
         padding: "8px 0 22px",
         zIndex: 100,
       }}>
-        {/* Asosiy (Home) */}
+        {/* Bosh */}
         <button onClick={() => { setActiveTab("home"); setProfileView("main"); }}
           style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill={activeTab==="home"?"#16A34A":"none"} stroke={activeTab==="home"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span style={{ fontSize:10, fontWeight:activeTab==="home"?700:500, color:activeTab==="home"?"#16A34A":th.sub }}>{lang==="uz"?"Asosiy":"Главная"}</span>
+          <span style={{ fontSize:10, fontWeight:activeTab==="home"?700:500, color:activeTab==="home"?"#16A34A":th.sub }}>{lang==="uz"?"Bosh":"Главная"}</span>
         </button>
 
-        {/* Toifalar (Categories) */}
-        <button onClick={() => setActiveTab("categories")}
-          style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={activeTab==="categories"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          <span style={{ fontSize:10, fontWeight:activeTab==="categories"?700:500, color:activeTab==="categories"?"#16A34A":th.sub }}>{lang==="uz"?"Toifalar":"Категории"}</span>
-        </button>
-
-        {/* Qidiruv (Search) */}
+        {/* Qidiruv */}
         <button onClick={() => setActiveTab("search")}
           style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={activeTab==="search"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <span style={{ fontSize:10, fontWeight:activeTab==="search"?700:500, color:activeTab==="search"?"#16A34A":th.sub }}>{lang==="uz"?"Qidiruv":"Поиск"}</span>
         </button>
 
-        {/* Yozishmalar (Chat) */}
-        <button onClick={() => setActiveTab("chat")}
-          style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0", position:"relative" }}>
-          <div style={{ position:"relative" }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill={activeTab==="chat"?"#16A34A":"none"} stroke={activeTab==="chat"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            {Object.keys(chatMessages).length > 0 && (
-              <div style={{ position:"absolute", top:-4, right:-6, minWidth:16, height:16, borderRadius:8, background:"#16A34A", display:"flex", alignItems:"center", justifyContent:"center", border:`2px solid ${th.card}` }}>
-                <span style={{ fontSize:9, fontWeight:800, color:"#fff", padding:"0 3px" }}>{Object.keys(chatMessages).length > 9 ? "9+" : Object.keys(chatMessages).length}</span>
-              </div>
-            )}
-          </div>
-          <span style={{ fontSize:10, fontWeight:activeTab==="chat"?700:500, color:activeTab==="chat"?"#16A34A":th.sub }}>{lang==="uz"?"Yozishmalar":"Чаты"}</span>
+        {/* Markaziy + tugma */}
+        <div style={{ flex:1, display:"flex", justifyContent:"center", alignItems:"flex-end" }}>
+          <button onClick={() => setShowAddSheet(true)}
+            style={{
+              width: 54, height: 54, borderRadius: 27,
+              background: "linear-gradient(135deg,#16A34A,#15803D)",
+              border: "none", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 4px 20px rgba(22,163,74,0.5)",
+              marginBottom: 6,
+            }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+
+        {/* Xarita */}
+        <button onClick={() => setActiveTab("map")}
+          style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={activeTab==="map"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          <span style={{ fontSize:10, fontWeight:activeTab==="map"?700:500, color:activeTab==="map"?"#16A34A":th.sub }}>{lang==="uz"?"Xarita":"Карта"}</span>
         </button>
 
         {/* Profil */}
