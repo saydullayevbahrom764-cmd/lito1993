@@ -1052,8 +1052,6 @@ function UserProfilePage({ lang, dark, th, tx, userData, myStore, stores, locati
   );
 }
 
-}
-
 // =====================================================
 // DEAL DETAIL PAGE — 3-4 rasm Karrot uslubi
 // =====================================================
