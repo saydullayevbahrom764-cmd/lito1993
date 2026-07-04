@@ -2179,7 +2179,7 @@ function StoreView({ lang, dark, store, isOwner, isSubscribed, coupons, bookings
       </div>
 
       <div style={{ padding: 20 }}>
-        {isOwner && <StoreAnalytics lang={lang} dark={dark} store={store} coupons={coupons || []} bookings={bookings || []} />}
+        {isOwner && <div style={{ marginBottom: 0 }} />}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
           <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: th.text }}>{tx.productsInStore}</h3>
           {isOwner && <button onClick={onAddProduct} style={{ background: "#16A34A", color: "#fff", border: "none", borderRadius: 10, padding: "7px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>{tx.addProductBtn}</button>}
@@ -3790,6 +3790,67 @@ export default function App() {
         </div>
       )}
 
+      {/* ── CATEGORIES TAB ── */}
+      {activeTab === "categories" && (
+        <div style={{ background: th.bg, minHeight: "100vh", paddingBottom: 90 }}>
+          <div style={{ background: th.card, borderBottom: `1px solid ${th.border}`, padding: "50px 16px 14px" }}>
+            <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: th.text }}>{lang === "uz" ? "Toifalar" : "Категории"}</h2>
+          </div>
+          <div style={{ padding: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              {CATEGORY_LIST.map(cat => (
+                <div key={cat.id} onClick={() => { setActiveTab("home"); setActiveCategory(cat.id); }}
+                  style={{ background: th.card, borderRadius: 16, padding: "18px 14px", display: "flex", alignItems: "center", gap: 12, cursor: "pointer", border: `1px solid ${th.border}`, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: cat.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{cat.emoji}</div>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: th.text }}>{categoryLabel(cat.id, lang)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── SEARCH TAB ── */}
+      {activeTab === "search" && (
+        <div style={{ background: th.bg, minHeight: "100vh", paddingBottom: 90 }}>
+          <div style={{ background: th.card, borderBottom: `1px solid ${th.border}`, padding: "50px 16px 14px" }}>
+            <h2 style={{ margin: "0 0 12px", fontSize: 20, fontWeight: 800, color: th.text }}>{lang === "uz" ? "Qidiruv" : "Поиск"}</h2>
+            <div style={{ position: "relative" }}>
+              <svg style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input
+                autoFocus
+                placeholder={lang === "uz" ? "Biznes, mahsulot, xizmat..." : "Бизнес, товар, услуга..."}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ width: "100%", padding: "12px 14px 12px 36px", borderRadius: 12, border: "none", background: th.card2, fontSize: 14, outline: "none", boxSizing: "border-box", color: th.text }}
+              />
+              {search && <button onClick={() => setSearch("")} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: th.sub, fontSize: 16 }}>✕</button>}
+            </div>
+          </div>
+          <div style={{ paddingBottom: 20 }}>
+            {search ? (
+              <>
+                {stores.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.address?.toLowerCase().includes(search.toLowerCase())).map(store => (
+                  <BusinessCard key={store.id} store={store} th={th} lang={lang} onClick={() => setViewingStoreId(store.id)} />
+                ))}
+                {filtered.map(deal => <KarrotCard key={deal.key} deal={deal} th={th} lang={lang} tx={tx} savedKeys={savedKeys} heartAnim={heartAnim} toggleSave={toggleSave} setSelectedKey={setSelectedKey} setViewingStoreId={setViewingStoreId} />)}
+                {stores.filter(s => s.name.toLowerCase().includes(search.toLowerCase())).length === 0 && filtered.length === 0 && (
+                  <div style={{ textAlign: "center", padding: "60px 20px", color: th.sub }}>
+                    <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
+                    <div style={{ fontWeight: 700, fontSize: 16, color: th.text }}>{lang === "uz" ? "Hech narsa topilmadi" : "Ничего не найдено"}</div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div style={{ textAlign: "center", padding: "60px 20px", color: th.sub }}>
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke={th.border} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 14 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <div style={{ fontSize: 15, color: th.sub }}>{lang === "uz" ? "Qidiruv so'zini kiriting" : "Введите запрос для поиска"}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* ── MAP TAB ── */}
       {activeTab === "map" && (
         <div style={{ position: "relative", paddingBottom: 80 }}>
@@ -3801,51 +3862,86 @@ export default function App() {
 
       {/* ── PROFILE TAB — main ── */}
       {activeTab === "profile" && profileView === "main" && (
-        <div style={{ padding: "48px 20px 20px", background: th.bg, minHeight: "100vh" }}>
-          <div style={{ textAlign: "center", marginBottom: 28 }}>
-            <div style={{ width: 80, height: 80, background: "linear-gradient(135deg,#16A34A,#15803D)", borderRadius: 40, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, margin: "0 auto 12px", cursor: "pointer" }} onClick={() => setShowEditProfile(true)}>
-              {isGuest ? "👁️" : (userData.photo ? "😊" : "👤")}
-            </div>
-            <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: th.text }}>
-              {isGuest ? (lang === "uz" ? "Mehmon foydalanuvchi" : "Гость") : `${userData.name} ${userData.surname}`}
+        <div style={{ background: th.bg, minHeight: "100vh", paddingBottom: 90 }}>
+          {/* Header */}
+          <div style={{ background: th.bg, padding: "50px 16px 16px", borderBottom: `1px solid ${th.border}` }}>
+            <h2 style={{ margin: "0 0 16px", fontSize: 20, fontWeight: 800, color: th.text }}>
+              {lang === "uz" ? "Profil" : "Профиль"}
             </h2>
-            <p style={{ color: th.sub, fontSize: 13, margin: "4px 0 0" }}>{userData.phone}</p>
-            {!isGuest && <button onClick={() => setShowEditProfile(true)} style={{ marginTop: 8, background: "none", border: `1px solid ${th.border}`, borderRadius: 10, padding: "5px 14px", fontSize: 12, color: th.sub, cursor: "pointer" }}>{tx.editProfile}</button>}
+            {/* Avatar + ism + telefon */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{
+                width: 60, height: 60, borderRadius: 30,
+                background: th.card3,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0, overflow: "hidden",
+                border: `1px solid ${th.border}`,
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 17, fontWeight: 700, color: th.text }}>
+                  {isGuest ? (lang === "uz" ? "Mehmon" : "Гость") : (userData.name || (lang === "uz" ? "Ism yo'q" : "Без имени"))}
+                </div>
+                <div style={{ fontSize: 14, color: th.sub, marginTop: 2 }}>
+                  {userData.phone || (lang === "uz" ? "Telefon yo'q" : "Без телефона")}
+                </div>
+              </div>
+              {!isGuest && (
+                <button onClick={() => setShowEditProfile(true)} style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* Dark mode toggle OLIB TASHLANDI — Sozlamalar da bor */}
+          {/* Ajratuvchi */}
+          <div style={{ height: 8, background: th.card2 }} />
 
-          {!isGuest && (
-            <button onClick={() => myStore ? setViewingStoreId(myStore.id) : setProfileView("createStore")}
-              style={{ width: "100%", display: "flex", alignItems: "center", gap: 14, textAlign: "left", background: "linear-gradient(135deg,#16A34A 0%,#15803D 100%)", border: "none", borderRadius: 16, padding: "16px 18px", marginBottom: 10, cursor: "pointer", boxShadow: "0 4px 16px rgba(230,57,70,0.25)" }}>
-              <span style={{ fontSize: 26 }}>{myStore ? myStore.logo : "🏪"}</span>
-              <span style={{ flex: 1 }}>
-                <span style={{ display: "block", fontWeight: 800, fontSize: 15, color: "#fff" }}>{myStore ? myStore.name : tx.myStore}</span>
-                <span style={{ display: "block", fontWeight: 500, fontSize: 11, color: "rgba(255,255,255,0.85)", marginTop: 2 }}>{myStore ? `${myStore.products.length} ${tx.productsInStore.toLowerCase()}` : tx.createStoreSub}</span>
-              </span>
-              <span style={{ color: "#fff", fontSize: 18 }}>›</span>
-            </button>
-          )}
+          {/* Menyu ro'yxati */}
+          <div style={{ background: th.bg }}>
+            {[
+              { icon: "🏪", bg: "#16A34A", label: lang === "uz" ? "Mening do'konim" : "Мой магазин", action: () => myStore ? setViewingStoreId(myStore.id) : setProfileView("createStore") },
+              { icon: "❤️", bg: "#FF3B30", label: lang === "uz" ? "Qiziq e'lonlar" : "Избранные", action: () => {} },
+              { icon: "📋", bg: "#007AFF", label: lang === "uz" ? "E'lonlarim" : "Мои объявления", action: () => myStore ? setViewingStoreId(myStore.id) : setProfileView("createStore") },
+              { icon: "📍", bg: "#5856D6", label: lang === "uz" ? "Mening hududim" : "Мой район", action: () => {} },
+              { icon: "👍", bg: "#FF9500", label: lang === "uz" ? "Sharhlarim" : "Мои отзывы", action: () => {} },
+              { icon: "⚙️", bg: "#8E8E93", label: lang === "uz" ? "Sozlamalar" : "Настройки", action: () => setProfileView("settings") },
+              { icon: "🎧", bg: "#32ADE6", label: lang === "uz" ? "Yordam xizmati" : "Поддержка", action: () => {} },
+              { icon: "📤", bg: "#FF6B6B", label: lang === "uz" ? "Ilovani tavsiya qilish" : "Поделиться", action: () => navigator.share?.({ title: "OsonTop", url: "https://osontop.uz" }) },
+              { icon: "⭐", bg: "#FFB400", label: lang === "uz" ? "Ilovani baholash" : "Оценить", action: () => {} },
+              { icon: "ℹ️", bg: "#5856D6", label: lang === "uz" ? "Ilova haqida" : "О приложении", action: () => setProfileView("settings") },
+            ].map((item, i, arr) => (
+              <div key={i} onClick={item.action} style={{
+                display: "flex", alignItems: "center", gap: 14,
+                padding: "14px 16px",
+                borderBottom: i < arr.length - 1 ? `1px solid ${th.border}` : "none",
+                cursor: "pointer", background: th.bg,
+              }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10,
+                  background: item.bg,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 17, flexShrink: 0,
+                }}>{item.icon}</div>
+                <span style={{ flex: 1, fontSize: 15, color: th.text, fontWeight: 500 }}>{item.label}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            ))}
+          </div>
 
-          {[
-            { icon: "👤", label: lang === "uz" ? "Mening profilim" : "Мой профиль", count: 0, action: () => setProfileView("myprofile") },
-            { icon: "💬", label: lang === "uz" ? "Chatlarim" : "Мои чаты", count: Object.keys(chatMessages).length, action: () => setProfileView("chats") },
-            { icon: "📅", label: tx.myBookings, count: bookings.filter(b => b.status === "pending").length, action: () => setProfileView("bookings") },
-            { icon: "🏪", label: tx.subscribedStores, count: subscriptions.length, action: () => setProfileView("subscribed") },
-            { icon: "⚙️", label: tx.settings, count: 0, action: () => setProfileView("settings") },
-          ].map((item, i) => (
-            <div key={i} onClick={item.action} style={{ background: th.card, borderRadius: 14, padding: "16px 18px", marginBottom: 10, display: "flex", alignItems: "center", gap: 14, boxShadow: "0 1px 6px rgba(0,0,0,0.05)", cursor: "pointer", border: `1px solid ${th.border}` }}>
-              <span style={{ fontSize: 22 }}>{item.icon}</span>
-              <span style={{ flex: 1, fontWeight: 600, fontSize: 14, color: th.text }}>{item.label}</span>
-              {item.count > 0 && <span style={{ background: "#16A34A", color: "#fff", borderRadius: 8, padding: "2px 8px", fontSize: 12, fontWeight: 700 }}>{item.count}</span>}
-              <span style={{ color: "#CCC" }}>›</span>
+          {/* Chiqish */}
+          <div style={{ padding: "16px 16px 0" }}>
+            <div onClick={() => { if (isGuest) { setIsGuest(false); setStep(0); } else { setStep(0); setUserData({ name: "", surname: "", phone: "", photo: "" }); saveToLS(null); } }}
+              style={{
+                display: "flex", alignItems: "center", gap: 14,
+                padding: "14px 16px", cursor: "pointer",
+                borderTop: `1px solid ${th.border}`,
+              }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: "#FF3B3022", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17 }}>🚪</div>
+              <span style={{ flex: 1, fontSize: 15, color: "#FF3B30", fontWeight: 600 }}>{lang === "uz" ? "Chiqish" : "Выйти"}</span>
             </div>
-          ))}
-
-          <button onClick={() => { if (isGuest) { setIsGuest(false); setStep(0); } else { setStep(0); setUserData({ name: "", surname: "", phone: "", photo: "" }); saveToLS(null); } }}
-            style={{ width: "100%", padding: "14px", background: th.card, color: "#16A34A", border: "1.5px solid #16A34A", borderRadius: 14, fontSize: 15, fontWeight: 700, cursor: "pointer", marginTop: 10 }}>
-            {lang === "uz" ? "Chiqish" : "Выйти"}
-          </button>
+          </div>
         </div>
       )}
 
@@ -4251,7 +4347,7 @@ export default function App() {
         </ModalSheet>
       )}
 
-      {/* ── FOOTER NAV: Home | Search | [+] | Map | Profile ── */}
+      {/* ── FOOTER NAV: Asosiy | Toifalar | Qidiruv | Yozishmalar | Profil ── */}
       <div style={{
         position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
         width: "100%", maxWidth: 430,
@@ -4261,43 +4357,42 @@ export default function App() {
         padding: "8px 0 22px",
         zIndex: 100,
       }}>
-        {/* Home */}
+        {/* Asosiy (Home) */}
         <button onClick={() => { setActiveTab("home"); setProfileView("main"); }}
           style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill={activeTab==="home"?"#16A34A":"none"} stroke={activeTab==="home"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span style={{ fontSize:10, fontWeight:activeTab==="home"?700:500, color:activeTab==="home"?"#16A34A":th.sub }}>{lang==="uz"?"Bosh":"Главная"}</span>
+          <span style={{ fontSize:10, fontWeight:activeTab==="home"?700:500, color:activeTab==="home"?"#16A34A":th.sub }}>{lang==="uz"?"Asosiy":"Главная"}</span>
         </button>
 
-        {/* Search */}
-        <button onClick={() => { setActiveTab("home"); setTimeout(()=>document.querySelector("input[placeholder]")?.focus(),100); }}
+        {/* Toifalar (Categories) */}
+        <button onClick={() => setActiveTab("categories")}
           style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <span style={{ fontSize:10, fontWeight:500, color:th.sub }}>{lang==="uz"?"Qidiruv":"Поиск"}</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={activeTab==="categories"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span style={{ fontSize:10, fontWeight:activeTab==="categories"?700:500, color:activeTab==="categories"?"#16A34A":th.sub }}>{lang==="uz"?"Toifalar":"Категории"}</span>
         </button>
 
-        {/* Markaziy + tugma */}
-        <div style={{ flex:1, display:"flex", justifyContent:"center", alignItems:"flex-end" }}>
-          <button onClick={() => setShowAddSheet(true)}
-            style={{
-              width: 54, height: 54, borderRadius: 27,
-              background: "linear-gradient(135deg,#16A34A,#15803D)",
-              border: "none", cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              boxShadow: "0 4px 20px rgba(22,163,74,0.5)",
-              marginBottom: 6,
-            }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </button>
-        </div>
-
-        {/* Map */}
-        <button onClick={() => setActiveTab("map")}
+        {/* Qidiruv (Search) */}
+        <button onClick={() => setActiveTab("search")}
           style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0" }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={activeTab==="map"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-          <span style={{ fontSize:10, fontWeight:activeTab==="map"?700:500, color:activeTab==="map"?"#16A34A":th.sub }}>{lang==="uz"?"Xarita":"Карта"}</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={activeTab==="search"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span style={{ fontSize:10, fontWeight:activeTab==="search"?700:500, color:activeTab==="search"?"#16A34A":th.sub }}>{lang==="uz"?"Qidiruv":"Поиск"}</span>
         </button>
 
-        {/* Profile */}
+        {/* Yozishmalar (Chat) */}
+        <button onClick={() => setActiveTab("chat")}
+          style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0", position:"relative" }}>
+          <div style={{ position:"relative" }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill={activeTab==="chat"?"#16A34A":"none"} stroke={activeTab==="chat"?"#16A34A":th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            {Object.keys(chatMessages).length > 0 && (
+              <div style={{ position:"absolute", top:-4, right:-6, minWidth:16, height:16, borderRadius:8, background:"#16A34A", display:"flex", alignItems:"center", justifyContent:"center", border:`2px solid ${th.card}` }}>
+                <span style={{ fontSize:9, fontWeight:800, color:"#fff", padding:"0 3px" }}>{Object.keys(chatMessages).length > 9 ? "9+" : Object.keys(chatMessages).length}</span>
+              </div>
+            )}
+          </div>
+          <span style={{ fontSize:10, fontWeight:activeTab==="chat"?700:500, color:activeTab==="chat"?"#16A34A":th.sub }}>{lang==="uz"?"Yozishmalar":"Чаты"}</span>
+        </button>
+
+        {/* Profil */}
         <button onClick={() => { setActiveTab("profile"); }}
           style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"4px 0", position:"relative" }}>
           <div style={{ position:"relative" }}>
