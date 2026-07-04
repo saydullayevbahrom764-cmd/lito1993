@@ -799,25 +799,102 @@ function UserProfilePage({ lang, dark, th, tx, userData, myStore, stores, locati
   const userProducts = myStore ? myStore.products : [];
 
   const compliments = lang === "uz" ? [
-    { id: "kind",       emoji: "😊", label: "Mehmondo'st" },
-    { id: "fast",       emoji: "⚡", label: "Tez javob beradi" },
-    { id: "honest",     emoji: "🤝", label: "Halol" },
-    { id: "careful",    emoji: "📦", label: "Ehtiyotkor" },
-    { id: "cool",       emoji: "😎", label: "Zo'r sotuvchi" },
-    { id: "punctual",   emoji: "⏰", label: "Vaqtida keladi" },
-    { id: "good_price", emoji: "💰", label: "Yaxshi narx" },
-    { id: "recommend",  emoji: "👍", label: "Tavsiya qilaman" },
+    { id: "c1", label: "Savdo shartiga amal qiladi" },
+    { id: "c2", label: "Muloyim va xushmuomala" },
+    { id: "c3", label: "Javob berish tezligi yuqori" },
+    { id: "c4", label: "Mahsulot tavsifga mos" },
+    { id: "c5", label: "Uchrashuv joyiga o'z vaqtida keldi" },
+    { id: "c6", label: "Toza va tartibli mahsulot" },
+    { id: "c7", label: "Narxiga arziydi" },
+    { id: "c8", label: "Tavsiya qilaman" },
   ] : [
-    { id: "kind",       emoji: "😊", label: "Приветливый" },
-    { id: "fast",       emoji: "⚡", label: "Быстро отвечает" },
-    { id: "honest",     emoji: "🤝", label: "Честный" },
-    { id: "careful",    emoji: "📦", label: "Аккуратный" },
-    { id: "cool",       emoji: "😎", label: "Отличный продавец" },
-    { id: "punctual",   emoji: "⏰", label: "Пунктуальный" },
-    { id: "good_price", emoji: "💰", label: "Хорошая цена" },
-    { id: "recommend",  emoji: "👍", label: "Рекомендую" },
+    { id: "c1", label: "Соблюдает условия сделки" },
+    { id: "c2", label: "Вежливый и приятный" },
+    { id: "c3", label: "Быстро отвечает" },
+    { id: "c4", label: "Товар соответствует описанию" },
+    { id: "c5", label: "Пришёл вовремя на встречу" },
+    { id: "c6", label: "Аккуратный товар" },
+    { id: "c7", label: "Хорошая цена" },
+    { id: "c8", label: "Рекомендую" },
   ];
 
+  /* ── Compliment to'liq sahifasi ── */
+  if (showCompliment) return (
+    <div style={{ background: th.bg, minHeight: "100vh", paddingBottom: 30 }}>
+      {/* Header */}
+      <div style={{ background: th.bg, padding: "50px 16px 14px", display: "flex", alignItems: "center", gap: 12, borderBottom: `1px solid ${th.border}` }}>
+        <button onClick={() => setShowCompliment(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={th.text} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <span style={{ fontSize: 17, fontWeight: 700, color: th.text }}>Compliment</span>
+      </div>
+
+      {/* Foydalanuvchi */}
+      <div style={{ padding: "16px 16px 0", display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+        <div style={{ width: 48, height: 48, borderRadius: 24, background: th.card2, border: `1px solid ${th.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{userData.name || (lang === "uz" ? "Foydalanuvchi" : "Пользователь")}</div>
+          <div style={{ fontSize: 12, color: th.sub }}>Manner Meter {mannerScore}°C</div>
+        </div>
+      </div>
+
+      {/* Info qutisi */}
+      <div style={{ margin: "0 16px 20px", background: th.card2, borderRadius: 12, padding: "12px 14px", border: `1px solid ${th.border}` }}>
+        <span style={{ fontSize: 13, color: th.text, lineHeight: 1.6 }}>
+          {lang === "uz"
+            ? "Compliment foydalanuvchining Manner Meter balini oshiradi. "
+            : "Комплимент повысит рейтинг пользователя. "}
+          <span style={{ color: "#16A34A", fontWeight: 600, cursor: "pointer" }}>{lang === "uz" ? "Batafsil" : "Подробнее"}</span>
+        </span>
+      </div>
+
+      {/* Sarlavha */}
+      <div style={{ padding: "0 16px 12px" }}>
+        <div style={{ fontSize: 16, fontWeight: 800, color: th.text }}>
+          {lang === "uz" ? "Ijobiy fikrni tanlang" : "Choose positive feedback"}
+        </div>
+      </div>
+
+      {/* Checkbox ro'yxati */}
+      <div style={{ padding: "0 16px" }}>
+        {compliments.map((c, i) => {
+          const active = selectedCompliments.includes(c.id);
+          return (
+            <div key={c.id} onClick={() => setSelectedCompliments(p => p.includes(c.id) ? p.filter(x => x !== c.id) : [...p, c.id])}
+              style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 0", borderBottom: i < compliments.length - 1 ? `1px solid ${th.border}` : "none", cursor: "pointer" }}>
+              {/* Checkbox */}
+              <div style={{
+                width: 22, height: 22, borderRadius: 4, flexShrink: 0,
+                border: `2px solid ${active ? "#FF6B35" : th.sub}`,
+                background: active ? "#FF6B35" : "transparent",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                {active && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+              </div>
+              <span style={{ fontSize: 15, color: th.text }}>{c.label}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Submit + Cancel — pastda */}
+      <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, padding: "12px 16px 32px", background: th.bg, borderTop: `1px solid ${th.border}` }}>
+        <button onClick={() => { setShowCompliment(false); setSelectedCompliments([]); }}
+          disabled={selectedCompliments.length === 0}
+          style={{ width: "100%", padding: "16px", background: selectedCompliments.length > 0 ? "#FF6B35" : th.card2, color: selectedCompliments.length > 0 ? "#fff" : th.sub, border: "none", borderRadius: 14, fontWeight: 800, fontSize: 16, cursor: selectedCompliments.length > 0 ? "pointer" : "not-allowed", marginBottom: 10 }}>
+          Submit
+        </button>
+        <button onClick={() => { setShowCompliment(false); setSelectedCompliments([]); }}
+          style={{ width: "100%", padding: "14px", background: "none", border: "none", color: th.sub, fontSize: 15, cursor: "pointer" }}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+
+  /* ── Asosiy profil sahifasi ── */
   return (
     <div style={{ background: th.bg, minHeight: "100vh", paddingBottom: 90 }}>
       {/* Header */}
@@ -826,7 +903,7 @@ function UserProfilePage({ lang, dark, th, tx, userData, myStore, stores, locati
           <button onClick={onBack} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={th.text} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
-          <span style={{ fontSize: 17, fontWeight: 700, color: th.text }}>{lang === "uz" ? "Profil" : "Профиль"}</span>
+          <span style={{ fontSize: 17, fontWeight: 700, color: th.text }}>Profile</span>
         </div>
         <div style={{ display: "flex", gap: 14 }}>
           <button onClick={() => navigator.share?.({ title: userData.name })} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
@@ -837,80 +914,87 @@ function UserProfilePage({ lang, dark, th, tx, userData, myStore, stores, locati
       </div>
 
       {/* ── PROFIL KARTOCHKASI ── */}
-      <div style={{ background: th.card, margin: 12, borderRadius: 18, padding: 18, border: `1px solid ${th.border}` }}>
-        {/* Avatar + ism */}
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 16 }}>
-          <div style={{ width: 64, height: 64, borderRadius: 32, background: th.card2, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, border: `2px solid ${th.border}` }}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div style={{ background: th.card, margin: "12px 12px 0", borderRadius: 18, padding: 18, border: `1px solid ${th.border}` }}>
+        {/* Avatar + ism + ID */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+          <div style={{ width: 68, height: 68, borderRadius: 34, background: "#3A3A3A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, border: `2px solid #555` }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 800, color: th.text, marginBottom: 2 }}>
-              {userData.name || (lang === "uz" ? "Ism yo'q" : "Нет имени")}
+            <div style={{ fontSize: 19, fontWeight: 800, color: th.text, marginBottom: 3 }}>
+              {userData.name || (lang === "uz" ? "Foydalanuvchi" : "Пользователь")}
             </div>
-            <div style={{ fontSize: 12, color: th.sub }}>
-              #{Math.random().toString(36).slice(2, 9).toUpperCase()} · {lang === "uz" ? "So'nggi 3 kunda faol" : "Активен 3 дня назад"}
+            <div style={{ fontSize: 13, color: th.sub }}>
+              #{Math.random().toString(36).slice(2, 10).toUpperCase()} · {lang === "uz" ? "So'nggi 3 kunda faol" : "Активен последние 3 дня"}
             </div>
           </div>
-          <button onClick={onEditProfile} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
+          <button onClick={onEditProfile} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, flexShrink: 0 }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
         </div>
 
-        {/* Tasdiqlash — yashirish/ko'rsatish */}
-        <div style={{ borderTop: `1px solid ${th.border}`, paddingTop: 14, marginBottom: 14 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 15 }}>📅</span>
-              <span style={{ fontSize: 13, color: th.sub }}>{lang === "uz" ? "2024 yildan beri" : "С 2024 года"}</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 15 }}>✅</span>
-              <span style={{ fontSize: 13, color: th.sub }}>{lang === "uz" ? "Muvaffaqiyatli tasdiqlangan" : "Успешно верифицирован"}</span>
-            </div>
-            {showDetails && (
-              <>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 15 }}>📱</span>
-                  <span style={{ fontSize: 13, color: th.sub }}>{userData.phone || "+998 ** *** ** **"}</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                  <span style={{ fontSize: 15 }}>📍</span>
-                  <div>
-                    <div style={{ fontSize: 13, color: th.sub }}>{lang === "uz" ? "Tasdiqlangan joylashuv" : "Подтверждённое местоположение"}</div>
-                    <div style={{ fontSize: 12, color: th.sub }}>{lang === "uz" ? `${locationName}da 28 marta tekshirilgan` : `Проверен 28 раз в ${locationName}`}</div>
+        {/* 4 ta tasdiqlash satri */}
+        <div style={{ marginBottom: 16 }}>
+          {/* Har doim ko'rinadigan 2 ta */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
+            <span style={{ fontSize: 17 }}>📅</span>
+            <span style={{ fontSize: 14, color: th.text }}>{lang === "uz" ? "2024 yildan beri a'zo" : "Joined in 2024"}</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
+            <span style={{ fontSize: 17 }}>✅</span>
+            <span style={{ fontSize: 14, color: th.text }}>{lang === "uz" ? "Muvaffaqiyatli tasdiqlangan" : "Successfully verified"}</span>
+          </div>
+
+          {/* Yashirilgan 2 ta */}
+          {showDetails && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
+                <span style={{ fontSize: 17 }}>💳</span>
+                <span style={{ fontSize: 14, color: th.text }}>{lang === "uz" ? "OsonPay tasdiqlangan" : "OsonPay verification complete"}</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "6px 0" }}>
+                <span style={{ fontSize: 17 }}>📍</span>
+                <div>
+                  <div style={{ fontSize: 14, color: th.text }}>{lang === "uz" ? "Joylashuv tasdiqlandi (so'nggi 30 kun)" : "Verify (last 30 days)"}</div>
+                  <div style={{ fontSize: 12, color: th.sub, marginTop: 2 }}>
+                    {lang === "uz" ? `${locationName}da 28 marta tekshirilgan` : `Checked in 28 times in ${locationName}`}
                   </div>
                 </div>
-              </>
-            )}
-            <button onClick={() => setShowDetails(p => !p)} style={{ background: "none", border: "none", cursor: "pointer", color: "#16A34A", fontSize: 13, fontWeight: 600, textAlign: "left", padding: 0 }}>
-              {showDetails ? (lang === "uz" ? "▲ Yashirish" : "▲ Скрыть") : (lang === "uz" ? "▼ To'liq ko'rish" : "▼ Показать полностью")}
-            </button>
-          </div>
+              </div>
+            </>
+          )}
+
+          {/* Ko'rsatish/Yashirish tugmasi */}
+          <button onClick={() => setShowDetails(p => !p)} style={{ background: "none", border: "none", cursor: "pointer", color: th.sub, fontSize: 13, padding: "6px 0", display: "flex", alignItems: "center", gap: 4 }}>
+            {showDetails
+              ? (lang === "uz" ? "▲ Yashirish" : "▲ Скрыть")
+              : (lang === "uz" ? "▼ Barchasini ko'rish" : "▼ Показать всё")}
+          </button>
         </div>
 
-        {/* Compliment + Kuzatish */}
+        {/* Compliment + Follow tugmalari */}
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={() => setShowCompliment(true)} style={{ flex: 1, padding: "11px", background: th.card2, border: `1.5px solid ${th.border}`, borderRadius: 12, fontSize: 14, fontWeight: 700, color: th.text, cursor: "pointer" }}>
+          <button onClick={() => setShowCompliment(true)} style={{ flex: 1, padding: "12px", background: th.card2, border: `1.5px solid ${th.border}`, borderRadius: 12, fontSize: 15, fontWeight: 700, color: th.text, cursor: "pointer" }}>
             Compliment
           </button>
-          <button style={{ flex: 1, padding: "11px", background: th.card2, border: `1.5px solid ${th.border}`, borderRadius: 12, fontSize: 14, fontWeight: 700, color: th.text, cursor: "pointer" }}>
+          <button style={{ flex: 1, padding: "12px", background: th.card2, border: `1.5px solid ${th.border}`, borderRadius: 12, fontSize: 15, fontWeight: 700, color: th.text, cursor: "pointer" }}>
             {lang === "uz" ? "Kuzatish" : "Follow"}
           </button>
         </div>
       </div>
 
       {/* ── MANNER METER ── */}
-      <div style={{ background: th.card, margin: "0 12px 12px", borderRadius: 18, padding: 18, border: `1px solid ${th.border}` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+      <div style={{ background: th.card, margin: "8px 12px 0", borderRadius: 18, padding: 18, border: `1px solid ${th.border}` }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 15, fontWeight: 700, color: th.text }}>Manner Meter</span>
-            <span style={{ fontSize: 13, color: th.sub, cursor: "pointer" }}>ⓘ</span>
+            <span style={{ fontSize: 13, color: th.sub }}>ⓘ</span>
           </div>
-          <span style={{ fontSize: 28 }}>😊</span>
+          <span style={{ fontSize: 30 }}>😊</span>
         </div>
-        <div style={{ fontSize: 34, fontWeight: 900, color: "#FF6B35", marginBottom: 10 }}>{mannerScore}°C</div>
-        <div style={{ height: 6, background: th.card2, borderRadius: 3, marginBottom: 14, overflow: "hidden" }}>
-          <div style={{ height: "100%", width: "72%", background: "linear-gradient(to right, #FF6B35, #FF9500)", borderRadius: 3 }} />
+        <div style={{ fontSize: 36, fontWeight: 900, color: "#FF6B35", marginBottom: 10 }}>{mannerScore}°C</div>
+        <div style={{ height: 5, background: th.card2, borderRadius: 3, marginBottom: 14, overflow: "hidden" }}>
+          <div style={{ height: "100%", width: "76%", background: "linear-gradient(to right, #FF6B35, #FF9500)", borderRadius: 3 }} />
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
@@ -918,21 +1002,22 @@ function UserProfilePage({ lang, dark, th, tx, userData, myStore, stores, locati
             <div style={{ fontSize: 12, color: th.sub }}>Response 97%</div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: th.text }}>9 {lang === "uz" ? "dan" : "из"} 9</div>
-            <div style={{ fontSize: 12, color: th.sub }}>{lang === "uz" ? "10 daqiqada" : "10 минут"}</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: th.text }}>9 / 9</div>
+            <div style={{ fontSize: 12, color: th.sub }}>{lang === "uz" ? "10 daqiqa ichida" : "За 10 минут"}</div>
           </div>
         </div>
       </div>
 
       {/* ── MAHSULOTLAR — Instagram 3x grid ── */}
-      {userProducts.length > 0 && (
-        <div style={{ background: th.card, margin: "0 12px 12px", borderRadius: 18, overflow: "hidden", border: `1px solid ${th.border}` }}>
+      {userProducts.length > 0 ? (
+        <div style={{ background: th.card, margin: "8px 12px 12px", borderRadius: 18, overflow: "hidden", border: `1px solid ${th.border}` }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px 10px" }}>
             <span style={{ fontSize: 15, fontWeight: 700, color: th.text }}>
-              {lang === "uz" ? `Sotuvdagi mahsulotlar` : `Товаров на продажу`} {userProducts.length}
+              {lang === "uz" ? "Sotuvdagi mahsulotlar" : "Товары на продажу"} {userProducts.length}
             </span>
-            <button onClick={() => setViewingStoreId(myStore?.id)} style={{ background: "none", border: "none", cursor: "pointer", color: th.sub, fontSize: 13, display: "flex", alignItems: "center", gap: 4 }}>
-              {lang === "uz" ? "Barchasi" : "Все"} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <button onClick={() => setViewingStoreId(myStore?.id)} style={{ background: "none", border: "none", cursor: "pointer", color: th.sub, fontSize: 13, display: "flex", alignItems: "center", gap: 3 }}>
+              {lang === "uz" ? "Barchasi" : "Все"}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={th.sub} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2 }}>
@@ -952,44 +1037,21 @@ function UserProfilePage({ lang, dark, th, tx, userData, myStore, stores, locati
             ))}
           </div>
         </div>
-      )}
-
-      {/* ── COMPLIMENT MODAL ── */}
-      {showCompliment && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 400, display: "flex", alignItems: "flex-end", justifyContent: "center", maxWidth: 430, margin: "0 auto" }}>
-          <div style={{ background: th.card, borderRadius: "22px 22px 0 0", padding: "20px 20px 32px", width: "100%", maxHeight: "80vh", overflowY: "auto" }}>
-            <div style={{ width: 40, height: 4, background: th.border, borderRadius: 2, margin: "0 auto 16px" }} />
-            <h3 style={{ fontSize: 18, fontWeight: 800, color: th.text, textAlign: "center", marginBottom: 4 }}>Compliment</h3>
-            <p style={{ fontSize: 13, color: th.sub, textAlign: "center", marginBottom: 20 }}>
-              {lang === "uz" ? "Bu foydalanuvchi haqida fikringiz?" : "Что думаете об этом пользователе?"}
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
-              {compliments.map(c => {
-                const active = selectedCompliments.includes(c.id);
-                return (
-                  <button key={c.id} onClick={() => setSelectedCompliments(p => p.includes(c.id) ? p.filter(x => x !== c.id) : [...p, c.id])}
-                    style={{ padding: "14px 10px", borderRadius: 14, cursor: "pointer", border: `2px solid ${active ? "#16A34A" : th.border}`, background: active ? "#16A34A15" : th.card2, display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: 22 }}>{c.emoji}</span>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: active ? "#16A34A" : th.text, flex: 1, textAlign: "left" }}>{c.label}</span>
-                    {active && <span style={{ color: "#16A34A", fontWeight: 800 }}>✓</span>}
-                  </button>
-                );
-              })}
-            </div>
-            <button
-              onClick={() => { setShowCompliment(false); setSelectedCompliments([]); }}
-              disabled={selectedCompliments.length === 0}
-              style={{ width: "100%", padding: "15px", background: selectedCompliments.length > 0 ? "#16A34A" : th.card2, color: selectedCompliments.length > 0 ? "#fff" : th.sub, border: "none", borderRadius: 14, fontWeight: 800, fontSize: 15, cursor: selectedCompliments.length > 0 ? "pointer" : "not-allowed", marginBottom: 10 }}>
-              {lang === "uz" ? `Yuborish${selectedCompliments.length > 0 ? ` (${selectedCompliments.length})` : ""}` : `Отправить${selectedCompliments.length > 0 ? ` (${selectedCompliments.length})` : ""}`}
+      ) : (
+        <div style={{ background: th.card, margin: "8px 12px 12px", borderRadius: 18, padding: "30px 16px", border: `1px solid ${th.border}`, textAlign: "center" }}>
+          <div style={{ fontSize: 44, marginBottom: 10 }}>🏪</div>
+          <div style={{ fontSize: 14, color: th.sub }}>{lang === "uz" ? "Hali mahsulot qo'shilmagan" : "Товаров пока нет"}</div>
+          {myStore && (
+            <button onClick={() => setViewingStoreId(myStore.id)} style={{ marginTop: 14, background: "#16A34A", color: "#fff", border: "none", borderRadius: 10, padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              + {lang === "uz" ? "Mahsulot qo'shish" : "Добавить товар"}
             </button>
-            <button onClick={() => setShowCompliment(false)} style={{ width: "100%", padding: "13px", background: "none", border: "none", color: th.sub, fontSize: 14, cursor: "pointer" }}>
-              {lang === "uz" ? "Bekor qilish" : "Отмена"}
-            </button>
-          </div>
+          )}
         </div>
       )}
     </div>
   );
+}
+
 }
 
 // =====================================================
@@ -3889,62 +3951,6 @@ export default function App() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* ─── YAQIN BIZNESLAR ─── */}
-            <div style={{ height: 8, background: th.card2, margin: "4px 0 12px" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px 10px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 16 }}>📍</span>
-                <span style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{lang === "uz" ? "Yaqin bizneslar" : "Рядом"}</span>
-              </div>
-              <button onClick={() => setActiveTab("map")} style={{ fontSize: 12, color: "#16A34A", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>{lang === "uz" ? "Barchasi ›" : "Все ›"}</button>
-            </div>
-            <div style={{ padding: "0 16px" }}>
-              {stores.filter(s => activeCategory === "all" || s.products.some(p => p.category === activeCategory)).slice(0, 5).map(store => (
-                <BusinessCard key={store.id} store={store} th={th} lang={lang} onClick={() => setViewingStoreId(store.id)} />
-              ))}
-            </div>
-
-            {/* ─── TOP RATED BIZNESLAR ─── */}
-            <div style={{ height: 8, background: th.card2, margin: "4px 0 12px" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px 10px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 16 }}>⭐</span>
-                <span style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{lang === "uz" ? "Eng baholangan" : "Топ рейтинг"}</span>
-              </div>
-            </div>
-            <div style={{ padding: "0 16px" }}>
-              {[...stores]
-                .filter(s => s.reviews.length > 0 && (activeCategory === "all" || s.products.some(p => p.category === activeCategory)))
-                .sort((a, b) => avgRating(b.reviews) - avgRating(a.reviews))
-                .slice(0, 3)
-                .map(store => (
-                  <BusinessCard key={store.id} store={store} th={th} lang={lang} onClick={() => setViewingStoreId(store.id)} />
-                ))}
-              {stores.filter(s => s.reviews.length > 0).length === 0 && (
-                <div style={{ padding: "0 0 12px", color: th.sub, fontSize: 13, textAlign: "center" }}>
-                  {lang === "uz" ? "Hozircha sharhlar yo'q" : "Пока нет отзывов"}
-                </div>
-              )}
-            </div>
-
-            {/* ─── YANGI BIZNESLAR ─── */}
-            <div style={{ height: 8, background: th.card2, margin: "4px 0 12px" }} />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px 10px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 16 }}>🆕</span>
-                <span style={{ fontWeight: 700, fontSize: 15, color: th.text }}>{lang === "uz" ? "Yangi bizneslar" : "Новые бизнесы"}</span>
-              </div>
-            </div>
-            <div style={{ padding: "0 16px" }}>
-              {[...stores]
-                .filter(s => activeCategory === "all" || s.products.some(p => p.category === activeCategory))
-                .slice(-4)
-                .reverse()
-                .map(store => (
-                  <BusinessCard key={store.id} store={store} th={th} lang={lang} onClick={() => setViewingStoreId(store.id)} />
-                ))}
             </div>
 
             {/* ─── MAXSUS TAKLIFLAR (Special Offers) ─── */}
