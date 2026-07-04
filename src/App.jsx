@@ -1,36 +1,103 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import DynamicCategoryForm from "./CategoryForms.jsx";
 
-// Eski cache ni tozalash
-if (typeof window !== "undefined") {
-  ["osontop_state","chegirma_state","osontop_v1","osontop_v10"].forEach(k => {
-    try { localStorage.removeItem(k); } catch {}
-  });
+// =====================================================
+// PWA INSTALL PROMPT
+// =====================================================
+function PWAInstallPrompt({ dark }) {
+  const th = theme(dark);
+  const [prompt, setPrompt] = useState(null);
+  const [show, setShow] = useState(false);
+  const [installed, setInstalled] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setInstalled(true);
+      return;
+    }
+    const handler = (e) => {
+      e.preventDefault();
+      setPrompt(e);
+      setTimeout(() => setShow(true), 3000);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!prompt) return;
+    prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    if (outcome === 'accepted') setInstalled(true);
+    setShow(false);
+  };
+
+  if (!show || installed) return null;
+
+  return (
+    <div style={{
+      position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)',
+      width: 'calc(100% - 32px)', maxWidth: 400,
+      background: th.card, borderRadius: 20,
+      padding: '16px 20px',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+      border: `1px solid ${th.border}`,
+      zIndex: 999,
+      display: 'flex', alignItems: 'center', gap: 14,
+      animation: 'slideUp 0.4s ease',
+    }}>
+
+      <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(135deg,#16A34A,#15803D)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <span style={{ color: '#fff', fontWeight: 900, fontSize: 26 }}>O</span>
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 700, fontSize: 14, color: th.text, marginBottom: 2 }}>OsonTop ni o'rnating</div>
+        <div style={{ fontSize: 12, color: th.sub }}>Tezroq ishlaydi, offline ham!</div>
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button onClick={() => setShow(false)} style={{ padding: '8px 12px', borderRadius: 10, background: th.card2, border: 'none', color: th.sub, fontSize: 12, cursor: 'pointer' }}>
+          Keyinroq
+        </button>
+        <button onClick={handleInstall} style={{ padding: '8px 14px', borderRadius: 10, background: '#16A34A', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+          O'rnatish
+        </button>
+      </div>
+    </div>
+  );
 }
 
 // =====================================================
-// THEME
+// DARK MODE HOOK
+// =====================================================
+const useDark = () => {
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem("dark");
+    return saved !== null ? saved === "1" : true;
+  });
+  const toggle = () =>
+    setDark((d) => {
+      localStorage.setItem("dark", d ? "0" : "1");
+      return !d;
+    });
+  return [dark, toggle];
+};
+
+// =====================================================
+// THEME TOKENS
 // =====================================================
 const theme = (dark) => ({
-  bg:     dark ? "#0A0A0A" : "#F5F5F5",
-  card:   dark ? "#1A1A1A" : "#FFFFFF",
-  card2:  dark ? "#222222" : "#F0F0F0",
-  card3:  dark ? "#2A2A2A" : "#E8E8E8",
+  bg:     dark ? "#101010" : "#F5F5F5",
+  card:   dark ? "#1C1C1C" : "#FFFFFF",
+  card2:  dark ? "#242424" : "#F0F0F0",
+  card3:  dark ? "#2C2C2C" : "#E8E8E8",
   text:   dark ? "#F1F1F1" : "#1A1A1A",
   sub:    dark ? "#888888" : "#777777",
   sub2:   dark ? "#555555" : "#AAAAAA",
   border: dark ? "#2E2E2E" : "#E5E5E5",
   accent: "#16A34A",
+  accentDark: "#15803D",
 });
 
-const useDark = () => {
-  const [dark, setDark] = useState(() => {
-    const s = localStorage.getItem("osontop_dark");
-    return s !== null ? s === "1" : true;
-  });
-  const toggle = () => setDark(d => { localStorage.setItem("osontop_dark", d ? "0" : "1"); return !d; });
-  return [dark, toggle];
-};
 
 // =====================================================
 // TRANSLATIONS
@@ -566,6 +633,7 @@ function MapView({ lang, dark, deals, stores, onDealClick }) {
   );
 }
 
+
 // =====================================================
 // MAP PICKER (mini)
 // =====================================================
@@ -596,7 +664,6 @@ function MapPicker({ lang, location, onChange, dark }) {
     </div>
   );
 }
-
 
 // =====================================================
 // CHAT MODAL
@@ -664,6 +731,7 @@ function ChatModal({ store, lang, dark, messages, onClose, onSend }) {
     </div>
   );
 }
+
 
 // =====================================================
 // BOOKING MODAL
@@ -814,7 +882,7 @@ function DealDetailSheet({ deal, lang, dark, saved, onClose, onSave, onChat }) {
   );
 }
 
-// =====================================================
+
 // =====================================================
 // BUSINESS PROFILE VIEW
 // =====================================================
@@ -838,7 +906,6 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings,
 
   return (
     <div style={{minHeight:"100vh",background:th.bg,paddingBottom:30}}>
-      {/* Header */}
       <div style={{background:"linear-gradient(135deg,#16A34A 0%,#0D6B28 100%)",padding:"50px 16px 20px",color:"#fff"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
           <button onClick={onBack} style={{background:"rgba(255,255,255,0.2)",border:"none",borderRadius:10,width:34,height:34,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -952,7 +1019,6 @@ function BizProfile({ store, lang, dark, isOwner, isSub, bookings,
           );
         })}
 
-        {/* Reviews */}
         <div style={{marginTop:20}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
             <h3 style={{margin:0,fontSize:16,fontWeight:800,color:th.text}}>{tx.reviews}</h3>
@@ -1128,6 +1194,7 @@ function CreateBizWizard({ lang, dark, userData, onCreate, onCancel }) {
   );
 }
 
+
 // =====================================================
 // ADD PRODUCT FORM
 // =====================================================
@@ -1227,7 +1294,6 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
   const [cat, setCat] = useState("all");
   const [showSearch, setShowSearch] = useState(false);
 
-  // Qidiruv rejimida SearchMapView ko'rsatamiz
   if (showSearch || searchVal) {
     return (
       <SearchMapView
@@ -1262,9 +1328,7 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
 
   return (
     <div style={{background:"#111",minHeight:"100vh",paddingBottom:90}}>
-      {/* Header — Karrot uslubi */}
       <div style={{background:"#111",padding:"50px 16px 0",position:"sticky",top:0,zIndex:50,borderBottom:"1px solid #222"}}>
-        {/* Row 1: lokatsiya + ikonkalar */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
           <div style={{display:"flex",alignItems:"center",gap:6}}>
             <span style={{fontSize:16}}>📍</span>
@@ -1272,33 +1336,29 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:14}}>
-            {/* Qidiruv */}
             <button onClick={()=>setShowSearch(true)} style={{background:"none",border:"none",cursor:"pointer",padding:4}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </button>
-            {/* Bildirishnoma */}
             <button onClick={onNotif} style={{background:"none",border:"none",cursor:"pointer",padding:4,position:"relative"}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               {unreadCount > 0 && <span style={{position:"absolute",top:0,right:0,width:8,height:8,borderRadius:4,background:"#FF3B30"}}/>}
             </button>
-            {/* Menyu */}
             <button style={{background:"none",border:"none",cursor:"pointer",padding:4}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
           </div>
         </div>
 
-        {/* Kategoriya chips — Karrot uslubi */}
         <div style={{display:"flex",gap:8,overflowX:"auto",scrollbarWidth:"none",paddingBottom:10}}>
           {[
-            {id:"all", uz:"전체", ru:"Все", labelUz:"Hammasi", labelRu:"Все"},
-            {id:"shopping", uz:"중고거래", ru:"중고거래", labelUz:"Savdo", labelRu:"Торговля"},
-            {id:"services", uz:"알바", ru:"Xizmat", labelUz:"Xizmat", labelRu:"Услуги"},
-            {id:"restaurant", uz:"음식", ru:"Еда", labelUz:"Ovqat", labelRu:"Еда"},
-            {id:"auto", uz:"자동차", ru:"Авто", labelUz:"Avto", labelRu:"Авто"},
-            {id:"pharmacy", uz:"약국", ru:"Аптека", labelUz:"Dorixona", labelRu:"Аптека"},
-            {id:"hotel", uz:"숙박", ru:"Отель", labelUz:"Hotel", labelRu:"Отель"},
-            {id:"electronics", uz:"전자", ru:"Электро", labelUz:"Elektro", labelRu:"Электро"},
+            {id:"all", labelUz:"Hammasi", labelRu:"Все"},
+            {id:"shopping", labelUz:"Savdo", labelRu:"Торговля"},
+            {id:"services", labelUz:"Xizmat", labelRu:"Услуги"},
+            {id:"restaurant", labelUz:"Ovqat", labelRu:"Еда"},
+            {id:"auto", labelUz:"Avto", labelRu:"Авто"},
+            {id:"pharmacy", labelUz:"Dorixona", labelRu:"Аптека"},
+            {id:"hotel", labelUz:"Hotel", labelRu:"Отель"},
+            {id:"electronics", labelUz:"Elektro", labelRu:"Электро"},
           ].map(c => {
             const active = cat === c.id;
             return (
@@ -1311,41 +1371,34 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
                 fontSize: 13, cursor:"pointer", whiteSpace:"nowrap",
               }}>
                 {lang==="uz" ? c.labelUz : c.labelRu}
-                {c.id === "services" && <span style={{fontSize:9,color:active?"#FF3B30":"#FF6B6B",marginLeft:4}}>↑</span>}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Mahsulot/biznes ro'yxati — Karrot uslubi */}
       <div>
         {filtered.length === 0 ? (
           <div style={{textAlign:"center",padding:"60px 20px",color:"#666"}}>
             <div style={{fontSize:48,marginBottom:12}}>🔍</div>
             <div style={{fontSize:16,fontWeight:600,color:"#999"}}>{lang==="uz"?"Hozircha e'lon yo'q":"Нет объявлений"}</div>
           </div>
-        ) : filtered.map((item, i) => (
+        ) : filtered.map((item) => (
           <div key={item.id} onClick={()=>onBizClick(item.raw.storeId)}
             style={{display:"flex",gap:14,padding:"16px 16px",borderBottom:"1px solid #222",cursor:"pointer",background:"#111"}}>
-            {/* Rasm */}
             <div style={{width:110,height:110,borderRadius:8,overflow:"hidden",flexShrink:0,background:"#222",display:"flex",alignItems:"center",justifyContent:"center",fontSize:42}}>
               {item.photo
                 ? <img src={item.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                 : <span>{item.logo}</span>}
             </div>
-            {/* Ma'lumot */}
             <div style={{flex:1,minWidth:0,display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
               <div>
-                {/* Nom */}
                 <div style={{fontWeight:600,fontSize:15,color:"#fff",lineHeight:1.4,marginBottom:4,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical"}}>
                   {item.title}
                 </div>
-                {/* Manzil · masofa · vaqt */}
                 <div style={{fontSize:12,color:"#666",marginBottom:6}}>
                   {item.storeName} · {item.dist}km · {item.daysAgo}{lang==="uz"?" kun oldin":" дн. назад"}
                 </div>
-                {/* Narx */}
                 <div style={{display:"flex",alignItems:"center",gap:8}}>
                   {item.price > 0 && (
                     <span style={{fontWeight:700,fontSize:16,color:"#fff"}}>
@@ -1359,7 +1412,6 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
                   )}
                 </div>
               </div>
-              {/* Pastki: chat + like */}
               <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:12,marginTop:6}}>
                 {item.chats > 0 && (
                   <div style={{display:"flex",alignItems:"center",gap:3,color:"#666",fontSize:12}}>
@@ -1375,7 +1427,6 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
                 </div>
               </div>
             </div>
-            {/* 3 nuqta */}
             <div style={{display:"flex",flexDirection:"column",justifyContent:"flex-start"}}>
               <button onClick={e=>e.stopPropagation()} style={{background:"none",border:"none",cursor:"pointer",color:"#555",padding:4,fontSize:18}}>⋮</button>
             </div>
@@ -1383,7 +1434,6 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
         ))}
       </div>
 
-      {/* + Yozish tugmasi (Karrot uslubi) */}
       <button style={{
         position:"fixed", right:20, bottom:100, zIndex:99,
         background:"#FF7043", color:"#fff", border:"none",
@@ -1391,7 +1441,6 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
         display:"flex", alignItems:"center", gap:8,
         fontSize:15, fontWeight:700, cursor:"pointer",
         boxShadow:"0 4px 20px rgba(255,112,67,0.5)",
-        animation:"slideUp 0.3s ease",
       }}>
         <span style={{fontSize:18}}>+</span>
         {lang==="uz" ? "E'lon berish" : "Разместить"}
@@ -1400,8 +1449,9 @@ function HomeTab({ lang, dark, stores, activeDeals, savedKeys, onToggleSave, onB
   );
 }
 
+
 // =====================================================
-// SEARCH + MAP VIEW (2-rasm uslubi)
+// SEARCH + MAP VIEW
 // =====================================================
 function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch, onClose, onBizClick }) {
   const mapRef = useRef(null);
@@ -1445,15 +1495,7 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
       if (!store.lat || !store.lng) return;
       const icon = L.divIcon({
         className: "",
-        html: `<div style="
-          width:36px;height:36px;border-radius:50%;
-          background:#FF7043;
-          display:flex;align-items:center;justify-content:center;
-          font-size:16px;color:#fff;font-weight:900;
-          border:2.5px solid #fff;
-          box-shadow:0 2px 8px rgba(0,0,0,0.4);
-          cursor:pointer;
-        ">+</div>`,
+        html: `<div style="width:36px;height:36px;border-radius:50%;background:#FF7043;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:900;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);cursor:pointer;">+</div>`,
         iconSize: [36, 36], iconAnchor: [18, 18],
       });
       const m = L.marker([store.lat, store.lng], {icon}).addTo(lMap.current);
@@ -1468,11 +1510,9 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
 
   return (
     <div style={{background:"#111",minHeight:"100vh",display:"flex",flexDirection:"column"}}>
-      {/* Header */}
       <div style={{background:"#111",padding:"50px 12px 10px",borderBottom:"1px solid #222",position:"sticky",top:0,zIndex:50}}>
         <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
           <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:"#fff",padding:4,fontSize:18}}>‹</button>
-          {/* Search input */}
           <div style={{flex:1,position:"relative"}}>
             <svg style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)"}} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             <input
@@ -1489,7 +1529,6 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
             {lang==="uz"?"Yopish":"Close"}
           </button>
         </div>
-        {/* Filter chips */}
         <div style={{display:"flex",gap:8,overflowX:"auto",scrollbarWidth:"none"}}>
           {filters.map(f => (
             <button key={f.id} onClick={()=>setActiveFilter(f.id)} style={{
@@ -1505,21 +1544,13 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
 
       {searchVal && results.length > 0 && (
         <>
-          {/* Bizneslar + xarita sarlavhasi */}
           <div style={{padding:"12px 16px 8px",display:"flex",justifyContent:"space-between",alignItems:"center",background:"#111"}}>
             <span style={{fontSize:14,fontWeight:700,color:"#fff"}}>{lang==="uz"?"Bizneslar":"Бизнесы"}</span>
-            <button style={{background:"#222",border:"1px solid #333",borderRadius:20,padding:"5px 12px",color:"#aaa",fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",gap:5}}>
-              <span>📍</span>{lang==="uz"?"Xaritada ko'rish":"На карте"}
-            </button>
           </div>
-
-          {/* Mini Xarita */}
           <div ref={mapRef} style={{width:"100%",height:200,flexShrink:0}}/>
-
-          {/* Tanlangan store info */}
           {selStore && (
             <div onClick={()=>onBizClick(selStore.id)}
-              style={{margin:"0 16px",background:"#1A1A1A",borderRadius:12,padding:"12px 14px",border:"1px solid #333",cursor:"pointer",display:"flex",alignItems:"center",gap:12,marginTop:-1}}>
+              style={{margin:"0 16px",background:"#1A1A1A",borderRadius:12,padding:"12px 14px",border:"1px solid #333",cursor:"pointer",display:"flex",alignItems:"center",gap:12}}>
               <div style={{width:44,height:44,borderRadius:11,background:selStore.color+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{selStore.logo}</div>
               <div style={{flex:1}}>
                 <div style={{fontWeight:700,fontSize:14,color:"#fff"}}>{selStore.name}</div>
@@ -1528,30 +1559,23 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
               <div style={{color:"#16A34A",fontSize:20}}>›</div>
             </div>
           )}
-
-          {/* Natijalar ro'yxati */}
           <div style={{flex:1,overflowY:"auto"}}>
-            {results.map((store, i) => (
+            {results.map((store) => (
               <div key={store.id} onClick={()=>onBizClick(store.id)}
                 style={{display:"flex",gap:12,padding:"14px 16px",borderBottom:"1px solid #1A1A1A",cursor:"pointer",background: selStore?.id===store.id?"#1A1A1A":"#111"}}>
-                {/* Rasm */}
                 <div style={{width:80,height:80,borderRadius:8,overflow:"hidden",flexShrink:0,background:"#222",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32}}>
                   {store.products[0]?.photos?.[0]
                     ? <img src={store.products[0].photos[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                     : <span>{store.logo}</span>}
                 </div>
-                {/* Ma'lumot */}
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{fontWeight:700,fontSize:14,color:"#fff",marginBottom:4}}>{store.name}</div>
                   <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:4}}>
                     {avgRating(store.reviews) > 0 && (
                       <span style={{color:"#FFB400",fontSize:12}}>★ {avgRating(store.reviews).toFixed(1)}</span>
                     )}
-                    {store.reviews.length > 0 && <span style={{color:"#666",fontSize:11}}>· {lang==="uz"?"sharh":"отзыв"} {store.reviews.length}</span>}
                   </div>
-                  <div style={{fontSize:12,color:"#666"}}>
-                    {(Math.random()*1.5+0.1).toFixed(1)}km · {store.address?.split(",")[0]}
-                  </div>
+                  <div style={{fontSize:12,color:"#666"}}>{store.address?.split(",")[0]}</div>
                 </div>
               </div>
             ))}
@@ -1559,7 +1583,6 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
         </>
       )}
 
-      {/* Bo'sh holat */}
       {(!searchVal || results.length === 0) && (
         <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",color:"#555",padding:40}}>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1571,6 +1594,7 @@ function SearchMapView({ lang, dark, stores, activeDeals, searchVal, onSetSearch
     </div>
   );
 }
+
 
 // =====================================================
 // SAVED TAB
@@ -1636,6 +1660,7 @@ function AddSheet({ lang, dark, onClose, onCreateBiz, onAddProduct }) {
   );
 }
 
+
 // =====================================================
 // PROFILE TAB
 // =====================================================
@@ -1654,6 +1679,7 @@ function ProfileTab({ lang, dark, setLang, toggleDark, isGuest, userData, setUse
     { icon:"⭐", bg:"#FFB400", label: lang==="uz"?"Ilovani baholash":"Оценить", action: ()=>{} },
     { icon:"ℹ️", bg:"#5856D6", label: lang==="uz"?"Ilova haqida":"О приложении", action: ()=>onSetProfileView("settings") },
   ];
+
   if (profileView==="settings") return (
     <div style={{background:"#111",minHeight:"100vh",paddingBottom:90}}>
       <div style={{background:"#111",borderBottom:"1px solid #1E1E1E",padding:"50px 16px 14px",display:"flex",alignItems:"center",gap:12}}>
@@ -1839,7 +1865,6 @@ export default function App() {
 
   useEffect(()=>{ saveLS({onboarded,lang,userData,stores,myStoreId,savedKeys,subs:subscriptions,bookings,chatMessages}); },[onboarded,lang,userData,stores,myStoreId,savedKeys,subscriptions,bookings,chatMessages]);
 
-  // GPS location
   useEffect(()=>{
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(pos=>{
@@ -1849,13 +1874,11 @@ export default function App() {
     },()=>{});
   },[lang]);
 
-  // Expire cleanup
   useEffect(()=>{
     const timer = setInterval(()=>{ setStores(prev=>prev.map(st=>({...st,products:st.products.map(p=>p.discount&&isExpired(p.discount.expiryDate)?{...p,discount:null}:p)}))); },60000);
     return ()=>clearInterval(timer);
   },[]);
 
-  // Active deals
   const activeDeals = [];
   stores.forEach(st=>st.products.forEach(p=>{
     if (p.active!==false && p.discount && !isExpired(p.discount.expiryDate)) {
@@ -1883,7 +1906,6 @@ export default function App() {
   const sendChat = (storeId,msg) => setChatMessages(p=>({...p,[storeId]:[...(p[storeId]||[]),msg]}));
   const handleLogout = () => { setOnboarded(false); setIsGuest(false); setUserData({name:"",surname:"",phone:"",photo:""}); saveLS(null); };
 
-  // Onboarding
   if (!onboarded && !isGuest) return (
     <div style={{maxWidth:430,margin:"0 auto",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
       <Onboarding lang={lang} setLang={setLang} dark={dark}
@@ -1955,7 +1977,6 @@ export default function App() {
       {chatStore && <ChatModal store={chatStore} lang={lang} dark={dark} messages={chatMessages[chatStore.id]||[]} onClose={()=>setChatStore(null)} onSend={msg=>sendChat(chatStore.id,msg)}/>}
       {bookStore && <BookingModal store={bookStore} lang={lang} dark={dark} onClose={()=>setBookStore(null)} onSuccess={b=>{setBookings(p=>[b,...p]);setBookStore(null);}}/>}
 
-      {/* Bottom Nav */}
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,background:th.card,borderTop:`1px solid ${th.border}`,display:"flex",alignItems:"flex-end",padding:"8px 0 20px",zIndex:100}}>
         {navItems.map(item=>{
           if (item.id==="plus") return (
