@@ -3255,11 +3255,81 @@ function OnboardingStep({ step, setStep, lang, setLang, dark, userData, setUserD
   const th = theme(dark);
   const s = mkStyles(dark);
   const [code, setCode] = useState(["", "", "", ""]);
+  const [smsSending, setSmsSending] = useState(false);
+  const [smsError, setSmsError] = useState("");
+  const [verifying, setVerifying] = useState(false);
   const codeRefs = [useRef(), useRef(), useRef(), useRef()];
+
   const handleCode = (val, idx) => {
     if (!/^\d?$/.test(val)) return;
     const n = [...code]; n[idx] = val; setCode(n);
     if (val && idx < 3) codeRefs[idx + 1].current?.focus();
+  };
+
+  // SMS yuborish — Firebase Phone Auth
+  const handleSendSms = async () => {
+    if (!userData.phone) return;
+    setSmsSending(true);
+    setSmsError("");
+    try {
+      if (firebaseReady) {
+        // recaptcha container yaratamiz
+        if (!document.getElementById("recaptcha-container")) {
+          const div = document.createElement("div");
+          div.id = "recaptcha-container";
+          document.body.appendChild(div);
+        }
+        const { setupRecaptcha, sendSmsCode } = await import("./firebaseService.js");
+        setupRecaptcha("recaptcha-container");
+        // +998 formatiga o'tkazamiz
+        let phone = userData.phone.replace(/\s/g, "");
+        if (!phone.startsWith("+")) phone = "+998" + phone.replace(/^0/, "");
+        await sendSmsCode(phone);
+        setStep(2);
+      } else {
+        // Firebase yo'q — demo rejim
+        setStep(2);
+      }
+    } catch (err) {
+      console.error("SMS error:", err);
+      setSmsError(lang === "uz" ? "SMS yuborishda xato. Raqamni tekshiring." : "Ошибка отправки SMS.");
+      // Demo rejimga o'tamiz
+      setStep(2);
+    }
+    setSmsSending(false);
+  };
+
+  // Kodni tasdiqlash — Firebase
+  const handleVerifyCode = async () => {
+    const fullCode = code.join("");
+    if (fullCode.length < 4) return;
+    setVerifying(true);
+    setSmsError("");
+    try {
+      if (firebaseReady && window.confirmationResult) {
+        const { verifySmsCode, createUser, getUser } = await import("./firebaseService.js");
+        const user = await verifySmsCode(fullCode);
+        // User ma'lumotini Firebase ga saqlash
+        const existingUser = await getUser(user.uid);
+        if (!existingUser) {
+          await createUser(user.uid, {
+            name: userData.name,
+            surname: userData.surname || "",
+            phone: userData.phone,
+            uid: user.uid,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        setStep(3);
+      } else {
+        // Demo rejim
+        setStep(3);
+      }
+    } catch (err) {
+      console.error("Verify error:", err);
+      setSmsError(lang === "uz" ? "Kod noto'g'ri. Qayta urinib ko'ring." : "Неверный код. Попробуйте ещё раз.");
+    }
+    setVerifying(false);
   };
 
   if (step === 0) return (
@@ -3303,7 +3373,11 @@ function OnboardingStep({ step, setStep, lang, setLang, dark, userData, setUserD
       <label style={s.label}>{tx.enterPhone}</label>
       <input type="tel" placeholder={tx.phonePlaceholder} value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} style={s.input} />
       <div style={{ flex: 1 }} />
-      <button onClick={() => userData.name && userData.phone ? setStep(2) : null} style={{ ...s.btn, opacity: userData.name && userData.phone ? 1 : 0.5 }}>{tx.next}</button>
+      <button onClick={() => userData.name && userData.phone ? handleSendSms() : null}
+        style={{ ...s.btn, opacity: userData.name && userData.phone && !smsSending ? 1 : 0.5 }}>
+        {smsSending ? (lang === "uz" ? "⏳ Yuborilmoqda..." : "⏳ Отправка...") : tx.next}
+      </button>
+      {smsError && <p style={{ color: "#FF3B30", fontSize: 13, textAlign: "center", marginTop: 8 }}>{smsError}</p>}
     </div>
   );
 
@@ -3323,7 +3397,11 @@ function OnboardingStep({ step, setStep, lang, setLang, dark, userData, setUserD
         <span style={{ color: "#16A34A", fontWeight: 600, cursor: "pointer" }}>{tx.resend}</span>
       </p>
       <div style={{ flex: 1 }} />
-      <button onClick={() => setStep(3)} style={{ ...s.btn, opacity: code.every((c) => c) ? 1 : 0.5 }}>{tx.confirm}</button>
+      <button onClick={handleVerifyCode}
+        style={{ ...s.btn, opacity: code.every((c) => c) && !verifying ? 1 : 0.5 }}>
+        {verifying ? (lang === "uz" ? "⏳ Tekshirilmoqda..." : "⏳ Проверка...") : tx.confirm}
+      </button>
+      {smsError && <p style={{ color: "#FF3B30", fontSize: 13, textAlign: "center", marginTop: 8 }}>{smsError}</p>}
     </div>
   );
 
@@ -3696,6 +3774,17 @@ export default function App() {
   const rateStore = (storeId, review) => {
     const author = userData.name || (lang === "uz" ? "Mehmon" : "Гость");
     setStores((prev) => prev.map((st) => st.id !== storeId ? st : { ...st, reviews: [...st.reviews, { ...review, author }] }));
+  };
+
+  const handleLogout = async () => {
+    if (firebaseReady) {
+      try { await logOut(); } catch {}
+    }
+    setStep(0);
+    setIsGuest(false);
+    setUserData({ name: "", surname: "", phone: "", photo: "" });
+    setMyStoreId(null);
+    saveToLS(null);
   };
 
   const handleOrderSuccess = (orderNumber) => {
