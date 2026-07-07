@@ -38,7 +38,7 @@ export default function ListingDetail({ listing, lang, dark, onBack, onChat, isF
       { subdomains:"abcd", maxZoom:19 }).addTo(map);
     const icon = L.divIcon({
       className:"",
-      html:`<div style="width:20px;height:20px;border-radius:50%;background:#5B2D8E;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3)"></div>`,
+      html:`<div style="width:20px;height:20px;border-radius:50%;background:#16A34A;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3)"></div>`,
       iconSize:[20,20], iconAnchor:[10,10],
     });
     L.marker([listing.lat, listing.lng], { icon }).addTo(map);
@@ -115,7 +115,7 @@ export default function ListingDetail({ listing, lang, dark, onBack, onChat, isF
             </h1>
             {listing.extra?.dealType && (
               <Badge label={tx[listing.extra.dealType] || listing.extra.dealType}
-                color="#5B2D8E" />
+                color="#16A34A" />
             )}
           </div>
           <h2 style={{ fontSize:16, fontWeight:600, color:th.text2, margin:0 }}>{listing.title}</h2>
@@ -194,7 +194,7 @@ export default function ListingDetail({ listing, lang, dark, onBack, onChat, isF
         }}>
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:12 }}>
             <div style={{
-              width:48, height:48, borderRadius:14, background:"#5B2D8E20",
+              width:48, height:48, borderRadius:14, background:"#16A34A20",
               display:"flex", alignItems:"center", justifyContent:"center", fontSize:22,
             }}>
               {listing.seller?.name?.[0] || "👤"}
@@ -228,13 +228,13 @@ export default function ListingDetail({ listing, lang, dark, onBack, onChat, isF
           </div>
           {/* Safe Deal badge */}
           <div onClick={() => setShowSafeDeal(true)} style={{
-            background:"#5B2D8E12", borderRadius:10, padding:"10px 12px",
+            background:"#16A34A12", borderRadius:10, padding:"10px 12px",
             display:"flex", alignItems:"center", gap:10, cursor:"pointer",
-            border:"1px solid #5B2D8E30",
+            border:"1px solid #16A34A30",
           }}>
             <span style={{ fontSize:20 }}>🔒</span>
             <div>
-              <div style={{ fontSize:12, fontWeight:700, color:"#5B2D8E" }}>{tx.safeDeal}</div>
+              <div style={{ fontSize:12, fontWeight:700, color:"#16A34A" }}>{tx.safeDeal}</div>
               <div style={{ fontSize:11, color:th.sub }}>{tx.safeDealDesc}</div>
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function ListingDetail({ listing, lang, dark, onBack, onChat, isF
               {listing.seller?.name}
             </div>
             <a href={`tel:${listing.seller?.phone}`} style={{
-              fontSize:24, fontWeight:900, color:"#5B2D8E", textDecoration:"none",
+              fontSize:24, fontWeight:900, color:"#16A34A", textDecoration:"none",
             }}>
               {listing.seller?.phone}
             </a>
