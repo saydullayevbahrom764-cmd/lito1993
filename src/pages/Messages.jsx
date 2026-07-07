@@ -32,7 +32,7 @@ function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
         <button onClick={onBack} style={{ background:"none", border:"none", cursor:"pointer", padding:4 }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={th.text} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
-        <div style={{ width:40, height:40, borderRadius:12, background:"#5B2D8E20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20 }}>
+        <div style={{ width:40, height:40, borderRadius:12, background:"#16A34A20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20 }}>
           {chat.avatar || "👤"}
         </div>
         <div style={{ flex:1 }}>
@@ -54,7 +54,7 @@ function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
           </div>
           <div style={{ flex:1, minWidth:0 }}>
             <div style={{ fontSize:13, fontWeight:600, color:th.text, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{chat.listing.title}</div>
-            <div style={{ fontSize:12, color:"#5B2D8E", fontWeight:700 }}>
+            <div style={{ fontSize:12, color:"#16A34A", fontWeight:700 }}>
               {chat.listing.price > 0 ? `${chat.listing.price.toLocaleString("ru-RU")} ${tx.sum}` : tx.negotiable}
             </div>
           </div>
@@ -78,7 +78,7 @@ function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
               <div style={{
                 maxWidth:"75%", padding:"10px 14px",
                 borderRadius: isMe?"18px 18px 4px 18px":"18px 18px 18px 4px",
-                background: isMe?"#5B2D8E":th.card,
+                background: isMe?"#16A34A":th.card,
                 color: isMe?"#fff":th.text,
                 fontSize:14, lineHeight:1.5,
                 boxShadow: isMe?"0 2px 8px rgba(91,45,142,0.3)":th.shadow,
@@ -105,7 +105,7 @@ function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
         </div>
         <button onClick={send} disabled={!text.trim()} style={{
           width:44, height:44, borderRadius:22, border:"none", cursor:text.trim()?"pointer":"default",
-          background:text.trim()?"#5B2D8E":th.card2, transition:"background 0.2s",
+          background:text.trim()?"#16A34A":th.card2, transition:"background 0.2s",
           display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={text.trim()?"#fff":th.sub} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -182,11 +182,11 @@ export default function Messages({ lang, dark, currentUser, listings }) {
             background: chat.unread > 0 ? th.card2 + "80" : "transparent",
           }}>
             <div style={{ position:"relative", flexShrink:0 }}>
-              <div style={{ width:52, height:52, borderRadius:16, background:"#5B2D8E20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:24 }}>
+              <div style={{ width:52, height:52, borderRadius:16, background:"#16A34A20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:24 }}>
                 {chat.avatar}
               </div>
               {chat.unread > 0 && (
-                <div style={{ position:"absolute", top:-3, right:-3, width:18, height:18, borderRadius:9, background:"#5B2D8E", display:"flex", alignItems:"center", justifyContent:"center", border:`2px solid ${th.bg}` }}>
+                <div style={{ position:"absolute", top:-3, right:-3, width:18, height:18, borderRadius:9, background:"#16A34A", display:"flex", alignItems:"center", justifyContent:"center", border:`2px solid ${th.bg}` }}>
                   <span style={{ fontSize:10, fontWeight:800, color:"#fff" }}>{chat.unread}</span>
                 </div>
               )}

@@ -31,7 +31,7 @@ function SearchCard({ listing, lang, dark, onOpen, isFav, onToggleFav }) {
           overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
           {listing.title}
         </p>
-        <p style={{ fontSize:15, fontWeight:800, color:"#5B2D8E", marginBottom:6 }}>{priceStr}</p>
+        <p style={{ fontSize:15, fontWeight:800, color:"#16A34A", marginBottom:6 }}>{priceStr}</p>
         <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
           <span style={{ fontSize:11, color:th.sub }}>📍 {listing.city}</span>
           {listing.seller?.verified && (
@@ -79,7 +79,7 @@ export default function Search({ lang, dark, onOpenListing, favIds, onToggleFav,
     <div style={{ background:th.bg, minHeight:"100vh", paddingBottom:80 }}>
       {/* Header */}
       <div style={{
-        background:"linear-gradient(135deg,#5B2D8E,#3A1A6E)",
+        background:"linear-gradient(135deg,#16A34A,#15803D)",
         padding:"50px 16px 14px", position:"sticky", top:0, zIndex:50,
       }}>
         <div style={{ display:"flex", gap:10, marginBottom:10 }}>
@@ -109,7 +109,7 @@ export default function Search({ lang, dark, onOpenListing, favIds, onToggleFav,
               flexShrink:0, padding:"5px 12px", borderRadius:20, fontSize:12,
               fontWeight:600, border:"none", cursor:"pointer",
               background: sort===v ? "#fff" : "rgba(255,255,255,0.15)",
-              color: sort===v ? "#5B2D8E" : "rgba(255,255,255,0.8)",
+              color: sort===v ? "#16A34A" : "rgba(255,255,255,0.8)",
             }}>{l}</button>
           ))}
         </div>

@@ -1,6 +1,11 @@
 export const T = {
   uz: {
-    appName:"BirBir", tagline:"Sotib ol. Sot. Almash.",
+    appName:"OsonTop", tagline:"Oson top. Oson sot.",
+    liveStream:"Jonli efir", goLive:"Efir boshlash", watchLive:"Tomosha qilish",
+    liveTitle:"Efir sarlavhasi", liveDesc:"Nimani ko'rsatasiz?",
+    liveViewers:"tomoshabin", liveEnd:"Efirni tugatish", liveStart:"Boshlash",
+    liveVerifyRequired:"Jonli efir uchun MyID tasdiqlov kerak",
+    liveGift:"Sovg'a", liveComment:"Izoh", liveLike:"Layk",
     home:"Bosh sahifa", search:"Qidiruv", addAd:"E'lon", messages:"Xabarlar", profile:"Profil",
     enterPhone:"Telefon raqam", phonePlaceholder:"+998 90 123 45 67", sendCode:"Kod yuborish",
     enterCode:"Kodni kiriting", codeSent:"Kod yuborildi", codeHint:"SMS kod raqamingizga yuborildi",
@@ -58,7 +63,12 @@ export const T = {
     adViews:"Ko'rishlar", adDate:"Sana", promote:"Reklama qilish",
   },
   ru: {
-    appName:"BirBir", tagline:"Купи. Продай. Обменяй.",
+    appName:"OsonTop", tagline:"Oson top. Oson sot.",
+    liveStream:"Прямой эфир", goLive:"Начать эфир", watchLive:"Смотреть",
+    liveTitle:"Название эфира", liveDesc:"Что покажете?",
+    liveViewers:"зрителей", liveEnd:"Завершить эфир", liveStart:"Начать",
+    liveVerifyRequired:"Для прямого эфира нужна верификация MyID",
+    liveGift:"Подарок", liveComment:"Комментарий", liveLike:"Лайк",
     home:"Главная", search:"Поиск", addAd:"Подать", messages:"Сообщения", profile:"Профиль",
     enterPhone:"Номер телефона", phonePlaceholder:"+998 90 123 45 67", sendCode:"Отправить код",
     enterCode:"Введите код", codeSent:"Код отправлен", codeHint:"SMS код отправлен на ваш номер",

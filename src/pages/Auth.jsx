@@ -3,16 +3,19 @@ import { theme } from "../theme.js";
 import { T } from "../translations.js";
 import { Btn, Input } from "../components/UI.jsx";
 
-export default function Auth({ lang, dark, onDone, onGuest }) {
+export default function Auth({ lang, dark, onDone, onGuest, onLangChange }) {
   const th = theme(dark);
   const tx = T[lang];
-  const [step, setStep] = useState(0); // 0=splash, 1=phone, 2=code, 3=name
+  const [step, setStep] = useState(0);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState(["","","","",""]);
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const codeRefs = [useRef(),useRef(),useRef(),useRef(),useRef()];
+
+  const G = "#16A34A";
+  const GD = "#15803D";
 
   const handleSend = async () => {
     if (!phone) return;
@@ -27,9 +30,7 @@ export default function Auth({ lang, dark, onDone, onGuest }) {
       if (!p.startsWith("+")) p = "+998" + p.replace(/^0/,"");
       await sendSms(p);
       setStep(2);
-    } catch {
-      setStep(2); // demo
-    }
+    } catch { setStep(2); }
     setLoading(false);
   };
 
@@ -41,9 +42,7 @@ export default function Auth({ lang, dark, onDone, onGuest }) {
       const { verifySms } = await import("../firebaseService.js");
       await verifySms(full);
       setStep(3);
-    } catch {
-      setStep(3); // demo
-    }
+    } catch { setStep(3); }
     setLoading(false);
   };
 
@@ -61,76 +60,102 @@ export default function Auth({ lang, dark, onDone, onGuest }) {
   // ── SPLASH ──
   if (step === 0) return (
     <div style={{
-      minHeight:"100vh", background:"linear-gradient(160deg,#5B2D8E 0%,#3A1A6E 100%)",
+      minHeight:"100vh",
+      background:`linear-gradient(160deg,${G} 0%,${GD} 100%)`,
       display:"flex", flexDirection:"column", alignItems:"center",
       justifyContent:"space-between", padding:"60px 28px 48px",
     }}>
+      {/* Lang switcher */}
+      <div style={{ alignSelf:"flex-end", display:"flex", gap:6 }}>
+        {["uz","ru"].map(l => (
+          <button key={l} onClick={() => onLangChange?.(l)} style={{
+            padding:"5px 12px", borderRadius:20,
+            background: lang===l ? "rgba(255,255,255,0.3)" : "transparent",
+            border:"1px solid rgba(255,255,255,0.3)",
+            color:"#fff", fontWeight:700, fontSize:12, cursor:"pointer",
+          }}>{l==="uz"?"🇺🇿 UZ":"🇷🇺 RU"}</button>
+        ))}
+      </div>
+
       <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+        {/* Logo */}
         <div style={{
-          width:90, height:90, borderRadius:24, background:"rgba(255,255,255,0.15)",
+          width:100, height:100, borderRadius:28,
+          background:"rgba(255,255,255,0.2)",
           display:"flex", alignItems:"center", justifyContent:"center",
           marginBottom:20, backdropFilter:"blur(10px)",
-          border:"1px solid rgba(255,255,255,0.2)",
+          border:"2px solid rgba(255,255,255,0.3)",
+          boxShadow:"0 8px 32px rgba(0,0,0,0.2)",
         }}>
-          <span style={{ fontSize:48 }}>🛍️</span>
+          <span style={{ fontSize:52 }}>🛒</span>
         </div>
-        <h1 style={{ color:"#fff", fontSize:34, fontWeight:900, letterSpacing:-1, marginBottom:10 }}>BirBir</h1>
-        <p style={{ color:"rgba(255,255,255,0.75)", fontSize:16, textAlign:"center", lineHeight:1.6 }}>
+        <h1 style={{ color:"#fff", fontSize:38, fontWeight:900, letterSpacing:-1.5, marginBottom:8 }}>
+          Oson<span style={{ color:"rgba(255,255,255,0.7)" }}>Top</span>
+        </h1>
+        <p style={{ color:"rgba(255,255,255,0.85)", fontSize:17, textAlign:"center", lineHeight:1.6, marginBottom:8 }}>
           {tx.tagline}
         </p>
-        <p style={{ color:"rgba(255,255,255,0.5)", fontSize:13, textAlign:"center", marginTop:12 }}>
-          {lang==="uz" ? "O'zbekistonda eng qulay e'lonlar" : "Лучшая площадка объявлений в Узбекистане"}
+        <p style={{ color:"rgba(255,255,255,0.55)", fontSize:13, textAlign:"center" }}>
+          {lang==="uz"?"O'zbekistonda millionlab e'lonlar":"Миллионы объявлений в Узбекистане"}
         </p>
+
+        {/* Feature pills */}
+        <div style={{ display:"flex", gap:8, marginTop:24, flexWrap:"wrap", justifyContent:"center" }}>
+          {["🔒 Xavfsiz bitim","✅ MyID tasdiqlov","📍 GPS qidiruv"].map((f,i)=>(
+            <span key={i} style={{
+              background:"rgba(255,255,255,0.15)", borderRadius:20,
+              padding:"6px 14px", fontSize:11, fontWeight:600,
+              color:"#fff", border:"1px solid rgba(255,255,255,0.2)",
+            }}>{f}</span>
+          ))}
+        </div>
       </div>
+
       <div style={{ width:"100%", display:"flex", flexDirection:"column", gap:12 }}>
         <button onClick={() => setStep(1)} style={{
-          padding:"16px", borderRadius:14, background:"#fff", color:"#5B2D8E",
+          padding:"16px", borderRadius:14, background:"#fff", color:G,
           fontWeight:800, fontSize:16, border:"none", cursor:"pointer",
           boxShadow:"0 4px 20px rgba(0,0,0,0.2)",
         }}>
-          {lang==="uz" ? "Kirish / Ro'yxatdan o'tish" : "Войти / Зарегистрироваться"}
+          {lang==="uz"?"Kirish / Ro'yxatdan o'tish":"Войти / Зарегистрироваться"}
         </button>
         <button onClick={onGuest} style={{
-          padding:"14px", borderRadius:14, background:"rgba(255,255,255,0.15)",
-          color:"#fff", fontWeight:600, fontSize:15, border:"1px solid rgba(255,255,255,0.3)",
+          padding:"14px", borderRadius:14,
+          background:"rgba(255,255,255,0.15)",
+          color:"#fff", fontWeight:600, fontSize:15,
+          border:"1px solid rgba(255,255,255,0.3)",
           cursor:"pointer", backdropFilter:"blur(8px)",
         }}>
           👁️ {tx.guestMode}
         </button>
-        <div style={{ display:"flex", justifyContent:"center", gap:8, marginTop:4 }}>
-          {["uz","ru"].map(l => (
-            <span key={l} style={{ fontSize:11, color:"rgba(255,255,255,0.4)", cursor:"pointer" }}
-              onClick={() => {}}>
-              {l==="uz" ? "🇺🇿 O'zbek" : "🇷🇺 Русский"}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   );
 
+  const headerStyle = {
+    background:`linear-gradient(135deg,${G},${GD})`,
+    margin:"0 -24px", padding:"50px 24px 28px",
+    borderRadius:"0 0 24px 24px", marginBottom:28,
+  };
+
   // ── PHONE ──
   if (step === 1) return (
     <div style={{ minHeight:"100vh", background:th.bg, padding:"0 24px" }}>
-      <div style={{
-        background:"linear-gradient(135deg,#5B2D8E,#3A1A6E)",
-        margin:"0 -24px", padding:"50px 24px 28px",
-        borderRadius:"0 0 24px 24px", marginBottom:28,
-      }}>
-        <button onClick={() => setStep(0)} style={{ background:"rgba(255,255,255,0.15)", border:"none", borderRadius:10, width:36, height:36, color:"#fff", fontSize:18, cursor:"pointer", marginBottom:16 }}>←</button>
+      <div style={headerStyle}>
+        <button onClick={() => setStep(0)} style={{ background:"rgba(255,255,255,0.2)", border:"none", borderRadius:10, width:36, height:36, color:"#fff", fontSize:18, cursor:"pointer", marginBottom:16 }}>←</button>
         <h2 style={{ color:"#fff", fontSize:24, fontWeight:800, marginBottom:6 }}>
-          {lang==="uz" ? "Telefon raqam" : "Номер телефона"}
+          {lang==="uz"?"Telefon raqam":"Номер телефона"}
         </h2>
         <p style={{ color:"rgba(255,255,255,0.7)", fontSize:14 }}>
-          {lang==="uz" ? "Tasdiqlash kodi yuboriladi" : "Отправим код подтверждения"}
+          {lang==="uz"?"Tasdiqlash kodi yuboriladi":"Отправим код подтверждения"}
         </p>
       </div>
       <Input dark={dark} value={phone} onChange={e => setPhone(e.target.value)}
         placeholder="+998 90 123 45 67" type="tel"
-        label={lang==="uz" ? "Telefon raqam" : "Номер телефона"} />
-      {err && <p style={{ color:"#E74C3C", fontSize:13, marginBottom:12 }}>{err}</p>}
+        label={lang==="uz"?"Telefon raqam":"Номер телефона"} />
+      {err && <p style={{ color:"#EF4444", fontSize:13, marginBottom:12 }}>{err}</p>}
       <Btn dark={dark} onClick={handleSend} disabled={!phone || loading}>
-        {loading ? "⏳ " + (lang==="uz" ? "Yuborilmoqda..." : "Отправка...") : tx.sendCode}
+        {loading ? "⏳ "+(lang==="uz"?"Yuborilmoqda...":"Отправка...") : tx.sendCode}
       </Btn>
     </div>
   );
@@ -138,14 +163,10 @@ export default function Auth({ lang, dark, onDone, onGuest }) {
   // ── CODE ──
   if (step === 2) return (
     <div style={{ minHeight:"100vh", background:th.bg, padding:"0 24px" }}>
-      <div style={{
-        background:"linear-gradient(135deg,#5B2D8E,#3A1A6E)",
-        margin:"0 -24px", padding:"50px 24px 28px",
-        borderRadius:"0 0 24px 24px", marginBottom:28,
-      }}>
-        <button onClick={() => setStep(1)} style={{ background:"rgba(255,255,255,0.15)", border:"none", borderRadius:10, width:36, height:36, color:"#fff", fontSize:18, cursor:"pointer", marginBottom:16 }}>←</button>
+      <div style={headerStyle}>
+        <button onClick={() => setStep(1)} style={{ background:"rgba(255,255,255,0.2)", border:"none", borderRadius:10, width:36, height:36, color:"#fff", fontSize:18, cursor:"pointer", marginBottom:16 }}>←</button>
         <h2 style={{ color:"#fff", fontSize:24, fontWeight:800, marginBottom:6 }}>
-          {lang==="uz" ? "SMS kodni kiriting" : "Введите SMS код"}
+          {lang==="uz"?"SMS kodni kiriting":"Введите SMS код"}
         </h2>
         <p style={{ color:"rgba(255,255,255,0.7)", fontSize:14 }}>{phone}</p>
       </div>
@@ -156,18 +177,16 @@ export default function Auth({ lang, dark, onDone, onGuest }) {
             onKeyDown={e => e.key==="Backspace" && !c && i>0 && codeRefs[i-1].current?.focus()}
             style={{
               width:52, height:60, textAlign:"center", fontSize:24, fontWeight:800,
-              border:`2px solid ${c ? "#5B2D8E" : th.border2}`, borderRadius:12,
+              border:`2px solid ${c ? G : th.border2}`, borderRadius:12,
               background:th.card, outline:"none", color:th.text,
             }} />
         ))}
       </div>
       <p style={{ textAlign:"center", color:th.sub, fontSize:13, marginBottom:20 }}>
-        {lang==="uz" ? "Kodni olmadingizmi? " : "Не получили? "}
-        <span style={{ color:"#5B2D8E", fontWeight:700, cursor:"pointer" }} onClick={handleSend}>
-          {tx.resend}
-        </span>
+        {lang==="uz"?"Kodni olmadingizmi? ":"Не получили? "}
+        <span style={{ color:G, fontWeight:700, cursor:"pointer" }} onClick={handleSend}>{tx.resend}</span>
       </p>
-      {err && <p style={{ color:"#E74C3C", fontSize:13, textAlign:"center", marginBottom:12 }}>{err}</p>}
+      {err && <p style={{ color:"#EF4444", fontSize:13, textAlign:"center", marginBottom:12 }}>{err}</p>}
       <Btn dark={dark} onClick={handleVerify} disabled={code.join("").length < 5 || loading}>
         {loading ? "⏳..." : tx.verify}
       </Btn>
@@ -177,17 +196,13 @@ export default function Auth({ lang, dark, onDone, onGuest }) {
   // ── NAME ──
   return (
     <div style={{ minHeight:"100vh", background:th.bg, padding:"0 24px" }}>
-      <div style={{
-        background:"linear-gradient(135deg,#5B2D8E,#3A1A6E)",
-        margin:"0 -24px", padding:"50px 24px 28px",
-        borderRadius:"0 0 24px 24px", marginBottom:28,
-      }}>
-        <div style={{ width:64, height:64, borderRadius:20, background:"rgba(255,255,255,0.15)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, marginBottom:14 }}>👤</div>
+      <div style={headerStyle}>
+        <div style={{ width:64, height:64, borderRadius:20, background:"rgba(255,255,255,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, marginBottom:14 }}>👤</div>
         <h2 style={{ color:"#fff", fontSize:24, fontWeight:800, marginBottom:6 }}>
-          {lang==="uz" ? "Ismingizni kiriting" : "Введите ваше имя"}
+          {lang==="uz"?"Ismingizni kiriting":"Введите ваше имя"}
         </h2>
         <p style={{ color:"rgba(255,255,255,0.7)", fontSize:14 }}>
-          {lang==="uz" ? "Bu boshqalar ko'radigan ism" : "Это имя будет видно другим"}
+          {lang==="uz"?"Bu boshqalar ko'radigan ism":"Это имя будет видно другим"}
         </p>
       </div>
       <Input dark={dark} value={name} onChange={e => setName(e.target.value)}

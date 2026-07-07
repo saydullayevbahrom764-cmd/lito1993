@@ -55,8 +55,8 @@ export function Input({ value, onChange, placeholder, type="text", dark, style={
 export function Btn({ children, onClick, variant="primary", disabled, style={}, dark, small }) {
   const th = theme(dark);
   const variants = {
-    primary:  { bg:"#5B2D8E", color:"#fff", border:"none" },
-    outline:  { bg:"transparent", color:"#5B2D8E", border:"1.5px solid #5B2D8E" },
+    primary:  { bg:"#16A34A", color:"#fff", border:"none" },
+    outline:  { bg:"transparent", color:"#16A34A", border:"1.5px solid #16A34A" },
     ghost:    { bg:th.card2, color:th.text, border:`1.5px solid ${th.border}` },
     danger:   { bg:"#E74C3C", color:"#fff", border:"none" },
     success:  { bg:"#27AE60", color:"#fff", border:"none" },
@@ -75,7 +75,7 @@ export function Btn({ children, onClick, variant="primary", disabled, style={}, 
 }
 
 // ── CHIP ──────────────────────────────────────────────
-export function Chip({ label, active, onClick, color="#5B2D8E", dark }) {
+export function Chip({ label, active, onClick, color="#16A34A", dark }) {
   const th = theme(dark);
   return (
     <button onClick={onClick} style={{
@@ -101,7 +101,7 @@ export function Toggle({ value, onChange, label, dark }) {
       <span style={{ fontSize:14, color:th.text }}>{label}</span>
       <div style={{
         width:44, height:24, borderRadius:12, position:"relative",
-        background: value ? "#5B2D8E" : th.border2, transition:"background 0.2s",
+        background: value ? "#16A34A" : th.border2, transition:"background 0.2s",
       }}>
         <div style={{
           position:"absolute", top:3, left: value ? 22 : 3,
@@ -175,7 +175,7 @@ export function PhotoUploader({ photos, onChange, dark, max=8 }) {
 }
 
 // ── BADGE ─────────────────────────────────────────────
-export function Badge({ label, color="#5B2D8E", bg, icon }) {
+export function Badge({ label, color="#16A34A", bg, icon }) {
   return (
     <span style={{
       display:"inline-flex", alignItems:"center", gap:3,
