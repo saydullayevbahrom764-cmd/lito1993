@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maqtanchoq Quyon</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1a; overflow: hidden; font-family: 'Georgia', serif; }
+#canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }
+canvas { display: block; }
+
+/* Title Screen */
+#title-screen {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(ellipse at center, #1a0a2e 0%, #0a0515 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 100; transition: opacity 2s ease;
+}
+#title-screen h1 {
+  font-size: 4em; color: #ffd700;
+  text-shadow: 0 0 30px #ff6600, 0 0 60px #ff3300;
+  animation: titleGlow 2s ease-in-out infinite alternate;
+  text-align: center; margin-bottom: 20px;
+}
+#title-screen p {
+  font-size: 1.4em; color: #aaddff;
+  text-shadow: 0 0 10px #4488ff;
+  animation: fadeInUp 1s ease 1s both;
+}
+#start-btn {
+  margin-top: 40px; padding: 15px 50px;
+  background: linear-gradient(135deg, #ff6600, #ff3300);
+  border: none; border-radius: 30px; color: white;
+  font-size: 1.3em; cursor: pointer;
+  box-shadow: 0 0 20px #ff6600;
+  animation: pulse 1.5s ease-in-out infinite, fadeInUp 1s ease 1.5s both;
+  opacity: 0;
+}
+#start-btn:hover { transform: scale(1.1); }
+
+@keyframes titleGlow {
+  from { text-shadow: 0 0 30px #ff6600, 0 0 60px #ff3300; }
+  to   { text-shadow: 0 0 50px #ffaa00, 0 0 100px #ff6600, 0 0 150px #ff3300; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 20px #ff6600; }
+  50%      { box-shadow: 0 0 40px #ff6600, 0 0 60px #ffaa00; }
+}
+
+/* Stars background */
+#stars { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="canvas-container"></div>
+
+<div id="title-screen">
+  <h1>🐰 MAQTANCHOQ QUYON 🦊</h1>
+  <p>Bolalar uchun o'zbek ertagi</p>
+  <button id="start-btn" onclick="startStory()">▶ Boshlash</button>
+</div>
+
+
+<!-- Subtitle & Scene UI -->
+<div id="subtitle-box" style="
+  position:fixed; bottom:60px; left:50%; transform:translateX(-50%);
+  max-width:80%; background:rgba(0,0,0,0.75); color:#fff;
+  font-size:1.25em; padding:14px 28px; border-radius:14px;
+  border:2px solid rgba(255,200,0,0.4); text-align:center;
+  display:none; z-index:50; line-height:1.6;
+  text-shadow:0 1px 4px #000;
+  transition: opacity 0.5s ease;
+"></div>
+
+<div id="scene-title" style="
+  position:fixed; top:30px; left:50%; transform:translateX(-50%);
+  color:#ffd700; font-size:1.5em; font-weight:bold;
+  text-shadow:0 0 20px #ff6600; display:none; z-index:50;
+  background:rgba(0,0,0,0.5); padding:8px 24px; border-radius:20px;
+  transition: opacity 0.5s;
+"></div>
+
+<div id="progress-bar" style="
+  position:fixed; bottom:20px; left:10%; width:80%; height:6px;
+  background:rgba(255,255,255,0.15); border-radius:3px; display:none; z-index:50;
+">
+  <div id="progress-fill" style="height:100%; width:0%; background:linear-gradient(90deg,#ff6600,#ffd700); border-radius:3px; transition:width 0.5s;"></div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ===================== STARS BACKGROUND =====================
+(function createStars(){
+  const c = document.getElementById('stars');
+  for(let i=0;i<200;i++){
+    const s = document.createElement('div');
+    s.style.cssText = `position:absolute;border-radius:50%;background:#fff;
+      width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;
+      top:${Math.random()*100}%;left:${Math.random()*100}%;
+      opacity:${Math.random()*0.8+0.2};
+      animation:twinkle ${Math.random()*3+2}s ease-in-out infinite alternate;`;
+    c.appendChild(s);
+  }
+  const st = document.createElement('style');
+  st.textContent = `@keyframes twinkle{from{opacity:0.2}to{opacity:1}}`;
+  document.head.appendChild(st);
+})();
+
+// ===================== THREE.JS SETUP =====================
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x0a0a1a, 1);
+document.getElementById('canvas-container').appendChild(renderer.domElement);
+camera.position.set(0, 5, 18);
+camera.lookAt(0, 2, 0);
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+
+<script>
+// ===================== LIGHTING =====================
+const ambientLight = new THREE.AmbientLight(0x334466, 1.2);
+scene.add(ambientLight);
+const sunLight = new THREE.DirectionalLight(0xfff4cc, 1.5);
+sunLight.position.set(10, 20, 10);
+sunLight.castShadow = true;
+scene.add(sunLight);
+const fillLight = new THREE.PointLight(0x4488ff, 0.8, 50);
+fillLight.position.set(-10, 8, 5);
+scene.add(fillLight);
+
+// ===================== GROUND =====================
+function makeGround(color){
+  const geo = new THREE.PlaneGeometry(80, 80, 20, 20);
+  const mat = new THREE.MeshLambertMaterial({ color: color });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.rotation.x = -Math.PI/2;
+  mesh.receiveShadow = true;
+  return mesh;
+}
+const ground = makeGround(0x2d5a1b);
+scene.add(ground);
+
+// ===================== TREE BUILDER =====================
+function makeTree(x, z, scale=1, trunkColor=0x5C3317, leafColor=0x1a7a2a){
+  const group = new THREE.Group();
+  const trunk = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.2*scale, 0.3*scale, 1.5*scale, 8),
+    new THREE.MeshLambertMaterial({ color: trunkColor })
+  );
+  trunk.position.y = 0.75*scale;
+  trunk.castShadow = true;
+  group.add(trunk);
+  // 3 layered cones for pine/anime look
+  [[1.2*scale,2.5*scale,1.5*scale],[1.0*scale,2.2*scale,2.0*scale],[0.8*scale,2.0*scale,2.8*scale]].forEach(([r,h,py])=>{
+    const cone = new THREE.Mesh(
+      new THREE.ConeGeometry(r, h, 7),
+      new THREE.MeshLambertMaterial({ color: leafColor })
+    );
+    cone.position.y = py*scale;
+    cone.castShadow = true;
+    group.add(cone);
+  });
+  group.position.set(x, 0, z);
+  return group;
+}
+
+// Add forest
+const trees = [];
+const treePositions = [
+  [-8,-5],[-12,-2],[-6,-8],[-14,-7],[8,-5],[12,-3],[6,-8],[14,-6],
+  [-10,-12],[10,-12],[0,-14],[-5,-11],[5,-11],[-16,0],[16,0]
+];
+treePositions.forEach(([x,z])=>{
+  const t = makeTree(x, z, 0.7+Math.random()*0.6);
+  scene.add(t);
+  trees.push(t);
+});
+// Arch trees (dark, dramatic)
+[[-3,-10],[3,-10],[-1,-12],[1,-12]].forEach(([x,z])=>{
+  scene.add(makeTree(x,z,1.1,0x3a1f0a,0x0d4a14));
+});
+</script>
+
+
+<script>
+// ===================== CHARACTER BUILDER =====================
+function makeAnimeEyes(group, yOff, zOff, scale=1){
+  [-0.15*scale, 0.15*scale].forEach(xOff => {
+    const eye = new THREE.Mesh(
+      new THREE.SphereGeometry(0.07*scale, 8, 8),
+      new THREE.MeshBasicMaterial({ color: 0x111111 })
+    );
+    eye.position.set(xOff, yOff, zOff);
+    group.add(eye);
+    const shine = new THREE.Mesh(
+      new THREE.SphereGeometry(0.025*scale,6,6),
+      new THREE.MeshBasicMaterial({ color: 0xffffff })
+    );
+    shine.position.set(xOff+0.03*scale, yOff+0.03*scale, zOff+0.03*scale);
+    group.add(shine);
+  });
+}
+
+// QUYON (Rabbit) — white, big ears
+function makeRabbit(color=0xf0f0f0){
+  const g = new THREE.Group();
+  // Body
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5,12,12),
+    new THREE.MeshLambertMaterial({ color })
+  );
+  body.scale.y = 1.2; body.position.y = 0.5;
+  body.castShadow = true; g.add(body);
+  // Head
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.38,12,12),
+    new THREE.MeshLambertMaterial({ color })
+  );
+  head.position.y = 1.3; head.castShadow = true; g.add(head);
+  // Ears
+  [-0.15, 0.15].forEach(x => {
+    const ear = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.06,0.1,0.7,8),
+      new THREE.MeshLambertMaterial({ color })
+    );
+    ear.position.set(x, 1.95, 0.05);
+    ear.rotation.z = x > 0 ? -0.15 : 0.15;
+    g.add(ear);
+    const inner = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03,0.06,0.55,8),
+      new THREE.MeshLambertMaterial({ color: 0xffaaaa })
+    );
+    inner.position.set(x, 1.93, 0.07);
+    inner.rotation.z = x > 0 ? -0.15 : 0.15;
+    g.add(inner);
+  });
+  makeAnimeEyes(g, 1.35, 0.3);
+  // Nose
+  const nose = new THREE.Mesh(
+    new THREE.SphereGeometry(0.04,6,6),
+    new THREE.MeshLambertMaterial({ color: 0xff9999 })
+  );
+  nose.position.set(0, 1.22, 0.37); g.add(nose);
+  // Legs
+  [[-0.25,0],[0.25,0]].forEach(([x,z]) => {
+    const leg = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.1,0.08,0.45,8),
+      new THREE.MeshLambertMaterial({ color })
+    );
+    leg.position.set(x,-0.12,z); g.add(leg);
+  });
+  // Tail
+  const tail = new THREE.Mesh(
+    new THREE.SphereGeometry(0.15,8,8),
+    new THREE.MeshLambertMaterial({ color: 0xffffff })
+  );
+  tail.position.set(0, 0.5, -0.5); g.add(tail);
+  return g;
+}
+</script>
+
+
+<script>
+// TULKI (Fox) — orange, pointy ears, bushy tail
+function makeFox(){
+  const g = new THREE.Group();
+  const orange = 0xd45f0a; const dark = 0x8b2500;
+  // Body
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.6,12,12),
+    new THREE.MeshLambertMaterial({ color: orange })
+  );
+  body.scale.set(1, 1.1, 1.3); body.position.y = 0.55; body.castShadow = true; g.add(body);
+  // Head
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.42,12,12),
+    new THREE.MeshLambertMaterial({ color: orange })
+  );
+  head.position.y = 1.4; g.add(head);
+  // Snout
+  const snout = new THREE.Mesh(
+    new THREE.ConeGeometry(0.18,0.4,8),
+    new THREE.MeshLambertMaterial({ color: 0xf8d0a0 })
+  );
+  snout.rotation.x = Math.PI/2; snout.position.set(0,1.28,0.45); g.add(snout);
+  // Pointy ears
+  [-0.22, 0.22].forEach(x => {
+    const ear = new THREE.Mesh(
+      new THREE.ConeGeometry(0.13,0.4,6),
+      new THREE.MeshLambertMaterial({ color: dark })
+    );
+    ear.position.set(x, 1.9, -0.05);
+    ear.rotation.z = x > 0 ? -0.3 : 0.3;
+    g.add(ear);
+  });
+  makeAnimeEyes(g, 1.45, 0.3, 1.1);
+  // Bushy tail
+  const tailBase = new THREE.Mesh(
+    new THREE.SphereGeometry(0.35,10,10),
+    new THREE.MeshLambertMaterial({ color: 0xfff0cc })
+  );
+  tailBase.position.set(0, 0.7, -0.85); g.add(tailBase);
+  const tailTip = new THREE.Mesh(
+    new THREE.SphereGeometry(0.22,8,8),
+    new THREE.MeshLambertMaterial({ color: 0xffffff })
+  );
+  tailTip.position.set(0, 0.5, -1.15); g.add(tailTip);
+  // Legs
+  [[-0.3,0],[0.3,0],[-0.2,-0.35],[0.2,-0.35]].forEach(([x,z])=>{
+    const leg = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.1,0.09,0.5,8),
+      new THREE.MeshLambertMaterial({ color: orange })
+    );
+    leg.position.set(x,-0.15,z); g.add(leg);
+  });
+  return g;
+}
+
+// QOZICHOQ (Lamb) — cream colored
+function makeLamb(){
+  const g = new THREE.Group();
+  const wool = 0xf5f0e8;
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.45,10,10),
+    new THREE.MeshLambertMaterial({ color: wool })
+  );
+  body.scale.set(1.1,1,1.2); body.position.y=0.5; g.add(body);
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.3,10,10),
+    new THREE.MeshLambertMaterial({ color: 0xe8d8b0 })
+  );
+  head.position.y=1.15; g.add(head);
+  makeAnimeEyes(g,1.18,0.25,0.9);
+  [-0.12,0.12].forEach(x=>{
+    const ear = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1,8,8),
+      new THREE.MeshLambertMaterial({color:0xe8d8b0})
+    );
+    ear.scale.y=0.6; ear.position.set(x,1.25,0); g.add(ear);
+  });
+  [[-0.2,0],[0.2,0]].forEach(([x,z])=>{
+    const l=new THREE.Mesh(
+      new THREE.CylinderGeometry(0.07,0.06,0.4,8),
+      new THREE.MeshLambertMaterial({color:0xe8d8b0})
+    );
+    l.position.set(x,-0.05,z); g.add(l);
+  });
+  return g;
+}
+
+// OLMAXON (Squirrel) — brown, big fluffy tail
+function makeSquirrel(){
+  const g = new THREE.Group();
+  const brown = 0x7b3f00;
+  const body = new THREE.Mesh(
+    new THREE.SphereGeometry(0.35,10,10),
+    new THREE.MeshLambertMaterial({color:brown})
+  );
+  body.scale.y=1.3; body.position.y=0.45; g.add(body);
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.28,10,10),
+    new THREE.MeshLambertMaterial({color:brown})
+  );
+  head.position.y=1.1; g.add(head);
+  makeAnimeEyes(g,1.14,0.22,0.9);
+  [-0.1,0.1].forEach(x=>{
+    const e=new THREE.Mesh(
+      new THREE.ConeGeometry(0.08,0.22,6),
+      new THREE.MeshLambertMaterial({color:brown})
+    );
+    e.position.set(x,1.45,0); g.add(e);
+  });
+  // Big curved tail
+  const tail=new THREE.Mesh(
+    new THREE.TorusGeometry(0.3,0.12,8,12,Math.PI),
+    new THREE.MeshLambertMaterial({color:0xb06020})
+  );
+  tail.position.set(0,0.8,-0.5); tail.rotation.x=Math.PI/2; g.add(tail);
+  return g;
+}
+</script>
+
+
+<script>
+// ===================== PLACE CHARACTERS =====================
+const rabbit  = makeRabbit(0xf0f0f0);
+const fox     = makeFox();
+const lamb    = makeLamb();
+const squirrel= makeSquirrel();
+
+rabbit.position.set(0, 0, 0);
+fox.position.set(5, 0, -3);
+lamb.position.set(-3, 0, -2);
+squirrel.position.set(-5, 0, -1);
+
+// Start hidden (except ground & trees)
+[rabbit, fox, lamb, squirrel].forEach(c => { c.visible = false; scene.add(c); });
+
+// ===================== PARTICLE SPARKLES =====================
+const sparkGeo = new THREE.BufferGeometry();
+const sparkCount = 300;
+const sparkPos = new Float32Array(sparkCount * 3);
+for(let i=0; i<sparkCount*3; i++) sparkPos[i] = (Math.random()-0.5)*30;
+sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos,3));
+const sparkMat = new THREE.PointsMaterial({ color:0xffd700, size:0.08, transparent:true, opacity:0.7 });
+const sparks = new THREE.Points(sparkGeo, sparkMat);
+scene.add(sparks);
+
+// ===================== FOG =====================
+scene.fog = new THREE.FogExp2(0x1a2a1a, 0.04);
+
+// ===================== SKYBOX GRADIENT =====================
+const skyGeo = new THREE.SphereGeometry(80, 16, 16);
+const skyMat = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  uniforms: { topColor:{value:new THREE.Color(0x0a1a3a)}, bottomColor:{value:new THREE.Color(0x1a3a1a)} },
+  vertexShader: `varying vec3 vPos; void main(){ vPos=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+  fragmentShader: `uniform vec3 topColor,bottomColor; varying vec3 vPos;
+    void main(){ float h=normalize(vPos).y*0.5+0.5; gl_FragColor=vec4(mix(bottomColor,topColor,h),1.0); }`
+});
+scene.add(new THREE.Mesh(skyGeo, skyMat));
+
+// ===================== MOON =====================
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(1.5,16,16),
+  new THREE.MeshBasicMaterial({ color: 0xfffacc })
+);
+moon.position.set(-15,18,-30);
+const moonGlow = new THREE.PointLight(0xaaaaff,0.5,60);
+moonGlow.position.copy(moon.position);
+scene.add(moon); scene.add(moonGlow);
+</script>
+
+
+<script>
+// ===================== STORY SCENES =====================
+const TOTAL_SCENES = 12;
+let currentScene = -1;
+let sceneTimer = null;
+
+const scenes = [
+  {
+    duration: 5000,
+    title: "🌲 O'rmon ichida...",
+    subtitle: "Bor desang borday ekan, yo'q desang yo'qday ekan... Qadimgi o'rmonda bir maqtanchoq Quyon yashardi.",
+    setup: function(){
+      [rabbit].forEach(c=>{ c.visible=true; c.position.set(0,0,2); });
+      rabbit.rotation.y = 0;
+      moveCameraTo(0,4,12, 0,2,0, 2000);
+      setSkyColor(0x0a1a3a, 0x1a3a1a);
+    }
+  },
+  {
+    duration: 5000,
+    title: "🦊 Och Tulki",
+    subtitle: "Kunlarning birida och Tulki o'rmonda izg'ib yurardi. Ko'zlari olazarak: 'Nimani tutib yesam?'",
+    setup: function(){
+      fox.visible = true;
+      fox.position.set(4,0,-1);
+      fox.rotation.y = -Math.PI/4;
+      moveCameraTo(3,4,8, 0,2,0, 2000);
+      setSkyColor(0x1a0a0a, 0x2a1a0a);
+    }
+  },
+  {
+    duration: 6000,
+    title: "🎮 Uchrashuv!",
+    subtitle: "Tulki archa tagida o'ynoqlab yurgan Qo'zichoq, Olmaxon va Quyonni ko'rib qoldi!",
+    setup: function(){
+      [lamb, squirrel, rabbit].forEach(c=>c.visible=true);
+      lamb.position.set(-2,0,1);
+      squirrel.position.set(0,0,1);
+      rabbit.position.set(2,0,1);
+      fox.position.set(0,0,-3);
+      fox.rotation.y = Math.PI;
+      moveCameraTo(0,5,10, 0,1,0, 2000);
+    }
+  },
+  {
+    duration: 6000,
+    title: "🚫 Yo'l to'sildi!",
+    subtitle: "Ular qochmoqchi bo'lishdi... lekin Tulki epchillik bilan yo'lni to'sib oldi!",
+    setup: function(){
+      fox.position.set(0,0,0);
+      fox.rotation.y = Math.PI;
+      animateCharacterJump(fox, 0.5, 500);
+      moveCameraTo(-1,3,7, 0,1,0, 1500);
+      setSkyColor(0x150505, 0x250a05);
+    }
+  },
+  {
+    duration: 6000,
+    title: "🤔 Savol...",
+    subtitle: "Tulki muloyimlik bilan: 'Azizlarim, dunyoda qaysi hayvonning go'shti shirinroq? To'g'ri javob bersangiz, qo'yib yuboraman!'",
+    setup: function(){
+      fox.rotation.y = Math.PI;
+      moveCameraTo(1,3,6, 0,1.5,0, 1500);
+    }
+  },
+  {
+    duration: 6000,
+    title: "🐑 Qo'zichoq qochdi!",
+    subtitle: "Hozirjavob Qo'zichoq: 'Qaysi hayvonning go'shti totli ekanini oyim bilardi!' — deb yugurib ketdi!",
+    setup: function(){
+      lamb.visible = true;
+      lamb.position.set(-2,0,1);
+      animateRunAway(lamb, -8, 1000);
+      moveCameraTo(-3,3,8, -4,1,0, 2000);
+    }
+  },
+  {
+    duration: 6000,
+    title: "🐿️ Olmaxon ham!",
+    subtitle: "Titrab-qaqshagan Olmaxon: 'Men o'zim topib kelaman!' — deb ko'zdan g'oyib bo'ldi.",
+    setup: function(){
+      squirrel.visible = true;
+      squirrel.position.set(0,0,1);
+      animateRunAway(squirrel, 7, 800);
+      moveCameraTo(2,3,8, 3,1,0, 2000);
+    }
+  },
+  {
+    duration: 7000,
+    title: "😏 Maqtanchoq Quyon...",
+    subtitle: "Endi navbat Quyonga keldi. U yo'rg'alab Tulkining yoniga bordi va o'zini hamma narsadan xabardor ko'rsatib maqtana boshladi!",
+    setup: function(){
+      rabbit.visible = true;
+      rabbit.position.set(0,0,2);
+      const targetX = fox.position.x + 1.2;
+      animateWalkTo(rabbit, targetX, fox.position.z + 1.2, 1500);
+      moveCameraTo(0,3,6, 0,1.5,0, 2000);
+      setSkyColor(0x200a0a, 0x200a00);
+    }
+  },
+  {
+    duration: 7000,
+    title: "🗣️ Quyon gapirdi!",
+    subtitle: "'Qo'zichoqning ham, Olmaxonning ham go'shti mazali! Ular kavakda va o'tloqzorda yashaydi!' — deb maqtandi Quyon.",
+    setup: function(){
+      rabbit.rotation.y = 0;
+      fox.rotation.y = -Math.PI/6;
+      moveCameraTo(-1,2.5,5, 0,1.5,0, 1500);
+      animateCharacterJump(rabbit, 0.3, 400);
+    }
+  },
+  {
+    duration: 7000,
+    title: "⚡ Tulki changalida!",
+    subtitle: "Quyon gapini tamomlamay... Tulki uning tomog'idan g'ippa ushladi! 'Dunyoda Tulki panjasidagi go'shtdan shirinrog'i yo'q!'",
+    setup: function(){
+      fox.rotation.y = Math.PI;
+      moveCameraTo(0,2,4, 0,1.5,0, 1000);
+      setSkyColor(0x2a0000, 0x1a0000);
+      fillLight.color.set(0xff2200);
+      animateCharacterShake(rabbit, 800);
+    }
+  },
+  {
+    duration: 7000,
+    title: "🦸 Do'stlar yordamga!",
+    subtitle: "Olmaxon va Qo'zichoq do'stlarini yordamga chaqirib, Quyonni Tulkining changalidan qutqarib qolishdi!",
+    setup: function(){
+      lamb.visible = true; squirrel.visible = true;
+      lamb.position.set(-4,0,3);
+      squirrel.position.set(4,0,3);
+      animateWalkTo(lamb, -1, 0.5, 1200);
+      animateWalkTo(squirrel, 1, 0.5, 1200);
+      animateRunAway(fox, -8, 2000);
+      moveCameraTo(0,4,9, 0,1,0, 2000);
+      setSkyColor(0x0a1a3a, 0x1a3a1a);
+      fillLight.color.set(0x4488ff);
+    }
+  },
+  {
+    duration: 8000,
+    title: "📖 Xulosa",
+    subtitle: "Do'stlariga xiyonat qilgan, dushmanidan yaxshilik kutgan maqtanchoq Quyon Tulkiga yem bo'lishiga oz qoldi.\n\n✨ Do'stingga sadoqatli bo'l! ✨",
+    setup: function(){
+      [rabbit, lamb, squirrel].forEach(c=>c.visible=true);
+      rabbit.position.set(0,0,2);
+      lamb.position.set(-2,0,2);
+      squirrel.position.set(2,0,2);
+      fox.visible=false;
+      moveCameraTo(0,5,12, 0,1,0, 2000);
+      setSkyColor(0x0a1a3a, 0x1a3a1a);
+      fillLight.color.set(0x4488ff);
+      spawnHeartsAbove(rabbit);
+    }
+  }
+];
+</script>
+
+
+<script>
+// ===================== ANIMATION HELPERS =====================
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+function moveCameraTo(tx,ty,tz, lx,ly,lz, dur){
+  const start = {x:camera.position.x,y:camera.position.y,z:camera.position.z};
+  const end   = {x:tx,y:ty,z:tz};
+  const lookEnd = {x:lx,y:ly,z:lz};
+  const t0 = Date.now();
+  function step(){
+    const t = Math.min((Date.now()-t0)/dur, 1);
+    const e = t<0.5 ? 2*t*t : -1+(4-2*t)*t;
+    camera.position.set(lerp(start.x,end.x,e),lerp(start.y,end.y,e),lerp(start.z,end.z,e));
+    camera.lookAt(lerp(camera.position.x,lookEnd.x,0.1),lookEnd.y,lerp(camera.position.z,lookEnd.z,0.1));
+    if(t<1) requestAnimationFrame(step);
+    else camera.lookAt(lx,ly,lz);
+  }
+  step();
+}
+
+function animateWalkTo(obj, tx, tz, dur){
+  const sx=obj.position.x, sz=obj.position.z;
+  const t0=Date.now();
+  function step(){
+    const t=Math.min((Date.now()-t0)/dur,1);
+    obj.position.x=lerp(sx,tx,t);
+    obj.position.z=lerp(sz,tz,t);
+    obj.position.y=Math.abs(Math.sin(t*Math.PI*4))*0.15;
+    obj.rotation.y=Math.atan2(tx-sx, tz-sz);
+    if(t<1) requestAnimationFrame(step);
+    else { obj.position.y=0; }
+  }
+  step();
+}
+
+function animateRunAway(obj, targetX, dur){
+  const sx=obj.position.x;
+  const t0=Date.now();
+  function step(){
+    const t=Math.min((Date.now()-t0)/dur,1);
+    obj.position.x=lerp(sx,targetX,t);
+    obj.position.y=Math.abs(Math.sin(t*Math.PI*8))*0.2;
+    if(t<1) requestAnimationFrame(step);
+    else { obj.visible=false; obj.position.y=0; }
+  }
+  step();
+}
+
+function animateCharacterJump(obj, height, dur){
+  const t0=Date.now();
+  function step(){
+    const t=Math.min((Date.now()-t0)/dur,1);
+    obj.position.y=Math.sin(t*Math.PI)*height;
+    if(t<1) requestAnimationFrame(step);
+    else obj.position.y=0;
+  }
+  step();
+}
+
+function animateCharacterShake(obj, dur){
+  const t0=Date.now(); const ox=obj.position.x;
+  function step(){
+    const t=Math.min((Date.now()-t0)/dur,1);
+    obj.position.x=ox+Math.sin(t*Math.PI*10)*0.15*(1-t);
+    if(t<1) requestAnimationFrame(step);
+    else obj.position.x=ox;
+  }
+  step();
+}
+
+function setSkyColor(top, bottom){
+  skyMat.uniforms.topColor.value.set(top);
+  skyMat.uniforms.bottomColor.value.set(bottom);
+}
+
+// Hearts particles above character
+const heartMeshes = [];
+function spawnHeartsAbove(obj){
+  for(let i=0;i<8;i++){
+    setTimeout(()=>{
+      const h=new THREE.Mesh(
+        new THREE.SphereGeometry(0.12,8,8),
+        new THREE.MeshBasicMaterial({color:0xff4466,transparent:true,opacity:0.9})
+      );
+      h.position.set(obj.position.x+(Math.random()-0.5)*1.5, 2.5, obj.position.z);
+      scene.add(h);
+      heartMeshes.push(h);
+      let vy=0.02;
+      function rise(){
+        h.position.y+=vy;
+        h.material.opacity-=0.008;
+        if(h.material.opacity>0) requestAnimationFrame(rise);
+        else { scene.remove(h); heartMeshes.splice(heartMeshes.indexOf(h),1); }
+      }
+      rise();
+    }, i*300);
+  }
+}
+</script>
+
+
+<script>
+// ===================== SCENE CONTROLLER =====================
+function showSubtitle(text){
+  const el=document.getElementById('subtitle-box');
+  el.style.display='block'; el.style.opacity='0';
+  el.innerText=text;
+  setTimeout(()=>el.style.opacity='1',50);
+}
+function hideSubtitle(){
+  const el=document.getElementById('subtitle-box');
+  el.style.opacity='0';
+  setTimeout(()=>el.style.display='none',500);
+}
+function showSceneTitle(text){
+  const el=document.getElementById('scene-title');
+  el.style.display='block'; el.style.opacity='0'; el.innerText=text;
+  setTimeout(()=>el.style.opacity='1',50);
+  setTimeout(()=>{ el.style.opacity='0'; setTimeout(()=>el.style.display='none',500); },2500);
+}
+function updateProgress(idx){
+  const pct=(idx/TOTAL_SCENES)*100;
+  document.getElementById('progress-fill').style.width=pct+'%';
+}
+
+function playScene(idx){
+  if(idx >= TOTAL_SCENES){
+    showEndScreen(); return;
+  }
+  currentScene=idx;
+  updateProgress(idx);
+  const sc=scenes[idx];
+  showSceneTitle(sc.title);
+  showSubtitle(sc.subtitle);
+  sc.setup();
+  if(sceneTimer) clearTimeout(sceneTimer);
+  sceneTimer=setTimeout(()=>playScene(idx+1), sc.duration);
+}
+
+function showEndScreen(){
+  hideSubtitle();
+  document.getElementById('scene-title').style.display='none';
+  const el=document.createElement('div');
+  el.style.cssText=`position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.85);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;z-index:200;
+    animation:fadeInUp 1s ease both;`;
+  el.innerHTML=`
+    <div style="font-size:3em;color:#ffd700;text-shadow:0 0 30px #ff6600;text-align:center;margin-bottom:20px">
+      🎉 THE END 🎉
+    </div>
+    <div style="font-size:1.4em;color:#aaddff;text-align:center;max-width:600px;line-height:2">
+      Do'stingga sadoqatli bo'l!<br>
+      Dushmaniga ishonma!<br>
+      Maqtanchoqlik yaxshilikka olib kelmaydi! 🐰
+    </div>
+    <button onclick="location.reload()" style="margin-top:40px;padding:14px 44px;
+      background:linear-gradient(135deg,#ff6600,#ff3300);border:none;border-radius:30px;
+      color:white;font-size:1.2em;cursor:pointer;box-shadow:0 0 20px #ff6600">
+      🔄 Qaytadan ko'rish
+    </button>`;
+  document.body.appendChild(el);
+  updateProgress(TOTAL_SCENES);
+}
+
+function startStory(){
+  const ts=document.getElementById('title-screen');
+  ts.style.opacity='0';
+  setTimeout(()=>{ ts.style.display='none'; },2000);
+  document.getElementById('subtitle-box').style.display='block';
+  document.getElementById('progress-bar').style.display='block';
+  playScene(0);
+}
+</script>
+
+
+<script>
+// ===================== IDLE ANIMATIONS =====================
+const clock = new THREE.Clock();
+function idleAnimate(t){
+  // Gentle bob for each visible character
+  [rabbit, lamb, squirrel].forEach((c,i)=>{
+    if(c.visible) c.position.y += Math.sin(t*2+i*1.2)*0.001;
+  });
+  // Fox sway
+  if(fox.visible) fox.rotation.y = fox.rotation.y + Math.sin(t*1.5)*0.002;
+  // Trees sway
+  trees.forEach((tr,i)=>{
+    tr.rotation.z = Math.sin(t*0.8+i)*0.015;
+    tr.rotation.x = Math.cos(t*0.6+i)*0.008;
+  });
+  // Spark rotation
+  sparks.rotation.y = t*0.05;
+  sparks.rotation.x = Math.sin(t*0.1)*0.1;
+  // Moon gentle pulse
+  const scale = 1+Math.sin(t*0.5)*0.02;
+  moon.scale.setScalar(scale);
+}
+
+// ===================== RENDER LOOP =====================
+function animate(){
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  idleAnimate(t);
+  renderer.render(scene, camera);
+}
+animate();
+
+// ===================== KEYBOARD SHORTCUT =====================
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight' && currentScene>=0) {
+    if(sceneTimer) clearTimeout(sceneTimer);
+    playScene(currentScene+1);
+  }
+  if(e.key==='ArrowLeft' && currentScene>0) {
+    if(sceneTimer) clearTimeout(sceneTimer);
+    playScene(currentScene-1);
+  }
+});
+</script>
+
+<!-- Controls hint -->
+<div style="position:fixed;bottom:35px;right:20px;color:rgba(255,255,255,0.35);font-size:0.8em;z-index:60">
+  ← → tugmalari bilan sahnalarni almashtiring
+</div>
+
+</body>
+</html>
