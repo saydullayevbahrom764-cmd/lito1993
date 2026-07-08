@@ -60,6 +60,18 @@ export default function Search({ lang, dark, onOpenListing, favIds, onToggleFav,
   const [sort, setSort] = useState("new");
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState({ minPrice:"", maxPrice:"", condition:"", city:"" });
+  const [searchHist, setSearchHist] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("osontop_srch") || "[]"); } catch { return []; }
+  });
+
+  const handleSearch = (val) => {
+    setQ(val);
+    if (val.trim().length >= 2) {
+      const updated = [val.trim(), ...searchHist.filter(h => h !== val.trim())].slice(0, 8);
+      setSearchHist(updated);
+      try { localStorage.setItem("osontop_srch", JSON.stringify(updated)); } catch {}
+    }
+  };
 
   const results = DEMO_LISTINGS.filter(l => {
     if (cat !== "all" && l.category !== cat) return false;
@@ -90,7 +102,7 @@ export default function Search({ lang, dark, onOpenListing, favIds, onToggleFav,
           }}>
             <span style={{ fontSize:16 }}>🔍</span>
             <input
-              autoFocus value={q} onChange={e => setQ(e.target.value)}
+              autoFocus value={q} onChange={e => handleSearch(e.target.value)}
               placeholder={tx.searchPh}
               style={{ flex:1, background:"none", border:"none", outline:"none",
                 color:"#fff", fontSize:15, fontFamily:"inherit" }}
@@ -123,6 +135,32 @@ export default function Search({ lang, dark, onOpenListing, favIds, onToggleFav,
             active={cat===c.id} onClick={() => setCat(c.id)} color={c.color} dark={dark} />
         ))}
       </div>
+
+      {/* Search history — shown when input is empty */}
+      {!q && searchHist.length > 0 && (
+        <div style={{ padding:"0 16px 4px" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+            <span style={{ fontSize:12, fontWeight:700, color:th.sub }}>
+              🕐 {lang==="uz"?"So'nggi qidiruvlar":"Недавние поиски"}
+            </span>
+            <button onClick={() => { setSearchHist([]); localStorage.removeItem("osontop_srch"); }}
+              style={{ background:"none", border:"none", color:th.sub, fontSize:11, cursor:"pointer" }}>
+              {lang==="uz"?"Tozalash":"Очистить"}
+            </button>
+          </div>
+          <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:12 }}>
+            {searchHist.map((h,i) => (
+              <button key={i} onClick={() => handleSearch(h)} style={{
+                background:th.card2, border:`1px solid ${th.border}`,
+                borderRadius:20, padding:"5px 12px", fontSize:12,
+                color:th.text2, cursor:"pointer",
+              }}>
+                🔍 {h}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Results */}
       <div style={{ padding:"0 16px" }}>

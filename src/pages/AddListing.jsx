@@ -3,6 +3,7 @@ import { theme } from "../theme.js";
 import { T, CATEGORIES } from "../translations.js";
 import { CONDITIONS, CITIES_UZ, CITIES_RU, genId } from "../utils.js";
 import { Btn, Input, Select, Chip, PhotoUploader, Toggle } from "../components/UI.jsx";
+import { AIImageAnalyzer } from "../features/AIImageAnalysis.jsx";
 
 const G = "#16A34A";
 const GD = "#15803D";
@@ -157,15 +158,29 @@ export default function AddListing({ lang, dark, onDone, onCancel, currentUser }
       </div>
 
       <div style={{ padding:"20px 16px" }}>
-        {/* STEP 0 — Category */}
+        {/* STEP 0 — Category + AI analyzer */}
         {step === 0 && (
           <div>
             <h2 style={{ fontSize:18, fontWeight:800, color:th.text, marginBottom:6 }}>
               {lang==="uz"?"Kategoriya tanlang":"Выберите категорию"}
             </h2>
-            <p style={{ color:th.sub, fontSize:13, marginBottom:20 }}>
+            <p style={{ color:th.sub, fontSize:13, marginBottom:14 }}>
               {lang==="uz"?"E'loningiz qaysi toifaga tegishli?":"К какой категории относится объявление?"}
             </p>
+
+            {/* AI Image Analyzer */}
+            <div style={{ marginBottom:20 }}>
+              <AIImageAnalyzer lang={lang} dark={dark} onResult={res => {
+                u({
+                  category:  res.category,
+                  title:     res.title,
+                  price:     String(res.suggestedPrice || ""),
+                  priceType: res.suggestedPrice ? "fixed" : "negotiable",
+                  photos:    res.photo ? [res.photo] : [],
+                });
+              }} />
+            </div>
+
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
               {CATEGORIES.map(c => (
                 <button key={c.id} onClick={() => u({ category:c.id })} style={{
