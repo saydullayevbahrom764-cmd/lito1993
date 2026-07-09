@@ -191,36 +191,6 @@ export default function Home({ lang, dark, onOpenListing, onSearch, favIds, onTo
       {/* ── BANNER ── */}
       <BannerSlider lang={lang} dark={dark} />
 
-      {/* ── CATEGORY GRID (all) ── */}
-      {activeCat === "all" && (
-        <div style={{ padding:"0 16px 8px" }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
-            <span style={{ fontSize:15, fontWeight:700, color:th.text }}>
-              {lang==="uz"?"Kategoriyalar":"Категории"}
-            </span>
-          </div>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:10, marginBottom:20 }}>
-            {CATEGORIES.map(c => (
-              <button key={c.id} onClick={() => handleCat(c.id)} style={{
-                background:th.card, borderRadius:14, padding:"14px 8px",
-                border:`1px solid ${th.border}`, cursor:"pointer",
-                display:"flex", flexDirection:"column", alignItems:"center", gap:5,
-                transition:"transform 0.1s",
-              }}>
-                <div style={{
-                  width:42, height:42, borderRadius:12,
-                  background:c.color+"20",
-                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:22,
-                }}>{c.emoji}</div>
-                <span style={{ fontSize:10, fontWeight:600, color:th.text2, textAlign:"center", lineHeight:1.2 }}>
-                  {tx[c.id]||c.id}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* ── LISTINGS ── */}
       <div style={{ padding:"0 16px" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>

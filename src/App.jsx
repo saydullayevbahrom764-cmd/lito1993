@@ -157,6 +157,7 @@ export default function App() {
   const [srchHist,   setSrchHist]   = useState(saved?.srchHist     ?? []);
   const [searchCat,  setSearchCat]  = useState("all");
   const [featurePg,  setFeaturePg]  = useState(null);
+  const [viewUser,   setViewUser]   = useState(null);
 
   // Feature modal states
   const [fOffer,    setFOffer]    = useState(null);
@@ -310,16 +311,20 @@ export default function App() {
           isFav={favIds.includes(selectedListing.id)} onToggleFav={toggleFav}
           onBack={() => setSL(null)}
           onChat={() => { setSL(null); setTab("messages"); }}
-          /* 13 feature callbacks */
-          onOffer={()  => setFOffer(selectedListing)}
-          onSafeDeal={()=> setFSafeDeal(selectedListing)}
-          onBarter={()  => setFBarter(selectedListing)}
-          onQR={()      => setFQR(selectedListing)}
-          onDelivery={()=> setFDelivery(selectedListing)}
-          onBoost={()   => setFBoost(selectedListing)}
+          onOffer={()    => setFOffer(selectedListing)}
+          onSafeDeal={() => setFSafeDeal(selectedListing)}
+          onBarter={()   => setFBarter(selectedListing)}
+          onQR={()       => setFQR(selectedListing)}
+          onDelivery={() => setFDelivery(selectedListing)}
+          onBoost={()    => setFBoost(selectedListing)}
           similar={similar[selectedListing?.id] || []}
           onOpenSimilar={openListing}
           boostInfo={boosts[selectedListing?.id]}
+          onViewSeller={seller => {
+            setSL(null);
+            setViewUser(seller);
+            setTab("profile");
+          }}
         />
       )}
 
@@ -404,13 +409,14 @@ export default function App() {
           onLangChange={setLang} onDarkToggle={() => setDark(p => !p)}
           onStartLive={handleStartLive}
           onVerified={handleVerified}
-          /* 13 feature navigation */
-          onDashboard={()     => setFeaturePg("dashboard")}
-          onOffers={()        => setFeaturePg("offers")}
-          onMahalla={()       => setFeaturePg("mahalla")}
-          onGroupBuy={()      => setFeaturePg("groupbuy")}
-          onGamification={()  => setFeaturePg("gamification")}
+          onDashboard={()    => setFeaturePg("dashboard")}
+          onOffers={()       => setFeaturePg("offers")}
+          onMahalla={()      => setFeaturePg("mahalla")}
+          onGroupBuy={()     => setFeaturePg("groupbuy")}
+          onGamification={() => setFeaturePg("gamification")}
           xp={xp}
+          viewUser={viewUser}
+          onCloseUserProfile={() => setViewUser(null)}
         />
       )}
 
