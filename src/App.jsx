@@ -231,7 +231,7 @@ export default function App() {
   const handleTabChange = t => {
     if (t === "add") {
       if (!auth && !isGuest) { showToast(lang === "uz" ? "Kirish kerak" : "Нужно войти", "info"); return; }
-      setAddSheet(true); return;
+      setAddForm(true); return;
     }
     setTab(t);
   };
@@ -285,17 +285,12 @@ export default function App() {
       {toast    && <Toast msg={toast.msg} type={toast.type} />}
       {xpToast  && <XPToast xp={xpToast.xp} reason={xpToast.reason} onHide={() => setXpToast(null)} />}
 
-      {/* AddSheet */}
-      {showAddSheet && !showAddForm && (
-        <AddSheet dark={dark} lang={lang} onClose={() => setAddSheet(false)}
-          onProduct={() => setAddForm(true)} onLive={handleStartLive} isVerified={isVerified} />
-      )}
-
       {/* AddListing form */}
       {showAddForm && (
         <AddListing lang={lang} dark={dark} currentUser={auth}
           onDone={handleAddDone}
-          onCancel={() => { setAddForm(false); setAddSheet(false); }} />
+          onCancel={() => { setAddForm(false); setAddSheet(false); }}
+          onLive={() => { setAddForm(false); setAddSheet(false); handleStartLive(); }} />
       )}
 
       {/* Live Broadcast */}
