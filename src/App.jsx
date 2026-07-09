@@ -19,7 +19,7 @@ import { useAIRecommendations, ForYouSection, TrendingSection } from "./features
 import { PriceOfferModal, MyOffersPage }  from "./features/PriceNegotiation.jsx";
 import { SafeDealModal }                  from "./features/SafeDeal.jsx";
 import { BoostModal }                     from "./features/BoostPremium.jsx";
-import { AIImageAnalyzer }                from "./features/AIImageAnalysis.jsx";
+// import { AIImageAnalyzer }             from "./features/AIImageAnalysis.jsx";
 import { SellerDashboard }                from "./features/SellerDashboard.jsx";
 import { NearbySection }                  from "./features/NearbyGPS.jsx";
 import { BarterModal }                    from "./features/BarterSystem.jsx";
@@ -376,7 +376,7 @@ export default function App() {
           onSearch={() => setTab("search")}
           favIds={favIds} onToggleFav={toggleFav}
           onCategorySelect={c => { setSearchCat(c); setTab("search"); }}
-          onAddListing={() => setAddSheet(true)}
+          onAddListing={() => setAddForm(true)}
           forYou={forYou} trending={trending}
           myListings={myListings}
           onFeature={setFeaturePg}
