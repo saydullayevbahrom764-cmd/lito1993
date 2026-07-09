@@ -11,6 +11,8 @@ export default function ListingDetail({
   // 13 feature props
   onOffer, onSafeDeal, onBarter, onQR, onDelivery, onBoost,
   similar, onOpenSimilar, boostInfo,
+  // sotuvchi profiliga o'tish
+  onViewSeller,
 }) {
   const th = theme(dark);
   const tx = T[lang];
@@ -327,6 +329,15 @@ export default function ListingDetail({
                 </span>
               </div>
             </div>
+            {onViewSeller && (
+              <button onClick={() => onViewSeller(listing.seller)} style={{
+                background: "none", border: `1px solid ${th.border}`,
+                borderRadius: 10, padding: "7px 12px", cursor: "pointer",
+                fontSize: 12, color: G, fontWeight: 700, flexShrink: 0,
+              }}>
+                {lang === "uz" ? "Profil →" : "Профиль →"}
+              </button>
+            )}
           </div>
 
           {/* Safe Deal promo */}
