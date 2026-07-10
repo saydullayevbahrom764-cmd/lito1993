@@ -137,13 +137,36 @@ export default function Home({ lang, dark, onOpenListing, onSearch, favIds, onTo
         {/* Row 1: logo + city + bell */}
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            {/* OsonTop logo */}
+            {/* OsonTop SVG logo */}
             <div style={{
-              width:34, height:34, borderRadius:10,
+              width:36, height:36, borderRadius:10,
               background:"rgba(255,255,255,0.2)",
               display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:18, border:"1px solid rgba(255,255,255,0.3)",
-            }}>🛒</div>
+              border:"1px solid rgba(255,255,255,0.3)",
+              overflow:"hidden",
+            }}>
+              <svg width="28" height="28" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Tezlik chiziqlari */}
+                <line x1="3"  y1="34" x2="15" y2="34" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.9"/>
+                <line x1="5"  y1="42" x2="14" y2="42" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.65"/>
+                <line x1="6"  y1="50" x2="15" y2="50" stroke="white" strokeWidth="2"   strokeLinecap="round" opacity="0.45"/>
+                {/* Tutqi */}
+                <path d="M28 28 C28 18 52 18 52 28" stroke="rgba(255,255,255,0.7)" strokeWidth="5.5" strokeLinecap="round" fill="none"/>
+                {/* Sumka */}
+                <rect x="14" y="26" width="52" height="44" rx="11" fill="rgba(255,255,255,0.22)"/>
+                {/* Katta odam bosh */}
+                <circle cx="35" cy="43" r="7" fill="white" opacity="0.95"/>
+                <path d="M22 70 C22 57 48 57 48 70" fill="white" opacity="0.95"/>
+                {/* Kichik odam */}
+                <circle cx="50" cy="47" r="5" fill="white" opacity="0.75"/>
+                <path d="M41 70 C41 60 59 60 59 70" fill="white" opacity="0.75"/>
+                {/* Narx tagi */}
+                <g transform="translate(51, 22) rotate(-20)">
+                  <rect width="20" height="15" rx="4" fill="#F59E0B"/>
+                  <circle cx="5" cy="5" r="2.2" fill="white"/>
+                </g>
+              </svg>
+            </div>
             <div>
               <div style={{ color:"#fff", fontSize:18, fontWeight:900, letterSpacing:-0.5, lineHeight:1 }}>
                 OsonTop
