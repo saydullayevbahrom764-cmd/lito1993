@@ -3,6 +3,7 @@ import { theme } from "../theme.js";
 import { T, CATEGORIES } from "../translations.js";
 import { formatPrice, timeAgo, DEMO_LISTINGS } from "../utils.js";
 import { Chip } from "../components/UI.jsx";
+import { OsonTopIcon } from "../components/OsonTopLogo.jsx";
 
 const G = "#16A34A";
 const GD = "#15803D";
@@ -137,32 +138,8 @@ export default function Home({ lang, dark, onOpenListing, onSearch, favIds, onTo
         {/* Row 1: logo + city + bell */}
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            {/* OsonTop Logo */}
-            <svg width="38" height="38" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Tezlik chiziqlari */}
-              <line x1="2"  y1="33" x2="16" y2="33" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-              <line x1="4"  y1="42" x2="15" y2="42" stroke="white" strokeWidth="3" strokeLinecap="round" opacity="0.7"/>
-              <line x1="6"  y1="51" x2="16" y2="51" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/>
-              {/* Sumka tutqichi */}
-              <path d="M30 28 C30 17 56 17 56 28" stroke="white" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.9"/>
-              {/* Sumka tanasi — oq */}
-              <rect x="18" y="26" width="50" height="44" rx="12" fill="white"/>
-              {/* Katta odam — bosh (yashil) */}
-              <circle cx="37" cy="42" r="8" fill="#16A34A"/>
-              {/* Katta odam — tana */}
-              <path d="M22 70 C22 55 52 55 52 70" fill="#16A34A"/>
-              {/* Kichik odam — bosh */}
-              <circle cx="52" cy="47" r="6" fill="#22C55E" opacity="0.85"/>
-              {/* Kichik odam — tana */}
-              <path d="M42 70 C42 60 62 60 62 70" fill="#22C55E" opacity="0.85"/>
-              {/* Narx tagi — sariq */}
-              <g transform="translate(52, 20) rotate(-18)">
-                <rect width="22" height="17" rx="5" fill="#F59E0B"/>
-                <circle cx="5.5" cy="5.5" r="2.5" fill="white"/>
-                <line x1="9" y1="10"  x2="19" y2="10"  stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-                <line x1="9" y1="13.5" x2="17" y2="13.5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-              </g>
-            </svg>
+            {/* OsonTop Logo Icon */}
+            <OsonTopIcon size={40} />
             <div>
               <div style={{ color:"#fff", fontSize:18, fontWeight:900, letterSpacing:-0.5, lineHeight:1 }}>
                 OsonTop

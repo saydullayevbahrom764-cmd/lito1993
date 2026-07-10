@@ -3,37 +3,7 @@ import { useState, useRef } from "react";
 import { theme } from "../theme.js";
 import { T } from "../translations.js";
 import { Btn, Input } from "../components/UI.jsx";
-
-// ── Splash uchun maxsus logo (oq versiya) ────────────
-function OsonTopSplashIcon() {
-  return (
-    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Tezlik chiziqlari */}
-      <line x1="2"  y1="33" x2="16" y2="33" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-      <line x1="4"  y1="42" x2="15" y2="42" stroke="white" strokeWidth="3" strokeLinecap="round" opacity="0.7"/>
-      <line x1="6"  y1="51" x2="16" y2="51" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/>
-      {/* Sumka tutqichi */}
-      <path d="M30 28 C30 17 56 17 56 28" stroke="white" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.9"/>
-      {/* Sumka tanasi — oq */}
-      <rect x="18" y="26" width="50" height="44" rx="12" fill="white"/>
-      {/* Katta odam bosh — yashil */}
-      <circle cx="37" cy="42" r="8" fill="#16A34A"/>
-      {/* Katta odam tana */}
-      <path d="M22 70 C22 55 52 55 52 70" fill="#16A34A"/>
-      {/* Kichik odam bosh */}
-      <circle cx="52" cy="47" r="6" fill="#22C55E" opacity="0.85"/>
-      {/* Kichik odam tana */}
-      <path d="M42 70 C42 60 62 60 62 70" fill="#22C55E" opacity="0.85"/>
-      {/* Narx tagi sariq */}
-      <g transform="translate(52, 20) rotate(-18)">
-        <rect width="22" height="17" rx="5" fill="#F59E0B"/>
-        <circle cx="5.5" cy="5.5" r="2.5" fill="white"/>
-        <line x1="9" y1="10"   x2="19" y2="10"   stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-        <line x1="9" y1="13.5" x2="17" y2="13.5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-      </g>
-    </svg>
-  );
-}
+import { OsonTopLogoFull } from "../components/OsonTopLogo.jsx";
 
 export default function Auth({ lang, dark, onDone, onGuest, onLangChange }) {
   const th = theme(dark);
@@ -110,21 +80,10 @@ export default function Auth({ lang, dark, onDone, onGuest, onLangChange }) {
       </div>
 
       <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-        {/* Logo */}
-        <div style={{
-          width:110, height:110, borderRadius:30,
-          background:"rgba(255,255,255,0.15)",
-          display:"flex", alignItems:"center", justifyContent:"center",
-          marginBottom:20, backdropFilter:"blur(10px)",
-          border:"2px solid rgba(255,255,255,0.3)",
-          boxShadow:"0 8px 32px rgba(0,0,0,0.2)",
-          overflow:"hidden",
-        }}>
-          <OsonTopSplashIcon />
+        {/* Logo — to'liq OsonTop logosi */}
+        <div style={{ marginBottom: 16 }}>
+          <OsonTopLogoFull width={190} />
         </div>
-        <h1 style={{ color:"#fff", fontSize:38, fontWeight:900, letterSpacing:-1.5, marginBottom:8 }}>
-          Oson<span style={{ color:"rgba(255,255,255,0.75)" }}>Top</span>
-        </h1>
         <p style={{ color:"rgba(255,255,255,0.85)", fontSize:17, textAlign:"center", lineHeight:1.6, marginBottom:8 }}>
           {tx.tagline}
         </p>
