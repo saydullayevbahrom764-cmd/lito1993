@@ -524,90 +524,220 @@ function PaymentModal({ group, lang, dark, onClose, onSuccess }) {
 
 
 // ═══════════════════════════════════════════════════════
-// GROUP CHAT ROOM
+// GROUP CHAT ROOM  (yangilangan — 8 yaxshilash)
 // ═══════════════════════════════════════════════════════
 
 function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
   const th = theme(dark);
   const tx = T[lang];
   const isUz = lang === "uz";
-  const { h, m, s } = useCountdown(group.endsAt);
-  const [messages, setMessages] = useState([...group.initialMessages]);
-  const [members, setMembers] = useState([
-    ...group.members,
-    { ...currentMember, paid: false },
-  ]);
-  const [inputText, setInputText] = useState("");
-  const [aiTyping, setAiTyping] = useState(false);
-  const [showPay, setShowPay] = useState(false);
-  const listRef = useRef(null);
-  const currentCount = members.length;
-  const maxCount = group.maxMembers;
-  const isFull = currentCount >= maxCount;
-  const progress = currentCount / maxCount;
+  const { h, m, s, expired } = useCountdown(group.endsAt);
 
+  // State
+  const [messages,   setMessages]   = useState([...group.initialMessages]);
+  const [members,    setMembers]     = useState([...group.members, { ...currentMember, paid:false }]);
+  const [inputText,  setInputText]   = useState("");
+  const [typingName, setTypingName]  = useState(null);   // "Kim yozmoqda..."
+  const [aiTyping,   setAiTyping]    = useState(false);
+  const [showPay,    setShowPay]     = useState(false);
+  const [showVideo,  setShowVideo]   = useState(false);  // video panel
+  const [collapsed,  setCollapsed]   = useState(true);   // buyurtma tafsilotlari
+  const [fullAnim,   setFullAnim]    = useState(false);  // guruh to'ldi animatsiya
+  const listRef = useRef(null);
+
+  const currentCount = members.length;
+  const maxCount     = group.maxMembers;
+  const isFull       = currentCount >= maxCount;
+  const progress     = currentCount / maxCount;
+  // 5 daqiqadan kam qolsa qizil
+  const totalSec     = h * 3600 + m * 60 + s;
+  const timerRed     = totalSec < 300;
+
+  // Scroll to bottom
   useEffect(() => {
     if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
-  }, [messages, aiTyping]);
+  }, [messages, aiTyping, typingName]);
 
+  // Guruh to'lganda animatsiya
+  useEffect(() => {
+    if (isFull && !fullAnim) {
+      setFullAnim(true);
+      // Chat ga avtomatik xabar
+      const now = new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
+      setMessages(p => [...p, {
+        id: genId(), sender:"system", name:"", avatar:"", color:"",
+        text:{ uz:`🎉🎉🎉 Guruh to'ldi! ${maxCount}/${maxCount} — Endi to'lovni amalga oshiring!`,
+               ru:`🎉🎉🎉 Группа заполнена! ${maxCount}/${maxCount} — Теперь оплатите!` },
+        time:now, isSystem:true, isFull:true,
+      }]);
+    }
+  }, [isFull]);
+
+  // AI javob
   const checkAI = useCallback((text) => {
     const lower = text.toLowerCase();
     const answers = AI_ANSWERS[lang] || AI_ANSWERS.uz;
     const found = answers.find(a => a.q.some(q => lower.includes(q)));
     if (!found) return;
-    setAiTyping(true);
+    // AI "yozmoqda" ko'rsatish
+    setTypingName(isUz ? "🤖 AI yozmoqda..." : "🤖 AI печатает...");
     setTimeout(() => {
-      setAiTyping(false);
+      setTypingName(null);
       setMessages(p => [...p, {
-        id: genId(), sender: "ai", name: "🤖 AI Yordamchi",
-        avatar: "🤖", color: "#8B5CF6",
-        text: { uz: found.a, ru: found.a },
-        time: new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" }),
-        isSystem: false,
+        id:genId(), sender:"ai", name:"🤖 AI Yordamchi",
+        avatar:"🤖", color:"#8B5CF6",
+        text:{ uz:found.a, ru:found.a },
+        time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),
+        isSystem:false,
       }]);
-    }, 1200);
-  }, [lang]);
+    }, 1400);
+  }, [lang, isUz]);
+
+  const addSystemMsg = (textUz, textRu) => {
+    setMessages(p => [...p, {
+      id:genId(), sender:"system", name:"", avatar:"", color:"",
+      text:{ uz:textUz, ru:textRu },
+      time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),
+      isSystem:true,
+    }]);
+  };
 
   const sendMessage = () => {
     const txt = inputText.trim();
     if (!txt) return;
+    // "Falonchi yozmoqda..." simulyatsiya (boshqa foydalanuvchi uchun)
+    const randomMember = members.filter(m=>m.id!=="me")[Math.floor(Math.random()*members.length)];
+    if (randomMember && Math.random() > 0.4) {
+      setTimeout(() => {
+        setTypingName(`${randomMember.name} ${isUz?"yozmoqda...":"печатает..."}`);
+        setTimeout(() => setTypingName(null), 2000 + Math.random()*1500);
+      }, 800);
+    }
     setMessages(p => [...p, {
-      id: genId(), sender: "me", name: currentMember.name,
-      avatar: currentMember.avatar, color: currentMember.color,
-      text: { uz: txt, ru: txt },
-      time: new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" }),
-      isSystem: false,
+      id:genId(), sender:"me", name:currentMember.name,
+      avatar:currentMember.avatar, color:currentMember.color,
+      text:{ uz:txt, ru:txt },
+      time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),
+      isSystem:false,
     }]);
     checkAI(txt);
     setInputText("");
+  };
+
+  // To'lov qilganda chat ga xabar
+  const handlePaySuccess = () => {
+    setShowPay(false);
+    setMembers(p => p.map(m => m.id==="me" ? {...m, paid:true} : m));
+    const paidCount = members.filter(m=>m.paid).length + 1;
+    addSystemMsg(
+      `💰 ${currentMember.name} to'lovni amalga oshirdi. ${paidCount}/${currentCount} to'ladi ✅`,
+      `💰 ${currentMember.name} оплатил. ${paidCount}/${currentCount} оплатили ✅`
+    );
+    onPay?.(group);
   };
 
   return (
     <div style={{ position:"fixed", inset:0, zIndex:600, background:th.bg,
       maxWidth:430, margin:"0 auto", display:"flex", flexDirection:"column" }}>
 
-      {/* ── TOP PANEL ── */}
+      {/* ═══ GURUH TO'LDI ANIMATSIYA OVERLAY ═══ */}
+      {fullAnim && (
+        <div style={{ position:"absolute", inset:0, zIndex:900, background:"rgba(0,0,0,0.75)",
+          display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
+          animation:"fadeInOut 4s ease forwards", pointerEvents:"none" }}>
+          <div style={{ fontSize:64, marginBottom:12, animation:"bounce3 0.6s ease 3" }}>🎉</div>
+          <div style={{ fontSize:28, fontWeight:900, color:"#fff", marginBottom:8 }}>
+            {isUz?"Guruh to'ldi!":"Группа заполнена!"}
+          </div>
+          <div style={{ fontSize:20, color:"#F59E0B", fontWeight:800 }}>{maxCount}/{maxCount} 🔥</div>
+          <div style={{ fontSize:14, color:"rgba(255,255,255,0.8)", marginTop:8 }}>
+            {isUz?"Endi to'lovni amalga oshiring":"Теперь оплатите заказ"}
+          </div>
+        </div>
+      )}
+
+      {/* ═══ TOP PANEL ═══ */}
       <div style={{ background:`linear-gradient(135deg,${group.color},${group.color}CC)`,
-        padding:"46px 14px 12px", flexShrink:0 }}>
-        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
-          <button onClick={onBack} style={{ background:"rgba(255,255,255,0.2)",
-            border:"none", borderRadius:10, width:34, height:34, color:"#fff",
-            fontSize:16, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>←</button>
-          <div style={{ flex:1 }}>
-            <div style={{ color:"#fff", fontWeight:800, fontSize:14 }}>{group.title[lang]}</div>
-            <div style={{ color:"rgba(255,255,255,0.7)", fontSize:11 }}>
-              {currentCount}/{maxCount} {isUz?"a'zo":"участников"}
+        flexShrink:0 }}>
+
+        {/* 1. Mahsulot rasmi + info band */}
+        <div style={{ padding:"46px 14px 0", display:"flex", alignItems:"center", gap:12 }}>
+          <button onClick={onBack} style={{ background:"rgba(255,255,255,0.2)", border:"none",
+            borderRadius:10, width:34, height:34, color:"#fff", fontSize:16, cursor:"pointer",
+            display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>←</button>
+
+          {/* Mahsulot rasmi (kichik) */}
+          <div style={{ width:52, height:52, borderRadius:14, background:"rgba(255,255,255,0.2)",
+            display:"flex", alignItems:"center", justifyContent:"center", fontSize:28,
+            border:"2px solid rgba(255,255,255,0.3)", flexShrink:0, overflow:"hidden" }}>
+            {group.image
+              ? <img src={group.image} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+              : group.emoji}
+          </div>
+
+          <div style={{ flex:1, minWidth:0 }}>
+            <div style={{ color:"#fff", fontWeight:800, fontSize:14, lineHeight:1.2 }}>
+              {group.title[lang]}
+            </div>
+            {/* Rating + original */}
+            <div style={{ display:"flex", alignItems:"center", gap:6, marginTop:3 }}>
+              <div style={{ display:"flex", gap:1 }}>
+                {[1,2,3,4,5].map(n=>(
+                  <span key={n} style={{ fontSize:9, color:n<=Math.round(group.rating)?"#F59E0B":"rgba(255,255,255,0.3)" }}>★</span>
+                ))}
+              </div>
+              <span style={{ fontSize:9, color:"rgba(255,255,255,0.8)" }}>
+                {group.rating} ({group.reviewCount} {isUz?"sharh":"отзывов"})
+              </span>
+              <span style={{ background:"rgba(255,255,255,0.2)", borderRadius:4, padding:"1px 5px",
+                fontSize:9, color:"#fff", fontWeight:700 }}>✓ {isUz?"Original":"Оригинал"}</span>
             </div>
           </div>
-          <div style={{ fontSize:24 }}>{group.emoji}</div>
+
+          {/* Video tugma */}
+          <button onClick={()=>setShowVideo(v=>!v)} style={{
+            background: showVideo ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.2)",
+            border:"none", borderRadius:10, padding:"6px 10px", color:"#fff",
+            fontSize:11, fontWeight:700, cursor:"pointer", flexShrink:0,
+            display:"flex", alignItems:"center", gap:4,
+          }}>
+            ▶ {isUz?"Video":"Видео"}
+          </button>
         </div>
+
+        {/* Video panel */}
+        {showVideo && (
+          <div style={{ margin:"8px 14px 0", background:"rgba(0,0,0,0.4)", borderRadius:12,
+            height:140, display:"flex", alignItems:"center", justifyContent:"center",
+            border:"1px solid rgba(255,255,255,0.2)", overflow:"hidden", position:"relative" }}>
+            <div style={{ textAlign:"center" }}>
+              <div style={{ fontSize:40, marginBottom:6 }}>▶</div>
+              <div style={{ color:"rgba(255,255,255,0.8)", fontSize:12, fontWeight:600 }}>
+                {isUz?"Mahsulot videosi · 45 soniya":"Видео товара · 45 секунд"}
+              </div>
+              <div style={{ color:"rgba(255,255,255,0.5)", fontSize:10, marginTop:3 }}>
+                {isUz?"Original mahsulot taqdimoti":"Оригинальная презентация товара"}
+              </div>
+            </div>
+            {/* Muddati badge */}
+            <div style={{ position:"absolute", bottom:8, right:8, background:"rgba(0,0,0,0.6)",
+              borderRadius:6, padding:"2px 8px", fontSize:10, color:"#fff" }}>45s</div>
+          </div>
+        )}
+
         {/* Stats strip */}
-        <div style={{ background:"rgba(255,255,255,0.12)", borderRadius:12, padding:"10px 12px",
-          display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:6 }}>
+        <div style={{ margin:"10px 14px 0", background:"rgba(255,255,255,0.12)", borderRadius:12,
+          padding:"10px 12px", display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:6 }}>
           {[
             { icon:"👥", top:`${currentCount}/${maxCount}`, bot:isUz?"A'zo":"Участники" },
             { icon:"💰", top:formatPrice(group.groupPrice).replace(/\s/g,""), bot:"so'm" },
-            { icon:"⏰", top:`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`, bot:isUz?"Qoldi":"Осталось" },
+            {
+              icon: timerRed ? "🔴" : "⏰",
+              top: <span style={{ color: timerRed ? "#FCA5A5" : "#fff", fontFamily:"monospace", fontSize:11, fontWeight:900 }}>
+                {`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+              </span>,
+              bot: isUz ? "Qoldi" : "Осталось",
+            },
             { icon:"🔥", top:`${maxCount-currentCount}`, bot:isUz?"Kerak":"Нужно" },
           ].map((item,i)=>(
             <div key={i} style={{ textAlign:"center" }}>
@@ -617,55 +747,74 @@ function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
             </div>
           ))}
         </div>
-        {/* Progress */}
-        <div style={{ marginTop:8 }}>
-          <div style={{ height:5, background:"rgba(255,255,255,0.2)", borderRadius:3, overflow:"hidden" }}>
+
+        {/* Progress bar — animatsiya bilan */}
+        <div style={{ margin:"8px 14px 12px" }}>
+          <div style={{ height:6, background:"rgba(255,255,255,0.2)", borderRadius:3, overflow:"hidden" }}>
             <div style={{ height:"100%", width:`${progress*100}%`,
-              background:"rgba(255,255,255,0.9)", borderRadius:3, transition:"width 0.5s" }} />
+              background: isFull
+                ? "linear-gradient(90deg,#F59E0B,#EF4444)"
+                : "rgba(255,255,255,0.9)",
+              borderRadius:3, transition:"width 1.2s cubic-bezier(0.34,1.56,0.64,1)" }} />
           </div>
           {isFull && (
-            <div style={{ textAlign:"center", fontSize:11, color:"#fff", fontWeight:700, marginTop:5 }}>
+            <div style={{ textAlign:"center", fontSize:11, color:"#F59E0B", fontWeight:800, marginTop:5,
+              animation:"pulse 1s infinite" }}>
               🎉 {isUz?"Guruh to'ldi! To'lovni amalga oshiring.":"Группа заполнена! Оплатите заказ."}
             </div>
           )}
         </div>
       </div>
 
-      {/* ── A'ZOLAR STATUSI ── */}
-      <div style={{ background:th.card, padding:"10px 14px", flexShrink:0,
+      {/* ═══ A'ZOLAR STATUSI ═══ */}
+      <div style={{ background:th.card, padding:"8px 14px", flexShrink:0,
         borderBottom:`1px solid ${th.border}`, display:"flex", alignItems:"center", gap:6, overflowX:"auto" }}>
+        {/* To'lgan a'zolar */}
         {members.map((mem,i)=>(
-          <div key={mem.id||i} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:3, flexShrink:0 }}>
+          <div key={mem.id||i} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:2, flexShrink:0 }}>
             <Avatar member={mem} size={30} showBadge />
-            <div style={{ fontSize:8, color:th.sub, maxWidth:36, overflow:"hidden",
+            <div style={{ fontSize:7, color:th.sub, maxWidth:34, overflow:"hidden",
               textOverflow:"ellipsis", whiteSpace:"nowrap", textAlign:"center" }}>{mem.name}</div>
           </div>
         ))}
-        {Array.from({length:Math.max(0,maxCount-members.length)}).map((_,i)=>(
-          <div key={"e"+i} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:3, flexShrink:0 }}>
-            <div style={{ width:30, height:30, borderRadius:15, background:th.card2,
-              border:`2px dashed ${th.border}`, display:"flex", alignItems:"center",
-              justifyContent:"center", fontSize:13, color:th.sub }}>?</div>
-            <div style={{ fontSize:8, color:th.sub }}>{isUz?"Joy":"Место"}</div>
+        {/* Bo'sh joylar — "+" bilan */}
+        {Array.from({length:Math.max(0, maxCount-members.length)}).map((_,i)=>(
+          <div key={"e"+i} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:2, flexShrink:0 }}>
+            <div style={{ width:30, height:30, borderRadius:15,
+              background: "transparent",
+              border:`2px dashed ${th.border}`,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              fontSize:18, color:th.sub, fontWeight:300 }}>+</div>
+            <div style={{ fontSize:7, color:th.sub }}>{isUz?"Joy":"Место"}</div>
           </div>
         ))}
       </div>
 
-      {/* ── MESSAGES ── */}
-      <div ref={listRef} style={{ flex:1, overflowY:"auto", padding:"12px 14px",
+      {/* ═══ MESSAGES ═══ */}
+      <div ref={listRef} style={{ flex:1, overflowY:"auto", padding:"10px 14px",
         display:"flex", flexDirection:"column", gap:8 }}>
         {messages.map(msg => {
+          // System xabar (qo'shildi, to'lovni amalga oshirdi, guruh to'ldi)
           if (msg.isSystem) return (
-            <div key={msg.id} style={{ textAlign:"center" }}>
-              <span style={{ background:G+"18", color:G, fontSize:11, fontWeight:700,
-                padding:"4px 12px", borderRadius:20, border:`1px solid ${G}25` }}>
+            <div key={msg.id} style={{ textAlign:"center", margin:"2px 0" }}>
+              <span style={{
+                background: msg.isFull ? "linear-gradient(135deg,#F59E0B,#EF4444)" : G+"18",
+                color: msg.isFull ? "#fff" : G,
+                fontSize: msg.isFull ? 13 : 11, fontWeight:700,
+                padding: msg.isFull ? "8px 16px" : "4px 12px",
+                borderRadius:20,
+                border: msg.isFull ? "none" : `1px solid ${G}25`,
+                display:"inline-block",
+                boxShadow: msg.isFull ? "0 4px 14px rgba(245,158,11,0.4)" : "none",
+                animation: msg.isFull ? "pulse 1.5s infinite" : "none",
+              }}>
                 {msg.text[lang]}
               </span>
             </div>
           );
-          const isMe = msg.sender === "me";
+          const isMe     = msg.sender === "me";
           const isSeller = msg.sender === "seller";
-          const isAI = msg.sender === "ai";
+          const isAI     = msg.sender === "ai";
           return (
             <div key={msg.id} style={{ display:"flex",
               flexDirection:isMe?"row-reverse":"row", alignItems:"flex-end", gap:8 }}>
@@ -673,20 +822,21 @@ function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
                 <div style={{ width:30, height:30, borderRadius:15, flexShrink:0,
                   background:isAI?"#8B5CF6":isSeller?G:msg.color,
                   display:"flex", alignItems:"center", justifyContent:"center",
-                  fontSize:14, border:`2px solid ${th.card}` }}>
+                  fontSize:14, border:`2px solid ${th.card}`, boxShadow:"0 2px 6px rgba(0,0,0,0.1)" }}>
                   {msg.avatar}
                 </div>
               )}
-              <div style={{ maxWidth:"72%", display:"flex", flexDirection:"column",
+              <div style={{ maxWidth:"75%", display:"flex", flexDirection:"column",
                 alignItems:isMe?"flex-end":"flex-start" }}>
                 {!isMe && (
                   <div style={{ fontSize:10, fontWeight:700,
-                    color:isAI?"#8B5CF6":isSeller?G:msg.color, marginBottom:3, paddingLeft:4 }}>
+                    color:isAI?"#8B5CF6":isSeller?G:msg.color, marginBottom:3, paddingLeft:4,
+                    display:"flex", alignItems:"center", gap:5 }}>
                     {msg.name}
                     {isSeller && <span style={{ background:G+"20", color:G, fontSize:9,
-                      padding:"1px 5px", borderRadius:4, marginLeft:5 }}>✓ Sotuvchi</span>}
+                      padding:"1px 5px", borderRadius:4 }}>✓ {isUz?"Sotuvchi":"Продавец"}</span>}
                     {isAI && <span style={{ background:"#8B5CF620", color:"#8B5CF6", fontSize:9,
-                      padding:"1px 5px", borderRadius:4, marginLeft:5 }}>AI</span>}
+                      padding:"1px 5px", borderRadius:4 }}>AI</span>}
                   </div>
                 )}
                 <div style={{
@@ -696,6 +846,7 @@ function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
                   borderRadius:isMe?"16px 4px 16px 16px":"4px 16px 16px 16px",
                   fontSize:13, lineHeight:1.5,
                   border:isMe?"none":`1px solid ${isAI?"#8B5CF630":isSeller?G+"25":th.border}`,
+                  boxShadow:"0 1px 4px rgba(0,0,0,0.06)",
                 }}>
                   {msg.text[lang]}
                 </div>
@@ -704,41 +855,78 @@ function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
             </div>
           );
         })}
-        {aiTyping && (
-          <div style={{ display:"flex", alignItems:"flex-end", gap:8 }}>
-            <div style={{ width:30, height:30, borderRadius:15, background:"#8B5CF6",
-              display:"flex", alignItems:"center", justifyContent:"center", fontSize:14 }}>🤖</div>
-            <div style={{ background:"#8B5CF615", padding:"10px 14px",
-              borderRadius:"4px 16px 16px 16px", border:"1px solid #8B5CF630" }}>
-              <div style={{ display:"flex", gap:4 }}>
-                {[0,1,2].map(i=>(
-                  <div key={i} style={{ width:6, height:6, borderRadius:3, background:"#8B5CF6",
-                    animation:`bounce 1s ${i*0.2}s infinite` }} />
-                ))}
-              </div>
+
+        {/* "Kim yozmoqda..." — Telegram uslubi */}
+        {typingName && (
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+            <div style={{ width:30, height:30, borderRadius:15, background:th.card2,
+              display:"flex", alignItems:"center", justifyContent:"center", fontSize:14 }}>💬</div>
+            <div style={{ background:th.card2, padding:"8px 12px",
+              borderRadius:"4px 16px 16px 16px", border:`1px solid ${th.border}` }}>
+              <div style={{ fontSize:11, color:th.sub, fontStyle:"italic" }}>{typingName}</div>
             </div>
           </div>
         )}
       </div>
 
-      {/* ── INPUT ── */}
+      {/* ═══ INPUT ZONE ═══ */}
       <div style={{ background:th.card, borderTop:`1px solid ${th.border}`,
-        padding:"10px 14px 24px", flexShrink:0 }}>
+        padding:"8px 14px 22px", flexShrink:0 }}>
+
+        {/* Guruh to'lganda banner */}
         {isFull && (
           <div style={{ background:`linear-gradient(135deg,${G},${GD})`,
-            borderRadius:12, padding:"10px 14px", marginBottom:10,
-            display:"flex", alignItems:"center", gap:10 }}>
-            <span style={{ fontSize:20 }}>🎉</span>
+            borderRadius:12, padding:"10px 14px", marginBottom:8,
+            display:"flex", alignItems:"center", gap:10,
+            animation:"pulse 1.5s infinite" }}>
+            <span style={{ fontSize:22 }}>🎉</span>
             <div style={{ flex:1 }}>
               <div style={{ color:"#fff", fontWeight:800, fontSize:13 }}>
                 {isUz?"Guruh to'ldi!":"Группа заполнена!"}
               </div>
-              <div style={{ color:"rgba(255,255,255,0.75)", fontSize:11 }}>
-                {isUz?"Endi to'lov qiling":"Теперь оплатите"}
+              <div style={{ color:"rgba(255,255,255,0.8)", fontSize:11 }}>
+                {isUz?"Hozir to'lov qiling":"Оплатите сейчас"}
               </div>
             </div>
           </div>
         )}
+
+        {/* Collapse — Buyurtma tafsilotlari */}
+        <div style={{ marginBottom:8 }}>
+          <button onClick={()=>setCollapsed(c=>!c)} style={{
+            width:"100%", background:th.card2, border:`1px solid ${th.border}`,
+            borderRadius:10, padding:"9px 14px", cursor:"pointer",
+            display:"flex", alignItems:"center", justifyContent:"space-between",
+          }}>
+            <span style={{ fontSize:13, fontWeight:600, color:th.text }}>
+              📦 {isUz?"Buyurtma tafsilotlari":"Детали заказа"}
+            </span>
+            <span style={{ fontSize:14, color:th.sub, transition:"transform 0.2s",
+              transform: collapsed?"rotate(0)":"rotate(180deg)" }}>▾</span>
+          </button>
+          {!collapsed && (
+            <div style={{ background:th.card2, borderRadius:"0 0 10px 10px",
+              border:`1px solid ${th.border}`, borderTop:"none",
+              padding:"10px 14px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:8 }}>
+              {[
+                { icon:"🚚", label:isUz?"Yetkazish":"Доставка",       val:isUz?"1-3 kun":"1-3 дня" },
+                { icon:"🛡️", label:isUz?"Xaridor himoyasi":"Защита",  val:isUz?"Kafolat":"Гарантия" },
+                { icon:"↩️", label:isUz?"7 kun qaytarish":"Возврат",  val:isUz?"7 kun":"7 дней" },
+                { icon:"💳", label:isUz?"Muddatli to'lov":"Рассрочка",val:isUz?"0% foiz":"0% ставка" },
+              ].map((item,i)=>(
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:7 }}>
+                  <span style={{ fontSize:15 }}>{item.icon}</span>
+                  <div>
+                    <div style={{ fontSize:9, color:th.sub, fontWeight:600 }}>{item.label}</div>
+                    <div style={{ fontSize:11, color:th.text, fontWeight:700 }}>{item.val}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Chat input */}
         <div style={{ display:"flex", gap:8, alignItems:"flex-end", marginBottom:8 }}>
           <div style={{ flex:1, background:th.card2, borderRadius:22,
             border:`1.5px solid ${th.border}`, padding:"10px 14px",
@@ -748,15 +936,14 @@ function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
               placeholder={isUz?"Xabar yozing...":"Написать сообщение..."}
               style={{ flex:1, border:"none", background:"transparent", outline:"none",
                 fontSize:14, color:th.text, fontFamily:"inherit" }} />
-            <span title={isUz?"AI yordamchi":"AI помощник"}
-              style={{ fontSize:18, cursor:"pointer", opacity:0.5 }}>🤖</span>
+            <span style={{ fontSize:16, opacity:0.5 }}>🤖</span>
           </div>
           <button onClick={sendMessage} style={{
             width:44, height:44, borderRadius:22,
-            background:inputText.trim()?group.color:th.card2,
+            background: inputText.trim() ? group.color : th.card2,
             border:"none", cursor:"pointer",
             display:"flex", alignItems:"center", justifyContent:"center",
-            boxShadow:inputText.trim()?`0 4px 14px ${group.color}50`:"none",
+            boxShadow: inputText.trim() ? `0 4px 14px ${group.color}50` : "none",
             transition:"all 0.2s",
           }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -765,18 +952,25 @@ function GroupChatRoom({ group, lang, dark, currentMember, onBack, onPay }) {
             </svg>
           </button>
         </div>
+
+        {/* To'lov tugmasi */}
         <PulseBtn onClick={()=>setShowPay(true)} color={group.color}>
           💳 {isUz?"To'lov qilish":"Оплатить"} — {formatPrice(group.groupPrice)} {tx.sum}
         </PulseBtn>
       </div>
 
+      {/* To'lov modali */}
       {showPay && (
         <PaymentModal group={group} lang={lang} dark={dark}
           onClose={()=>setShowPay(false)}
-          onSuccess={()=>{ setShowPay(false); onPay?.(group); }} />
+          onSuccess={handlePaySuccess} />
       )}
+
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:scale(0.8)}40%{transform:scale(1.2)}}
+        @keyframes bounce3{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+        @keyframes fadeInOut{0%{opacity:0}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
       `}</style>
     </div>
   );
