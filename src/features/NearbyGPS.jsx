@@ -115,23 +115,45 @@ export function NearbySection({ lang, dark, listings, onOpen, onToggleFav, favId
       )}
 
       {!loading && nearby.length === 0 && userLocation && (
-        <div style={{ padding:"20px 16px", textAlign:"center", color:th.sub }}>
-          <div style={{ fontSize:36, marginBottom:8 }}>🗺️</div>
-          <div style={{ fontSize:13 }}>
-            {lang==="uz"
-              ? `${radiusLabels[radius]} radiusda e'lonlar yo'q`
-              : `Нет объявлений в радиусе ${radiusLabels[radius]}`}
+        <div style={{ padding:"0 16px" }}>
+          {/* Yandex Map — e'lon yo'q holatida ham xarita ko'rsatamiz */}
+          <NearbyYandexMap
+            lang={lang} dark={dark}
+            userLocation={userLocation}
+            listings={[]}
+            radius={radius}
+            onOpen={() => {}}
+          />
+          <div style={{ textAlign:"center", padding:"14px 0 4px", color:th.sub }}>
+            <div style={{ fontSize:13 }}>
+              {lang==="uz"
+                ? `${radiusLabels[radius]} radiusda e'lonlar yo'q`
+                : `Нет объявлений в радиусе ${radiusLabels[radius]}`}
+            </div>
+            <button
+              onClick={() => setRadius(radius < 10000 ? RADIUS_OPTIONS[RADIUS_OPTIONS.indexOf(radius)+1] : radius)}
+              style={{ marginTop:8, background:G, color:"#fff", border:"none", borderRadius:10, padding:"8px 16px", fontSize:13, fontWeight:700, cursor:"pointer" }}>
+              {lang==="uz" ? "Radiusni oshirish" : "Увеличить радиус"}
+            </button>
           </div>
-          <button onClick={() => setRadius(radius < 10000 ? RADIUS_OPTIONS[RADIUS_OPTIONS.indexOf(radius)+1] : radius)}
-            style={{ marginTop:10, background:G, color:"#fff", border:"none", borderRadius:10, padding:"8px 16px", fontSize:13, fontWeight:700, cursor:"pointer" }}>
-            {lang==="uz" ? "Radiusni oshirish" : "Увеличить радиус"}
-          </button>
         </div>
       )}
 
       {/* Nearby listings horizontal scroll */}
       {nearby.length > 0 && (
-        <div style={{ display:"flex", gap:10, overflowX:"auto", padding:"4px 16px", scrollbarWidth:"none" }}>
+        <div>
+          {/* Yandex Map */}
+          <div style={{ padding:"0 16px", marginBottom:10 }}>
+            <NearbyYandexMap
+              lang={lang} dark={dark}
+              userLocation={userLocation}
+              listings={nearby}
+              radius={radius}
+              onOpen={onOpen}
+            />
+          </div>
+          {/* Horizontal cards */}
+          <div style={{ display:"flex", gap:10, overflowX:"auto", padding:"4px 16px", scrollbarWidth:"none" }}>
           {nearby.slice(0, 8).map(listing => {
             const cat = CATEGORIES.find(c => c.id === listing.category);
             return (
@@ -175,6 +197,7 @@ export function NearbySection({ lang, dark, listings, onOpen, onToggleFav, favId
               </div>
             );
           })}
+          </div>
         </div>
       )}
     </div>
@@ -182,6 +205,77 @@ export function NearbySection({ lang, dark, listings, onOpen, onToggleFav, favId
 }
 
 // ── GPS Map overlay (Yandex) ──────────────────────────
+function NearbyYandexMap({ lang, dark, userLocation, listings, radius, onOpen }) {
+  const th = theme(dark);
+  const mapRef = useRef(null);
+  const mapInstRef = useRef(null);
+
+  useEffect(() => {
+    if (!mapRef.current || !userLocation) return;
+    const init = () => {
+      if (!window.ymaps || mapInstRef.current) return;
+      window.ymaps.ready(() => {
+        const center = [userLocation.lat, userLocation.lng];
+        const map = new window.ymaps.Map(mapRef.current, {
+          center, zoom: 13,
+          controls: ["geolocationControl", "zoomControl"],
+        });
+
+        // Foydalanuvchi joylashuvi
+        map.geoObjects.add(new window.ymaps.Placemark(center, {
+          balloonContent: lang === "uz" ? "📍 Siz bu yerdasiz" : "📍 Вы здесь",
+        }, {
+          preset: "islands#greenCircleDotIconWithCaption",
+          iconColor: G,
+          iconCaptionMaxWidth: "100",
+        }));
+
+        // Radius doira
+        map.geoObjects.add(new window.ymaps.Circle([center, radius], {
+          hintContent: `${radius < 1000 ? radius + "m" : radius/1000 + "km"} radius`,
+        }, {
+          fillColor: G + "18",
+          strokeColor: G,
+          strokeWidth: 2,
+          strokeStyle: "dot",
+        }));
+
+        // E'lonlar
+        listings.forEach(l => {
+          if (!l.lat || !l.lng) return;
+          const cat = CATEGORIES.find(c => c.id === l.category);
+          const pm = new window.ymaps.Placemark([l.lat, l.lng], {
+            balloonContentHeader: l.title,
+            balloonContentBody: `${formatPrice(l.price)} so'm`,
+          }, { preset: "islands#greenDotIcon" });
+          pm.events.add("click", () => onOpen(l));
+          map.geoObjects.add(pm);
+        });
+
+        mapInstRef.current = map;
+      });
+    };
+
+    if (window.ymaps) {
+      init();
+    } else {
+      const s = document.createElement("script");
+      s.src = "https://api-maps.yandex.ru/2.1/?apikey=your-api-key&lang=ru_RU";
+      s.onload = init;
+      document.head.appendChild(s);
+    }
+    return () => { mapInstRef.current = null; };
+  }, [userLocation, radius, listings.length]);
+
+  return (
+    <div ref={mapRef} style={{
+      width: "100%", height: 220, borderRadius: 16, overflow: "hidden",
+      border: `1px solid ${th.border}`,
+      boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+    }} />
+  );
+}
+
 export function NearbyMapView({ lang, dark, listings, onOpen }) {
   const th = theme(dark);
   const { userLocation, nearby, radius, setRadius } = useNearbyListings(listings);

@@ -107,7 +107,6 @@ function AddSheet({ dark, lang, onClose, onProduct, onLive, isVerified, onGroupS
     { icon:"🚗", label:lang==="uz"?"Transport":"Транспорт",              sub:lang==="uz"?"Avtomobil, moto":"Авто, мото",                color:"#F59E0B", fn:onProduct },
     { icon:"🏠", label:lang==="uz"?"Ko'chmas mulk":"Недвижимость",      sub:lang==="uz"?"Sotish yoki ijara":"Продажа / аренда",        color:"#10B981", fn:onProduct },
     { icon:"💼", label:lang==="uz"?"Ish o'rni":"Вакансия",              sub:lang==="uz"?"Xodim izlayman":"Ищу сотрудника",             color:G,         fn:onProduct },
-    { icon:"🎥", label:lang==="uz"?"Jonli efir":"Прямой эфир",          sub:lang==="uz"?(isVerified?"Boshlash":"MyID kerak"):(isVerified?"Начать":"Нужна верификация"), color:"#EF4444", fn:onLive },
     { icon:"🤝", label:"GroupSell", sub:lang==="uz"?"Birga olib, birga tejang":"Купим вместе — сэкономим", color:"#6366F1", fn:onGroupSell, isNew:true },
   ];
   return (
@@ -465,20 +464,14 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
           {[
-            { icon:"🏘️", label:lang==="uz"?"Mahalla":"Махалля",       sub:lang==="uz"?"Lokal jamiyat":"Местное сообщество",    color:"#10B981", page:"mahalla" },
-            { icon:"🤝", label:lang==="uz"?"Birga olamiz":"Купим вместе", sub:lang==="uz"?"Ulgurji narxda":"По оптовой цене",  color:"#3B82F6", page:"groupbuy" },
-            { icon:"📊", label:lang==="uz"?"Dashboard":"Дашборд",      sub:lang==="uz"?"Statistikam":"Моя статистика",          color:"#8B5CF6", page:"dashboard" },
-            { icon:"🏆", label:lang==="uz"?"Reyting":"Рейтинг",        sub:`Level ${lvl.level} · ${xp} XP`,                    color:"#F59E0B", page:"gamification" },
-            { icon:"🤝", label:"GroupSell", sub:lang==="uz"?"Birga tejaymiz":"Экономим вместе", color:"#6366F1", page:"groupsell", isNew:true },
+            { icon:"🏘️", label:lang==="uz"?"Mahalla":"Махалля",           sub:lang==="uz"?"Lokal jamiyat":"Местное сообщество", color:"#10B981", page:"mahalla" },
+            { icon:"🤝", label:lang==="uz"?"Birga olamiz":"Купим вместе", sub:lang==="uz"?"Ulgurji narxda":"По оптовой цене",    color:"#3B82F6", page:"groupbuy" },
           ].map((f,i) => (
             <button key={i} onClick={() => onFeature(f.page)} style={{
-              background:th.card, border:`1px solid ${f.isNew?"#6366F1":th.border}`, borderRadius:14,
+              background:th.card, border:`1px solid ${th.border}`, borderRadius:14,
               padding:"13px 12px", cursor:"pointer",
               display:"flex", alignItems:"center", gap:10, textAlign:"left",
-              position:"relative",
             }}>
-              {f.isNew && <div style={{ position:"absolute", top:-6, right:-6, background:"#EF4444",
-                color:"#fff", fontSize:8, fontWeight:900, padding:"2px 6px", borderRadius:10 }}>NEW</div>}
               <div style={{ width:40, height:40, borderRadius:12, background:f.color+"20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>
                 {f.icon}
               </div>
