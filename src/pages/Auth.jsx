@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { useState, useRef } from "react";
 import { theme } from "../theme.js";
 import { T } from "../translations.js";
 import { Btn, Input } from "../components/UI.jsx";
