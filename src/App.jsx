@@ -26,6 +26,7 @@ import { BarterModal }                    from "./features/BarterSystem.jsx";
 import { QRModal }                        from "./features/QRCode.jsx";
 import MahallaFeed                        from "./features/MahallaFeed.jsx";
 import GroupBuyPage                       from "./features/GroupBuy.jsx";
+import GroupSellPage, { GroupSellMiniWidget } from "./features/GroupSell.jsx";
 import { DeliveryModal }                  from "./features/Delivery.jsx";
 import GamificationPage, { XPToast, calcLevel } from "./features/Gamification.jsx";
 
@@ -98,7 +99,7 @@ function Toast({ msg, type }) {
 }
 
 // ── AddSheet ──────────────────────────────────────────
-function AddSheet({ dark, lang, onClose, onProduct, onLive, isVerified }) {
+function AddSheet({ dark, lang, onClose, onProduct, onLive, isVerified, onGroupSell }) {
   const th = theme(dark);
   const opts = [
     { icon:"📦", label:lang==="uz"?"Mahsulot sotish":"Продать товар",   sub:lang==="uz"?"Yangi yoki ishlatilgan":"Новый или б/у",     color:"#3B82F6", fn:onProduct },
@@ -107,6 +108,7 @@ function AddSheet({ dark, lang, onClose, onProduct, onLive, isVerified }) {
     { icon:"🏠", label:lang==="uz"?"Ko'chmas mulk":"Недвижимость",      sub:lang==="uz"?"Sotish yoki ijara":"Продажа / аренда",        color:"#10B981", fn:onProduct },
     { icon:"💼", label:lang==="uz"?"Ish o'rni":"Вакансия",              sub:lang==="uz"?"Xodim izlayman":"Ищу сотрудника",             color:G,         fn:onProduct },
     { icon:"🎥", label:lang==="uz"?"Jonli efir":"Прямой эфир",          sub:lang==="uz"?(isVerified?"Boshlash":"MyID kerak"):(isVerified?"Начать":"Нужна верификация"), color:"#EF4444", fn:onLive },
+    { icon:"🤝", label:"GroupSell", sub:lang==="uz"?"Birga olib, birga tejang":"Купим вместе — сэкономим", color:"#6366F1", fn:onGroupSell, isNew:true },
   ];
   return (
     <div onClick={onClose} style={{ position:"fixed", inset:0, zIndex:400, background:"rgba(0,0,0,0.55)", display:"flex", alignItems:"flex-end", maxWidth:430, margin:"0 auto" }}>
@@ -117,7 +119,8 @@ function AddSheet({ dark, lang, onClose, onProduct, onLive, isVerified }) {
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, padding:"0 16px" }}>
           {opts.map((o,i)=>(
-            <button key={i} onClick={()=>{o.fn();onClose();}} style={{ background:th.card2, border:`1.5px solid ${th.border}`, borderRadius:16, padding:"15px 12px", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"flex-start", gap:7, textAlign:"left" }}>
+            <button key={i} onClick={()=>{o.fn();onClose();}} style={{ background:th.card2, border:`1.5px solid ${th.border}`, borderRadius:16, padding:"15px 12px", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"flex-start", gap:7, textAlign:"left", position:"relative" }}>
+              {o.isNew && <div style={{ position:"absolute", top:-6, right:-6, background:"#EF4444", color:"#fff", fontSize:8, fontWeight:900, padding:"2px 6px", borderRadius:10 }}>NEW</div>}
               <div style={{ width:42, height:42, borderRadius:12, background:o.color+"20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}>{o.icon}</div>
               <div>
                 <div style={{ fontSize:13, fontWeight:700, color:th.text, marginBottom:2 }}>{o.label}</div>
@@ -158,6 +161,7 @@ export default function App() {
   const [searchCat,  setSearchCat]  = useState("all");
   const [featurePg,  setFeaturePg]  = useState(null);
   const [viewUser,   setViewUser]   = useState(null);
+  const [myGroupSells, setMyGroupSells] = useState([]);
 
   // Feature modal states
   const [fOffer,    setFOffer]    = useState(null);
@@ -264,6 +268,12 @@ export default function App() {
   if (featurePg === "groupbuy") return (
     <div style={{ maxWidth:430, margin:"0 auto" }}>
       <GroupBuyPage lang={lang} dark={dark} currentUser={auth} onBack={() => setFeaturePg(null)} />
+    </div>
+  );
+  if (featurePg === "groupsell") return (
+    <div style={{ maxWidth:430, margin:"0 auto" }}>
+      <GroupSellPage lang={lang} dark={dark} currentUser={auth} myListings={myListings}
+        onBack={() => setFeaturePg(null)} />
     </div>
   );
   if (featurePg === "gamification") return (
@@ -409,6 +419,7 @@ export default function App() {
           onMahalla={()      => setFeaturePg("mahalla")}
           onGroupBuy={()     => setFeaturePg("groupbuy")}
           onGamification={() => setFeaturePg("gamification")}
+          onGroupSell={()    => setFeaturePg("groupsell")}
           xp={xp}
           viewUser={viewUser}
           onCloseUserProfile={() => setViewUser(null)}
@@ -458,12 +469,16 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
             { icon:"🤝", label:lang==="uz"?"Birga olamiz":"Купим вместе", sub:lang==="uz"?"Ulgurji narxda":"По оптовой цене",  color:"#3B82F6", page:"groupbuy" },
             { icon:"📊", label:lang==="uz"?"Dashboard":"Дашборд",      sub:lang==="uz"?"Statistikam":"Моя статистика",          color:"#8B5CF6", page:"dashboard" },
             { icon:"🏆", label:lang==="uz"?"Reyting":"Рейтинг",        sub:`Level ${lvl.level} · ${xp} XP`,                    color:"#F59E0B", page:"gamification" },
+            { icon:"🤝", label:"GroupSell", sub:lang==="uz"?"Birga tejaymiz":"Экономим вместе", color:"#6366F1", page:"groupsell", isNew:true },
           ].map((f,i) => (
             <button key={i} onClick={() => onFeature(f.page)} style={{
-              background:th.card, border:`1px solid ${th.border}`, borderRadius:14,
+              background:th.card, border:`1px solid ${f.isNew?"#6366F1":th.border}`, borderRadius:14,
               padding:"13px 12px", cursor:"pointer",
               display:"flex", alignItems:"center", gap:10, textAlign:"left",
+              position:"relative",
             }}>
+              {f.isNew && <div style={{ position:"absolute", top:-6, right:-6, background:"#EF4444",
+                color:"#fff", fontSize:8, fontWeight:900, padding:"2px 6px", borderRadius:10 }}>NEW</div>}
               <div style={{ width:40, height:40, borderRadius:12, background:f.color+"20", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>
                 {f.icon}
               </div>

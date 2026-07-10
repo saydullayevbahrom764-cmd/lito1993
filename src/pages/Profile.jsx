@@ -3,6 +3,7 @@ import { theme } from "../theme.js";
 import { T, CATEGORIES } from "../translations.js";
 import { formatPrice, timeAgo, DEMO_LISTINGS } from "../utils.js";
 import { ModalSheet, Btn } from "../components/UI.jsx";
+import { GroupSellMiniWidget } from "../features/GroupSell.jsx";
 
 const G  = "#16A34A";
 const GD = "#15803D";
@@ -319,7 +320,7 @@ export default function Profile({
   lang, dark, currentUser, onLogin, onLangChange, onDarkToggle,
   myListings, onOpenListing, onAddListing, favIds, onOpenFav,
   onStartLive, onVerified,
-  onDashboard, onOffers, onMahalla, onGroupBuy, onGamification,
+  onDashboard, onOffers, onMahalla, onGroupBuy, onGamification, onGroupSell,
   xp,
   // boshqa user profili uchun (ListingDetail'dan "Sotuvchiga o'tish")
   viewUser, onCloseUserProfile,
@@ -363,6 +364,9 @@ export default function Profile({
         </Btn>
         <MyAds lang={lang} dark={dark} ads={myListings||[]}
           onOpen={onOpenListing} onDelete={() => {}} />
+        {/* ── GroupSell bo'limi ── */}
+        <GroupSellMiniWidget lang={lang} dark={dark} myGroups={[]}
+          onOpen={()=>{ setView("main"); onGroupSell?.(); }} />
       </div>
     </div>
   );
@@ -522,6 +526,8 @@ export default function Profile({
   // Menyu elementlari
   const menuItems = [
     { icon:"📋", label:tx.myAds,      color:G,         action:()=>setView("myads") },
+    { icon:"🤝", label:"GroupSell",   color:"#6366F1", action:()=>onGroupSell?.(),
+      badge:"NEW" },
     { icon:"❤️", label:tx.favorites,  color:"#EF4444", action:()=>setView("favorites") },
     { icon:"🤝", label:lang==="uz"?"Narx takliflarim":"Мои предложения", color:"#10B981", action:()=>onOffers?.() },
     { icon:"📊", label:lang==="uz"?"Dashboard":"Дашборд", color:"#8B5CF6", action:()=>onDashboard?.() },
@@ -668,6 +674,12 @@ export default function Profile({
                 <span style={{ fontSize:10, background:"#F59E0B20", color:"#F59E0B",
                   padding:"2px 7px", borderRadius:6, fontWeight:700 }}>
                   {lang==="uz"?"Tasdiqlov kerak":"Нужна верификация"}
+                </span>
+              )}
+              {item.badge && (
+                <span style={{ fontSize:9, background:"#EF4444", color:"#fff",
+                  padding:"2px 7px", borderRadius:10, fontWeight:900 }}>
+                  {item.badge}
                 </span>
               )}
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
