@@ -3,6 +3,7 @@ import { theme } from "../theme.js";
 import { T } from "../translations.js";
 import { genId, CITIES_UZ, CITIES_RU } from "../utils.js";
 import { Btn, Input, Select, Toggle, PhotoUploader } from "../components/UI.jsx";
+import { uploadImage } from "../firebaseService.js";
 
 const G = "#16A34A";
 const GD = "#15803D";
@@ -1093,12 +1094,28 @@ export default function AddListing({ lang, dark, onDone, onCancel, onLive, curre
     return true;
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     setLoading(true);
-    setTimeout(() => {
+    try {
+      // 1. Rasmlarni Storage ga yuklaymiz
+      const uploadedPhotos = [];
+      for (const photo of (data.photos || [])) {
+        if (photo.startsWith("data:")) {
+          // base64 → blob → Storage
+          const res = await fetch(photo);
+          const blob = await res.blob();
+          const path = `listings/${currentUser?.uid || "anon"}/${Date.now()}_${uploadedPhotos.length}.jpg`;
+          const url = await uploadImage(blob, path);
+          uploadedPhotos.push(url);
+        } else {
+          uploadedPhotos.push(photo); // allaqachon URL
+        }
+      }
+
       const listing = {
         id: genId(),
         ...data,
+        photos: uploadedPhotos,
         price: data.priceType==="free" ? 0 : data.priceType==="negotiable" ? -1 : Number(data.price),
         seller: {
           id:   currentUser?.uid  || "demo",
@@ -1116,7 +1133,18 @@ export default function AddListing({ lang, dark, onDone, onCancel, onLive, curre
       try { localStorage.removeItem("osontop_draft"); } catch {}
       setLoading(false);
       onDone(listing);
-    }, 1200);
+    } catch (err) {
+      console.error("Publish error:", err);
+      setLoading(false);
+      // Xato bo'lsa ham local saqlaydi
+      const listing = {
+        id: genId(), ...data,
+        price: data.priceType==="free" ? 0 : data.priceType==="negotiable" ? -1 : Number(data.price),
+        seller: { id: currentUser?.uid||"demo", name: currentUser?.name||"Foydalanuvchi", phone: data.phone||"+998901234567", verified:false, rating:0, reviewCount:0 },
+        views:0, favorites:0, active:true, createdAt: new Date().toISOString(),
+      };
+      onDone(listing);
+    }
   };
 
   const stepComponents = [

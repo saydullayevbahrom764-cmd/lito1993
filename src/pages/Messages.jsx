@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { theme } from "../theme.js";
 import { T } from "../translations.js";
+import { sendMessage as fbSendMessage, listenMessages, getUserChats } from "../firebaseService.js";
 
 function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
   const th = theme(dark);
@@ -11,18 +12,49 @@ function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior:"smooth" }); }, [msgs]);
 
-  const send = () => {
+  // Real-time Firestore listener
+  useEffect(() => {
+    if (!chat.id || chat.id.startsWith("c")) {
+      // Demo chat — Firestore yo'q
+      return;
+    }
+    const unsub = listenMessages(chat.id, (messages) => {
+      setMsgs(messages.map(m => ({
+        ...m,
+        time: m.createdAt?.toDate?.()?.toISOString() || m.time || new Date().toISOString(),
+      })));
+    });
+    return () => unsub();
+  }, [chat.id]);
+
+  const send = async () => {
     if (!text.trim()) return;
-    const msg = { id: Date.now(), from: currentUser?.uid || "me", text: text.trim(), time: new Date().toISOString() };
-    setMsgs(p => [...p, msg]);
+    const msgData = {
+      id: Date.now(),
+      from: currentUser?.uid || "me",
+      to: chat.otherId || "other",
+      text: text.trim(),
+      time: new Date().toISOString(),
+    };
+    // Optimistic UI
+    setMsgs(p => [...p, msgData]);
     setText("");
-    setTimeout(() => {
-      setMsgs(p => [...p, {
-        id: Date.now()+1, from: "other",
-        text: lang==="uz" ? "Xabaringiz qabul qilindi, tez orada javob beramiz 😊" : "Ваше сообщение получено, скоро ответим 😊",
-        time: new Date().toISOString(),
-      }]);
-    }, 900);
+
+    // Firestore ga yuborish
+    if (chat.id && !chat.id.startsWith("c") && !chat.id.startsWith("cl_")) {
+      try {
+        await fbSendMessage(chat.id, msgData);
+      } catch (e) { console.warn("Chat send error:", e); }
+    } else {
+      // Demo — avtomatik javob
+      setTimeout(() => {
+        setMsgs(p => [...p, {
+          id: Date.now()+1, from: "other",
+          text: lang==="uz" ? "Xabaringiz qabul qilindi, tez orada javob beramiz 😊" : "Ваше сообщение получено, скоро ответим 😊",
+          time: new Date().toISOString(),
+        }]);
+      }, 900);
+    }
   };
 
   return (

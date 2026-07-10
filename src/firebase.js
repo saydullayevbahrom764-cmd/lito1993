@@ -4,23 +4,17 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDemo-replace-with-your-key",
-  authDomain: "birbir-clone.firebaseapp.com",
-  projectId: "birbir-clone",
-  storageBucket: "birbir-clone.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef",
+  apiKey: "AIzaSyCZX1PZNTfHMSDefdbgpi0aaTwxM9VCDbU",
+  authDomain: "osontop-ca806.firebaseapp.com",
+  projectId: "osontop-ca806",
+  storageBucket: "osontop-ca806.firebasestorage.app",
+  messagingSenderId: "823845329864",
+  appId: "1:823845329864:web:7f6b16329982f683dbbefd",
+  measurementId: "G-T5HR44296B",
 };
 
-let app, db, auth, storage;
-try {
-  app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  auth = getAuth(app);
-  storage = getStorage(app);
-} catch (e) {
-  console.warn("Firebase init error:", e);
-}
-
-export { db, auth, storage };
+const app = initializeApp(firebaseConfig);
+export const db      = getFirestore(app);
+export const auth    = getAuth(app);
+export const storage = getStorage(app);
 export default app;

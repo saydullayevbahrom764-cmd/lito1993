@@ -3,6 +3,13 @@ import { theme } from "./theme.js";
 import { T } from "./translations.js";
 import { loadLS, saveLS } from "./utils.js";
 
+// Firebase
+import { onAuthChange, getUser, createUser, logOut,
+         listenListings, createListing, updateListing,
+         deleteListing as fbDeleteListing,
+         getUserFavorites, addFavorite, removeFavorite,
+         uploadImage } from "./firebaseService.js";
+
 // Pages
 import Auth          from "./pages/Auth.jsx";
 import Home          from "./pages/Home.jsx";
@@ -163,6 +170,8 @@ export default function App() {
   const [myGroupSells, setMyGroupSells] = useState([]);
   // chat ga to'g'ridan o'tish uchun
   const [chatListing, setChatListing] = useState(null);
+  // Firebase dan kelgan e'lonlar
+  const [fbListings, setFbListings] = useState([]);
 
   // Feature modal states
   const [fOffer,    setFOffer]    = useState(null);
@@ -177,6 +186,44 @@ export default function App() {
   const [xpToast,   setXpToast]  = useState(null);
 
   const th = theme(dark);
+
+  // ── FIREBASE AUTH LISTENER ─────────────────────────
+  useEffect(() => {
+    const unsub = onAuthChange(async fbUser => {
+      if (fbUser) {
+        let userData = await getUser(fbUser.uid);
+        if (!userData) {
+          userData = {
+            uid: fbUser.uid,
+            phone: fbUser.phoneNumber || "",
+            name: lang === "uz" ? "Foydalanuvchi" : "Пользователь",
+            city: "",
+            verified: false,
+            createdAt: new Date().toISOString(),
+          };
+          await createUser(fbUser.uid, userData);
+        }
+        setAuth(prev => ({
+          ...userData,
+          uid: fbUser.uid,
+          phone: fbUser.phoneNumber || userData.phone || "",
+          name: prev?.name || userData.name,
+        }));
+        setIsGuest(false);
+        const favs = await getUserFavorites(fbUser.uid);
+        if (favs.length > 0) setFavIds(favs);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  // ── FIREBASE LISTINGS REAL-TIME ────────────────────
+  useEffect(() => {
+    const unsub = listenListings(listings => {
+      setFbListings(listings);
+    });
+    return () => unsub();
+  }, []);
 
   // AI recs
   const { forYou, trending, similar } = useAIRecommendations(viewHist, srchHist, favIds);
@@ -195,8 +242,6 @@ export default function App() {
   const showToast = (msg, type = "success", ms = 2800) => {
     setToast({ msg, type }); setTimeout(() => setToast(null), ms);
   };
-  const toggleFav = id => setFavIds(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
-
   const openListing = listing => {
     setSL(listing);
     setViewHist(p => [listing.id, ...p.filter(x => x !== listing.id)].slice(0, 20));
@@ -210,7 +255,25 @@ export default function App() {
     showToast(lang === "uz" ? "Xush kelibsiz! 👋" : "Добро пожаловать! 👋");
   };
 
-  const handleAddDone = listing => {
+  const handleAddDone = async listing => {
+    // Firestore ga saqlash
+    try {
+      const firestoreId = await createListing({
+        ...listing,
+        sellerId: auth?.uid || "anon",
+        seller: {
+          id:    auth?.uid || "anon",
+          name:  auth?.name || "Foydalanuvchi",
+          phone: auth?.phone || "",
+          verified: isVerified,
+          rating: 0,
+          reviewCount: 0,
+        },
+      });
+      listing = { ...listing, id: firestoreId };
+    } catch (e) {
+      console.warn("Firestore listing error:", e);
+    }
     setMyListings(p => [listing, ...p]);
     setAddForm(false); setAddSheet(false);
     setTab("profile");
@@ -219,22 +282,42 @@ export default function App() {
     showToast(T[lang].adPublished);
   };
 
-  // E'lonni o'chirish
-  const handleDeleteListing = id => {
+  // E'lonni o'chirish — Firestore + local
+  const handleDeleteListing = async id => {
+    try { await fbDeleteListing(id); } catch (e) { console.warn(e); }
     setMyListings(p => p.filter(l => l.id !== id));
-    showToast(lang === "uz" ? "E'lon o'chirildi" : "Объявление удалено", "success");
+    showToast(lang === "uz" ? "E'lon o'chirildi" : "Объявление удалено");
   };
 
-  // E'lonni tahrirlash
-  const handleEditListing = (id, updates) => {
+  // E'lonni tahrirlash — Firestore + local
+  const handleEditListing = async (id, updates) => {
+    try { await updateListing(id, updates); } catch (e) { console.warn(e); }
     setMyListings(p => p.map(l => l.id === id ? { ...l, ...updates } : l));
-    showToast(lang === "uz" ? "E'lon yangilandi ✅" : "Объявление обновлено ✅", "success");
+    showToast(lang === "uz" ? "E'lon yangilandi ✅" : "Объявление обновлено ✅");
   };
 
-  // Profilni yangilash
-  const handleUpdateProfile = updates => {
+  // Profilni yangilash — Firestore + local
+  const handleUpdateProfile = async updates => {
+    try {
+      if (auth?.uid) {
+        const { updateUser } = await import("./firebaseService.js");
+        await updateUser(auth.uid, updates);
+      }
+    } catch (e) { console.warn(e); }
     setAuth(p => ({ ...p, ...updates }));
-    showToast(lang === "uz" ? "Profil yangilandi ✅" : "Профиль обновлён ✅", "success");
+    showToast(lang === "uz" ? "Profil yangilandi ✅" : "Профиль обновлён ✅");
+  };
+
+  // Favorite toggle — Firestore
+  const toggleFav = async id => {
+    const isNowFav = favIds.includes(id);
+    setFavIds(p => isNowFav ? p.filter(x => x !== id) : [...p, id]);
+    if (auth?.uid) {
+      try {
+        if (isNowFav) await removeFavorite(auth.uid, id);
+        else await addFavorite(auth.uid, id);
+      } catch (e) { console.warn(e); }
+    }
   };
 
   const handleStartLive = () => {
@@ -411,7 +494,7 @@ export default function App() {
           onCategorySelect={c => { setSearchCat(c); setTab("search"); }}
           onAddListing={() => setAddForm(true)}
           forYou={forYou} trending={trending}
-          myListings={myListings}
+          myListings={[...myListings, ...fbListings.filter(f => !myListings.find(m=>m.id===f.id))]}
           onFeature={setFeaturePg}
           xp={xp}
         />
