@@ -108,7 +108,7 @@ export default function Auth({ lang, dark, onDone, onGuest, onLangChange }) {
         {/* Slogan */}
         <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:20 }}>
           <div style={{ width:28, height:1.5, background:"rgba(255,255,255,0.5)", borderRadius:1 }}/>
-          <span style={{ color:"rgba(255,255,255,0.8)", fontSize:13, fontWeight:500 }}>Birga olamiz, birga tejaymiz!</span>
+          <span style={{ color:"rgba(255,255,255,0.8)", fontSize:13, fontWeight:500 }}>Birga olamiz, birga sotamiz!</span>
           <div style={{ width:28, height:1.5, background:"rgba(255,255,255,0.5)", borderRadius:1 }}/>
         </div>
 

@@ -289,7 +289,7 @@ export default function App() {
 
   // ── Main shell ─────────────────────────────────────────
   return (
-    <div style={{ fontFamily:"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif", background:th.bg, minHeight:"100vh", maxWidth:430, margin:"0 auto", position:"relative" }}>
+    <div style={{ fontFamily:"'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif", background:th.bg, minHeight:"100vh", maxWidth:430, margin:"0 auto", position:"relative" }}>
       <Confetti show={confetti} />
       {toast    && <Toast msg={toast.msg} type={toast.type} />}
       {xpToast  && <XPToast xp={xpToast.xp} reason={xpToast.reason} onHide={() => setXpToast(null)} />}
@@ -458,7 +458,7 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
         onOpen={onOpenListing} onToggleFav={onToggleFav} favIds={favIds} />
 
       {/* 4. Feature quicklinks */}
-      <div style={{ padding:"8px 16px 20px" }}>
+      <div style={{ padding:"8px 16px 0" }}>
         <div style={{ fontSize:14, fontWeight:700, color:th.text, marginBottom:12 }}>
           ✨ {lang==="uz"?"Maxsus funksiyalar":"Специальные функции"}
         </div>
@@ -480,6 +480,36 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
                 <div style={{ fontSize:11, color:th.sub, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{f.sub}</div>
               </div>
             </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 5. Footer — Trust badges */}
+      <div style={{ margin:"16px 0 0", background:th.card, borderTop:`1px solid ${th.border}`, padding:"16px 16px 90px" }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+          {[
+            { icon:"🛡️", title:lang==="uz"?"Xavfsiz to'lov":"Безопасная оплата", sub:lang==="uz"?"Himoyalangan to'lov tizimi":"Защищённая система платежей", color:"#16A34A" },
+            { icon:"🕐", title:lang==="uz"?"24/7 qo'llab-quvvatlash":"Поддержка 24/7", sub:lang==="uz"?"Siz uchun doim mavjud":"Всегда доступны для вас", color:"#3B82F6" },
+            { icon:"🚚", title:lang==="uz"?"Tez yetkazib berish":"Быстрая доставка", sub:lang==="uz"?"Tez va ishonchli yetkazish":"Быстро и надёжно", color:"#F59E0B" },
+            { icon:"👥", title:lang==="uz"?"Ishonchli hamjamiyat":"Сообщество", sub:lang==="uz"?"Millionlab faol foydalanuvchilar":"Миллионы активных пользователей", color:"#8B5CF6" },
+          ].map((item,i) => (
+            <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start",
+              background:th.card2, borderRadius:12, padding:"12px 10px",
+              border:`1px solid ${th.border}` }}>
+              <div style={{ width:34, height:34, borderRadius:10, background:item.color+"15",
+                display:"flex", alignItems:"center", justifyContent:"center",
+                fontSize:17, flexShrink:0 }}>
+                {item.icon}
+              </div>
+              <div style={{ minWidth:0 }}>
+                <div style={{ fontSize:11, fontWeight:700, color:th.text, lineHeight:1.3, marginBottom:2 }}>
+                  {item.title}
+                </div>
+                <div style={{ fontSize:9, color:th.sub, lineHeight:1.4 }}>
+                  {item.sub}
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>

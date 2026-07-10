@@ -1199,6 +1199,7 @@ export default function GroupSellPage({ lang, dark, onBack, currentUser, myListi
   const [view, setView] = useState("home");   // home | create | chat
   const [activeGs, setActiveGs] = useState(null);
   const [joinedIds, setJoinedIds] = useState([]);
+  const [mainTab, setMainTab] = useState("active"); // active | mine | history
 
   const me = {
     id:"me", name:currentUser?.name||(isUz?"Men":"Я"),
@@ -1309,16 +1310,111 @@ export default function GroupSellPage({ lang, dark, onBack, currentUser, myListi
         </div>
       </div>
 
+      {/* Guruhlar Tabs — Faol / Mening / Tarix */}
+      <div style={{ display:"flex", borderBottom:`1px solid ${th.border}`, margin:"10px 16px 0", background:th.card, borderRadius:"12px 12px 0 0", overflow:"hidden" }}>
+        {[
+          { id:"active", label:isUz?"Faol group'lar":"Активные",  icon:"🔥" },
+          { id:"mine",   label:isUz?"Mening group'larim":"Мои",   icon:"👤" },
+          { id:"history",label:isUz?"Tarix":"История",             icon:"📋" },
+        ].map(t=>(
+          <button key={t.id} onClick={()=>setMainTab(t.id)} style={{
+            flex:1, padding:"11px 4px", border:"none", cursor:"pointer",
+            background: mainTab===t.id ? ACCENT+"12" : "transparent",
+            borderBottom: mainTab===t.id ? `2px solid ${ACCENT}` : "2px solid transparent",
+            color: mainTab===t.id ? ACCENT : th.sub,
+            fontSize:11, fontWeight: mainTab===t.id ? 700 : 500,
+            display:"flex", flexDirection:"column", alignItems:"center", gap:2,
+            transition:"all 0.15s",
+          }}>
+            <span style={{ fontSize:16 }}>{t.icon}</span>
+            <span>{t.label}</span>
+          </button>
+        ))}
+      </div>
+
       {/* Guruhlar ro'yxati */}
       <div style={{ padding:"14px 16px" }}>
-        <div style={{ fontSize:15, fontWeight:800, color:th.text, marginBottom:12 }}>
-          🔥 {isUz?"Faol GroupSell'lar":"Активные GroupSell"}
-        </div>
-        {groups.map(gs=>(
-          <GSCard key={gs.id} gs={gs} lang={lang} dark={dark}
-            isJoined={joinedIds.includes(gs.id)}
-            onOpen={g=>{ setActiveGs(g); if(!joinedIds.includes(g.id)) setJoinedIds(p=>[...p,g.id]); setView("chat"); }}/>
-        ))}
+        {mainTab === "active" && (
+          <>
+            <div style={{ fontSize:15, fontWeight:800, color:th.text, marginBottom:12 }}>
+              🔥 {isUz?"Faol GroupSell'lar":"Активные GroupSell"}
+            </div>
+            {groups.map(gs=>(
+              <GSCard key={gs.id} gs={gs} lang={lang} dark={dark}
+                isJoined={joinedIds.includes(gs.id)}
+                onOpen={g=>{ setActiveGs(g); if(!joinedIds.includes(g.id)) setJoinedIds(p=>[...p,g.id]); setView("chat"); }}/>
+            ))}
+          </>
+        )}
+
+        {mainTab === "mine" && (
+          <>
+            <div style={{ fontSize:15, fontWeight:800, color:th.text, marginBottom:12 }}>
+              👤 {isUz?"Mening group'larim":"Мои группы"}
+            </div>
+            {joinedIds.length > 0 ? groups.filter(g=>joinedIds.includes(g.id)).map(gs=>(
+              <GSCard key={gs.id} gs={gs} lang={lang} dark={dark}
+                isJoined={true}
+                onOpen={g=>{ setActiveGs(g); setView("chat"); }}/>
+            )) : (
+              <div style={{ textAlign:"center", padding:"50px 20px", color:th.sub }}>
+                <div style={{ fontSize:44, marginBottom:10 }}>👥</div>
+                <div style={{ fontSize:14, color:th.text, fontWeight:600, marginBottom:6 }}>
+                  {isUz?"Hali hech bir group'ga qo'shilmadingiz":"Вы ещё не вступили ни в одну группу"}
+                </div>
+                <div style={{ fontSize:12, color:th.sub }}>
+                  {isUz?"Faol group'lar bo'limiga o'ting":"Перейдите во вкладку активных групп"}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {mainTab === "history" && (
+          <>
+            <div style={{ fontSize:15, fontWeight:800, color:th.text, marginBottom:12 }}>
+              📋 {isUz?"Tarix":"История"}
+            </div>
+            {/* Demo tarix */}
+            {[
+              { id:"h1", emoji:"📱", title:{ uz:"Samsung Galaxy S24", ru:"Samsung Galaxy S24" },
+                groupPrice:8500000, normalPrice:10200000, requiredMembers:8, finalMembers:8,
+                completedAt:"2026-06-15", savings:1700000, status:"completed" },
+              { id:"h2", emoji:"💻", title:{ uz:"MacBook Air M2", ru:"MacBook Air M2" },
+                groupPrice:22000000, normalPrice:26000000, requiredMembers:5, finalMembers:3,
+                completedAt:"2026-05-28", savings:0, status:"cancelled" },
+            ].map((h,i)=>(
+              <div key={h.id} style={{ background:th.card, borderRadius:14, padding:"14px",
+                marginBottom:10, border:`1px solid ${th.border}`,
+                display:"flex", alignItems:"center", gap:12, opacity:h.status==="cancelled"?0.6:1 }}>
+                <div style={{ width:46, height:46, borderRadius:12, background:h.status==="completed"?G+"15":"#EF444415",
+                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>
+                  {h.emoji}
+                </div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ fontSize:13, fontWeight:700, color:th.text,
+                    overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                    {h.title[lang]}
+                  </div>
+                  <div style={{ fontSize:12, fontWeight:700,
+                    color:h.status==="completed"?G:"#EF4444", marginTop:2 }}>
+                    {h.status==="completed"
+                      ? `✅ ${isUz?"Muvaffaqiyatli":"Успешно"} · ${isUz?"Tejash":"Экономия"}: ${formatPrice(h.savings)} ${T[lang].sum}`
+                      : `❌ ${isUz?"Bekor qilindi":"Отменена"}`}
+                  </div>
+                  <div style={{ fontSize:10, color:th.sub, marginTop:1 }}>
+                    {h.finalMembers}/{h.requiredMembers} {isUz?"a'zo":"участника"} · {h.completedAt}
+                  </div>
+                </div>
+                <div style={{ textAlign:"right", flexShrink:0 }}>
+                  <div style={{ fontSize:13, fontWeight:800, color:th.text }}>
+                    {formatPrice(h.groupPrice)} {T[lang].sum}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

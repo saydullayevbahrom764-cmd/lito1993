@@ -591,17 +591,18 @@ export default function Profile({
         {/* Statistika */}
         <div style={{ display:"flex", gap:8, marginBottom:16 }}>
           {[
-            { val: myListings?.length||0, label: lang==="uz"?"E'lonlar":"Объявления" },
-            { val: currentUser.followers||0, label: lang==="uz"?"Obunachilar":"Подписчики" },
-            { val: (currentUser.rating||0).toFixed(1), label: lang==="uz"?"Baholash":"Рейтинг", icon:"⭐" },
+            { val: myListings?.length||0,              label: lang==="uz"?"E'lonlar":"Объявления",  icon:"📋" },
+            { val: currentUser.followers||0,           label: lang==="uz"?"Obunachilar":"Подписчики", icon:"👥" },
+            { val: (currentUser.rating||0).toFixed(1), label: lang==="uz"?"Baholash":"Рейтинг",    icon:"⭐" },
+            { val: `${(18).toLocaleString()} mln`,    label: lang==="uz"?"Tejaldi":"Сэкономлено",  icon:"💰", highlight:true },
           ].map((s,i) => (
-            <div key={i} style={{ flex:1, background:th.card2, borderRadius:12,
-              padding:"10px 8px", textAlign:"center", border:`1px solid ${th.border}` }}>
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:3 }}>
-                {s.icon && <span style={{ fontSize:14 }}>{s.icon}</span>}
-                <span style={{ fontSize:17, fontWeight:800, color:th.text }}>{s.val}</span>
+            <div key={i} style={{ flex:1, background:s.highlight?G+"12":th.card2, borderRadius:12,
+              padding:"10px 6px", textAlign:"center", border:`1px solid ${s.highlight?G+"30":th.border}` }}>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:2 }}>
+                <span style={{ fontSize:12 }}>{s.icon}</span>
+                <span style={{ fontSize:14, fontWeight:800, color:s.highlight?G:th.text }}>{s.val}</span>
               </div>
-              <div style={{ fontSize:11, color:th.sub, marginTop:2 }}>{s.label}</div>
+              <div style={{ fontSize:9, color:s.highlight?G:th.sub, marginTop:2, fontWeight:s.highlight?700:400 }}>{s.label}</div>
             </div>
           ))}
         </div>
