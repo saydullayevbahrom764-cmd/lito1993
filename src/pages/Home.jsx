@@ -113,12 +113,18 @@ function BannerSlider({ lang, dark }) {
   );
 }
 
-export default function Home({ lang, dark, onOpenListing, onSearch, favIds, onToggleFav, onCategorySelect, onAddListing, currentUser }) {
+export default function Home({ lang, dark, onOpenListing, onSearch, favIds, onToggleFav, onCategorySelect, onAddListing, currentUser, myListings }) {
   const th = theme(dark);
   const tx = T[lang];
   const [activeCat, setActiveCat] = useState("all");
 
-  const listings = DEMO_LISTINGS.filter(l =>
+  // myListings + DEMO_LISTINGS birga, myListings birinchi ko'rinadi
+  const allListings = [
+    ...(myListings||[]),
+    ...DEMO_LISTINGS.filter(d => !(myListings||[]).find(m => m.id === d.id)),
+  ];
+
+  const listings = allListings.filter(l =>
     activeCat === "all" ? true : l.category === activeCat
   );
 

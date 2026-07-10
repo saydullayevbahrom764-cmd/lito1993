@@ -161,6 +161,8 @@ export default function App() {
   const [featurePg,  setFeaturePg]  = useState(null);
   const [viewUser,   setViewUser]   = useState(null);
   const [myGroupSells, setMyGroupSells] = useState([]);
+  // chat ga to'g'ridan o'tish uchun
+  const [chatListing, setChatListing] = useState(null);
 
   // Feature modal states
   const [fOffer,    setFOffer]    = useState(null);
@@ -215,6 +217,24 @@ export default function App() {
     setConfetti(true); setTimeout(() => setConfetti(false), 2500);
     addXP(50, lang === "uz" ? "Yangi e'lon" : "Новое объявление");
     showToast(T[lang].adPublished);
+  };
+
+  // E'lonni o'chirish
+  const handleDeleteListing = id => {
+    setMyListings(p => p.filter(l => l.id !== id));
+    showToast(lang === "uz" ? "E'lon o'chirildi" : "Объявление удалено", "success");
+  };
+
+  // E'lonni tahrirlash
+  const handleEditListing = (id, updates) => {
+    setMyListings(p => p.map(l => l.id === id ? { ...l, ...updates } : l));
+    showToast(lang === "uz" ? "E'lon yangilandi ✅" : "Объявление обновлено ✅", "success");
+  };
+
+  // Profilni yangilash
+  const handleUpdateProfile = updates => {
+    setAuth(p => ({ ...p, ...updates }));
+    showToast(lang === "uz" ? "Profil yangilandi ✅" : "Профиль обновлён ✅", "success");
   };
 
   const handleStartLive = () => {
@@ -314,7 +334,11 @@ export default function App() {
           listing={selectedListing} lang={lang} dark={dark} currentUser={auth}
           isFav={favIds.includes(selectedListing.id)} onToggleFav={toggleFav}
           onBack={() => setSL(null)}
-          onChat={() => { setSL(null); setTab("messages"); }}
+          onChat={() => {
+            setChatListing(selectedListing);
+            setSL(null);
+            setTab("messages");
+          }}
           onOffer={()    => setFOffer(selectedListing)}
           onSafeDeal={() => setFSafeDeal(selectedListing)}
           onBarter={()   => setFBarter(selectedListing)}
@@ -400,7 +424,10 @@ export default function App() {
         <MapView lang={lang} dark={dark} listings={myListings} onOpenListing={openListing} />
       )}
       {tab === "messages" && (
-        <Messages lang={lang} dark={dark} currentUser={auth} listings={myListings} />
+        <Messages lang={lang} dark={dark} currentUser={auth}
+          listings={myListings}
+          openChatListing={chatListing}
+          onChatOpened={() => setChatListing(null)} />
       )}
       {tab === "profile" && (
         <Profile
@@ -408,7 +435,7 @@ export default function App() {
           currentUser={auth ? { ...auth, verified: isVerified } : null}
           myListings={myListings} favIds={favIds}
           onOpenListing={openListing} onOpenFav={openListing}
-          onAddListing={() => setAddSheet(true)}
+          onAddListing={() => setAddForm(true)}
           onLogin={u => { if (!u) { setAuth(null); setIsGuest(false); } else handleAuthDone(u); }}
           onLangChange={setLang} onDarkToggle={() => setDark(p => !p)}
           onStartLive={handleStartLive}
@@ -419,6 +446,9 @@ export default function App() {
           onGroupBuy={()     => setFeaturePg("groupbuy")}
           onGamification={() => setFeaturePg("gamification")}
           onGroupSell={()    => setFeaturePg("groupsell")}
+          onDeleteListing={handleDeleteListing}
+          onEditListing={handleEditListing}
+          onUpdateProfile={handleUpdateProfile}
           xp={xp}
           viewUser={viewUser}
           onCloseUserProfile={() => setViewUser(null)}
@@ -444,7 +474,8 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
       <Home lang={lang} dark={dark} currentUser={currentUser}
         onOpenListing={onOpenListing} onSearch={onSearch}
         favIds={favIds} onToggleFav={onToggleFav}
-        onCategorySelect={onCategorySelect} onAddListing={onAddListing} />
+        onCategorySelect={onCategorySelect} onAddListing={onAddListing}
+        myListings={myListings} />
 
       {/* 1. AI — Siz uchun */}
       <ForYouSection lang={lang} dark={dark} items={forYou}
@@ -458,7 +489,7 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
         onOpen={onOpenListing} onToggleFav={onToggleFav} favIds={favIds} />
 
       {/* 4. Feature quicklinks */}
-      <div style={{ padding:"8px 16px 0" }}>
+      <div style={{ padding:"8px 16px 20px" }}>
         <div style={{ fontSize:14, fontWeight:700, color:th.text, marginBottom:12 }}>
           ✨ {lang==="uz"?"Maxsus funksiyalar":"Специальные функции"}
         </div>
@@ -480,36 +511,6 @@ function HomeFull({ lang, dark, currentUser, onOpenListing, onSearch, favIds, on
                 <div style={{ fontSize:11, color:th.sub, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{f.sub}</div>
               </div>
             </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 5. Footer — Trust badges */}
-      <div style={{ margin:"16px 0 0", background:th.card, borderTop:`1px solid ${th.border}`, padding:"16px 16px 90px" }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
-          {[
-            { icon:"🛡️", title:lang==="uz"?"Xavfsiz to'lov":"Безопасная оплата", sub:lang==="uz"?"Himoyalangan to'lov tizimi":"Защищённая система платежей", color:"#16A34A" },
-            { icon:"🕐", title:lang==="uz"?"24/7 qo'llab-quvvatlash":"Поддержка 24/7", sub:lang==="uz"?"Siz uchun doim mavjud":"Всегда доступны для вас", color:"#3B82F6" },
-            { icon:"🚚", title:lang==="uz"?"Tez yetkazib berish":"Быстрая доставка", sub:lang==="uz"?"Tez va ishonchli yetkazish":"Быстро и надёжно", color:"#F59E0B" },
-            { icon:"👥", title:lang==="uz"?"Ishonchli hamjamiyat":"Сообщество", sub:lang==="uz"?"Millionlab faol foydalanuvchilar":"Миллионы активных пользователей", color:"#8B5CF6" },
-          ].map((item,i) => (
-            <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start",
-              background:th.card2, borderRadius:12, padding:"12px 10px",
-              border:`1px solid ${th.border}` }}>
-              <div style={{ width:34, height:34, borderRadius:10, background:item.color+"15",
-                display:"flex", alignItems:"center", justifyContent:"center",
-                fontSize:17, flexShrink:0 }}>
-                {item.icon}
-              </div>
-              <div style={{ minWidth:0 }}>
-                <div style={{ fontSize:11, fontWeight:700, color:th.text, lineHeight:1.3, marginBottom:2 }}>
-                  {item.title}
-                </div>
-                <div style={{ fontSize:9, color:th.sub, lineHeight:1.4 }}>
-                  {item.sub}
-                </div>
-              </div>
-            </div>
           ))}
         </div>
       </div>

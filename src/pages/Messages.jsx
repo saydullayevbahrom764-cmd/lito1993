@@ -117,7 +117,7 @@ function ChatRoom({ chat, lang, dark, onBack, currentUser }) {
   );
 }
 
-export default function Messages({ lang, dark, currentUser, listings }) {
+export default function Messages({ lang, dark, currentUser, listings, openChatListing, onChatOpened }) {
   const th = theme(dark);
   const tx = T[lang];
   const [activeChat, setActiveChat] = useState(null);
@@ -133,6 +133,32 @@ export default function Messages({ lang, dark, currentUser, listings }) {
     ], lastTime: new Date(Date.now()-7200000).toISOString(), unread:1 },
     { id:"c3", name:"Nodira Xoliqova", avatar:"👩", phone:"+998907654321", listing: listings?.[2], messages:[], lastTime: new Date(Date.now()-86400000).toISOString(), unread:0 },
   ];
+
+  // Agar listing dan chat ochilsa — u listing uchun chat topamiz yoki yangi ochiladi
+  useEffect(() => {
+    if (openChatListing) {
+      const sellerName = openChatListing.seller?.name || (lang==="uz"?"Sotuvchi":"Продавец");
+      const existingChat = demoChats.find(c => c.listing?.id === openChatListing.id);
+      const chat = existingChat || {
+        id: "cl_" + openChatListing.id,
+        name: sellerName,
+        avatar: sellerName?.[0] || "👤",
+        phone: openChatListing.seller?.phone || "+998900000000",
+        listing: openChatListing,
+        messages: [{
+          id:1, from:"other",
+          text: lang==="uz"
+            ? `Salom! "${openChatListing.title}" haqida savol berishingiz mumkin 👋`
+            : `Привет! Можете задать вопрос о "${openChatListing.title}" 👋`,
+          time: new Date().toISOString(),
+        }],
+        lastTime: new Date().toISOString(),
+        unread: 0,
+      };
+      setActiveChat(chat);
+      onChatOpened?.();
+    }
+  }, [openChatListing]);
 
   const filtered = demoChats.filter(c => !q || c.name.toLowerCase().includes(q.toLowerCase()));
 

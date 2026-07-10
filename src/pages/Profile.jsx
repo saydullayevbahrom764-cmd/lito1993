@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useState } from "react";
 import { theme } from "../theme.js";
 import { T, CATEGORIES } from "../translations.js";
 import { formatPrice, timeAgo, DEMO_LISTINGS } from "../utils.js";
@@ -90,7 +89,7 @@ function ListingCard2({ listing, lang, dark, onOpen, onToggleFav, isFav }) {
 
 
 // ── MyAds (o'z sahifamdagi e'lonlar) ─────────────────
-function MyAds({ lang, dark, ads, onOpen, onDelete }) {
+function MyAds({ lang, dark, ads, onOpen, onDelete, onEdit }) {
   const th = theme(dark);
   const tx = T[lang];
   const [tab, setTab] = useState("active");
@@ -132,7 +131,9 @@ function MyAds({ lang, dark, ads, onOpen, onDelete }) {
               </div>
             </div>
             <div style={{ display:"flex",borderTop:`1px solid ${th.border}` }}>
-              <button style={{ flex:1,padding:"10px",background:"none",border:"none",color:th.sub,fontSize:12,fontWeight:600,cursor:"pointer",borderRight:`1px solid ${th.border}` }}>
+              <button
+                onClick={()=>onEdit?.(ad)}
+                style={{ flex:1,padding:"10px",background:"none",border:"none",color:G,fontSize:12,fontWeight:600,cursor:"pointer",borderRight:`1px solid ${th.border}` }}>
                 ✏️ {tx.edit||"Tahrirlash"}
               </button>
               <button style={{ flex:1,padding:"10px",background:"none",border:"none",color:"#F59E0B",fontSize:12,fontWeight:600,cursor:"pointer",borderRight:`1px solid ${th.border}` }}>
@@ -271,6 +272,7 @@ export default function Profile({
   myListings, onOpenListing, onAddListing, favIds, onOpenFav,
   onStartLive, onVerified,
   onDashboard, onOffers, onMahalla, onGroupBuy, onGamification, onGroupSell,
+  onDeleteListing, onEditListing, onUpdateProfile,
   xp,
   viewUser, onCloseUserProfile,
 }) {
@@ -282,6 +284,17 @@ export default function Profile({
   const isVerified = currentUser?.verified || false;
   const hGrad = `linear-gradient(135deg,${G},${GD})`;
   const isUz  = lang === "uz";
+
+  // Profil tahrirlash
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [editName,   setEditName]   = useState(currentUser?.name || "");
+  const [editCity,   setEditCity]   = useState(currentUser?.city || "");
+
+  // E'lon tahrirlash
+  const [editingAd, setEditingAd] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editPrice, setEditPrice] = useState("");
+  const [editDesc,  setEditDesc]  = useState("");
 
   // ── Boshqa user profili ──────────────────────────
   if (viewUser) {
@@ -309,10 +322,76 @@ export default function Profile({
           + {isUz?"Yangi e'lon":"Добавить объявление"}
         </Btn>
         <MyAds lang={lang} dark={dark} ads={myListings||[]}
-          onOpen={onOpenListing} onDelete={()=>{}} />
+          onOpen={onOpenListing}
+          onDelete={id=>onDeleteListing?.(id)}
+          onEdit={ad=>{
+            setEditingAd(ad);
+            setEditTitle(ad.title||"");
+            setEditPrice(ad.price>0?String(ad.price):"");
+            setEditDesc(ad.description||"");
+          }} />
         <GroupSellMiniWidget lang={lang} dark={dark} myGroups={[]}
           onOpen={()=>{ setView("main"); onGroupSell?.(); }} />
       </div>
+
+      {/* ── E'LON TAHRIRLASH MODAL ── */}
+      {editingAd && (
+        <div onClick={()=>setEditingAd(null)}
+          style={{ position:"fixed",inset:0,zIndex:600,background:"rgba(0,0,0,0.55)",
+            display:"flex",alignItems:"flex-end",justifyContent:"center",maxWidth:430,margin:"0 auto" }}>
+          <div onClick={e=>e.stopPropagation()}
+            style={{ background:th.card,borderRadius:"20px 20px 0 0",width:"100%",padding:"0 0 32px" }}>
+            <div style={{ width:36,height:4,background:th.border,borderRadius:2,margin:"12px auto 16px" }}/>
+            <div style={{ padding:"0 16px" }}>
+              <div style={{ fontSize:16,fontWeight:800,color:th.text,marginBottom:16 }}>
+                ✏️ {isUz?"E'lonni tahrirlash":"Редактировать объявление"}
+              </div>
+              <div style={{ marginBottom:12 }}>
+                <label style={{ fontSize:12,fontWeight:600,color:th.sub,display:"block",marginBottom:6 }}>
+                  {isUz?"Sarlavha":"Заголовок"} *
+                </label>
+                <input value={editTitle} onChange={e=>setEditTitle(e.target.value)}
+                  style={{ width:"100%",padding:"12px 14px",borderRadius:12,border:`1.5px solid ${th.border2}`,
+                    background:th.card,fontSize:15,outline:"none",color:th.text,boxSizing:"border-box",fontFamily:"inherit" }}/>
+              </div>
+              <div style={{ marginBottom:12 }}>
+                <label style={{ fontSize:12,fontWeight:600,color:th.sub,display:"block",marginBottom:6 }}>
+                  {isUz?"Narx (so'm)":"Цена (сум)"}
+                </label>
+                <input value={editPrice} onChange={e=>setEditPrice(e.target.value)} type="number"
+                  style={{ width:"100%",padding:"12px 14px",borderRadius:12,border:`1.5px solid ${th.border2}`,
+                    background:th.card,fontSize:15,outline:"none",color:th.text,boxSizing:"border-box",fontFamily:"inherit" }}/>
+              </div>
+              <div style={{ marginBottom:20 }}>
+                <label style={{ fontSize:12,fontWeight:600,color:th.sub,display:"block",marginBottom:6 }}>
+                  {isUz?"Tavsif":"Описание"}
+                </label>
+                <textarea value={editDesc} onChange={e=>setEditDesc(e.target.value)} rows={3}
+                  style={{ width:"100%",padding:"12px 14px",borderRadius:12,border:`1.5px solid ${th.border2}`,
+                    background:th.card,fontSize:14,outline:"none",color:th.text,
+                    boxSizing:"border-box",fontFamily:"inherit",resize:"vertical",minHeight:80 }}/>
+              </div>
+              <div style={{ display:"flex",gap:10 }}>
+                <Btn dark={dark} variant="ghost" onClick={()=>setEditingAd(null)} style={{ flex:1 }}>
+                  {isUz?"Bekor qilish":"Отмена"}
+                </Btn>
+                <Btn dark={dark} onClick={()=>{
+                  if(editTitle.trim()&&onEditListing){
+                    onEditListing(editingAd.id,{
+                      title:editTitle.trim(),
+                      price:editPrice?Number(editPrice):editingAd.price,
+                      description:editDesc.trim(),
+                    });
+                  }
+                  setEditingAd(null);
+                }} style={{ flex:2,background:G }}>
+                  ✅ {isUz?"Saqlash":"Сохранить"}
+                </Btn>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -489,18 +568,32 @@ export default function Profile({
 
 
       {/* ═══ AVATAR + ISM + LVL ═══ */}
-      <div style={{ background:"#fff",padding:"20px 16px 0",borderBottom:"1px solid #E8E8E8" }}>
+      <div style={{ background:"#fff",padding:"20px 16px 16px",borderBottom:"1px solid #E8E8E8" }}>
         <div style={{ display:"flex",alignItems:"center",gap:14,marginBottom:14 }}>
-          {/* Avatar */}
-          <div style={{ position:"relative",flexShrink:0 }}>
+          {/* Avatar — bosilsa tahrirlash */}
+          <div style={{ position:"relative",flexShrink:0 }}
+            onClick={()=>{
+              setEditName(currentUser?.name||"");
+              setEditCity(currentUser?.city||"");
+              setShowEditProfile(true);
+            }}>
             <div style={{ width:72,height:72,borderRadius:36,background:`linear-gradient(135deg,${G},${GD})`,
               display:"flex",alignItems:"center",justifyContent:"center",
               fontSize:28,fontWeight:900,color:"#fff",
-              border:"3px solid #fff",boxShadow:"0 4px 16px rgba(22,163,74,0.3)" }}>
-              {currentUser.name?.[0]||"A"}
+              border:"3px solid #fff",boxShadow:"0 4px 16px rgba(22,163,74,0.3)",
+              cursor:"pointer" }}>
+              {currentUser.photo
+                ? <img src={currentUser.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"50%"}}/>
+                : currentUser.name?.[0]?.toUpperCase()||"A"}
             </div>
+            {/* Tahrirlash belgisi */}
+            <div style={{ position:"absolute",bottom:-2,right:-2,
+              width:24,height:24,borderRadius:12,
+              background:G,border:"2.5px solid #fff",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:11,cursor:"pointer" }}>✏️</div>
             {isVerified&&(
-              <div style={{ position:"absolute",bottom:-2,right:-2,
+              <div style={{ position:"absolute",top:-2,left:-2,
                 width:22,height:22,borderRadius:11,
                 background:"#1DA1F2",border:"2px solid #fff",
                 display:"flex",alignItems:"center",justifyContent:"center",
@@ -509,11 +602,11 @@ export default function Profile({
           </div>
           {/* Ism va info */}
           <div style={{ flex:1 }}>
-            <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:2 }}>
+            <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:2 }}>
               <div style={{ fontSize:20,fontWeight:900,color:"#0F172A" }}>{currentUser.name}</div>
               {isVerified&&(
                 <span style={{ background:"#1DA1F220",color:"#1DA1F2",fontSize:10,
-                  fontWeight:700,padding:"2px 7px",borderRadius:10 }}>✓ Tasdiqlangan</span>
+                  fontWeight:700,padding:"2px 7px",borderRadius:10 }}>✓ {isUz?"Tasdiqlangan":"Подтверждён"}</span>
               )}
             </div>
             <div style={{ fontSize:12,color:G,fontWeight:700,marginBottom:2 }}>
@@ -523,10 +616,21 @@ export default function Profile({
               📍 {currentUser.city||"Namangan"}
             </div>
           </div>
+          {/* Tahrirlash tugmasi */}
+          <button
+            onClick={()=>{
+              setEditName(currentUser?.name||"");
+              setEditCity(currentUser?.city||"");
+              setShowEditProfile(true);
+            }}
+            style={{ background:G+"15",border:"none",borderRadius:10,
+              padding:"8px 14px",color:G,fontSize:12,fontWeight:700,cursor:"pointer" }}>
+            ✏️ {isUz?"Tahrirlash":"Изменить"}
+          </button>
         </div>
 
         {/* XP progress bar */}
-        <div style={{ marginBottom:16 }}>
+        <div>
           <div style={{ display:"flex",justifyContent:"space-between",marginBottom:4 }}>
             <span style={{ fontSize:10,color:"#999",fontWeight:600 }}>
               {isUz?`Daraja ${lvl}`:`Уровень ${lvl}`}
@@ -540,51 +644,74 @@ export default function Profile({
         </div>
       </div>
 
-
-      {/* ═══ STATISTIKA KARTASI (yashil fon) ═══ */}
-      <div style={{ margin:"12px 16px 0" }}>
-        <div style={{ background:`linear-gradient(135deg,${G},${GD})`,
-          borderRadius:18,padding:"16px 16px 14px",
-          boxShadow:"0 6px 24px rgba(22,163,74,0.3)" }}>
-          {/* Sarlavha + Batafsil */}
-          <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14 }}>
-            <span style={{ color:"#fff",fontWeight:800,fontSize:15 }}>
-              {isUz?"Statistikangiz":"Ваша статистика"}
-            </span>
-            <button style={{ background:"rgba(255,255,255,0.2)",border:"none",borderRadius:20,
-              padding:"4px 12px",color:"#fff",fontSize:11,fontWeight:700,cursor:"pointer",
-              display:"flex",alignItems:"center",gap:4 }}>
-              {isUz?"Batafsil":"Подробнее"} <span style={{ fontSize:13 }}>›</span>
-            </button>
-          </div>
-          {/* 3 ta stat */}
-          <div style={{ display:"flex",gap:0,marginBottom:14 }}>
-            {[
-              {val:myListings?.length||6, label:isUz?"E'lonlarim":"Объявления"},
-              {val:2,                     label:isUz?"Faol GroupSell":"GroupSell"},
-              {val:"4.9",                 label:isUz?"Reytingim":"Рейтинг"},
-            ].map((s,i)=>(
-              <div key={i} style={{ flex:1,textAlign:"center",
-                borderRight:i<2?"1px solid rgba(255,255,255,0.25)":"none" }}>
-                <div style={{ fontSize:26,fontWeight:900,color:"#fff",lineHeight:1 }}>{s.val}</div>
-                <div style={{ fontSize:10,color:"rgba(255,255,255,0.75)",marginTop:3,fontWeight:500 }}>{s.label}</div>
+      {/* ═══ PROFIL TAHRIRLASH MODAL ═══ */}
+      {showEditProfile && (
+        <div onClick={()=>setShowEditProfile(false)}
+          style={{ position:"fixed",inset:0,zIndex:600,background:"rgba(0,0,0,0.55)",
+            display:"flex",alignItems:"flex-end",justifyContent:"center",maxWidth:430,margin:"0 auto" }}>
+          <div onClick={e=>e.stopPropagation()}
+            style={{ background:th.card,borderRadius:"20px 20px 0 0",width:"100%",padding:"0 0 32px" }}>
+            <div style={{ width:36,height:4,background:th.border,borderRadius:2,margin:"12px auto 16px" }}/>
+            <div style={{ padding:"0 16px" }}>
+              <div style={{ fontSize:16,fontWeight:800,color:th.text,marginBottom:20 }}>
+                👤 {isUz?"Profilni tahrirlash":"Редактировать профиль"}
               </div>
-            ))}
-          </div>
-          {/* Jami tejalgan */}
-          <div style={{ background:"rgba(255,255,255,0.15)",borderRadius:12,
-            padding:"10px 14px",display:"flex",alignItems:"center",gap:10 }}>
-            <div style={{ width:36,height:36,borderRadius:10,background:"rgba(255,255,255,0.2)",
-              display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>🛒</div>
-            <div>
-              <div style={{ fontSize:20,fontWeight:900,color:"#fff" }}>18 mln</div>
-              <div style={{ fontSize:11,color:"rgba(255,255,255,0.75)" }}>
-                {isUz?"Jami tejalgan":"Всего сэкономлено"}
+              {/* Avatar yuklash */}
+              <div style={{ display:"flex",justifyContent:"center",marginBottom:20 }}>
+                <div style={{ position:"relative",cursor:"pointer" }}>
+                  <div style={{ width:80,height:80,borderRadius:40,
+                    background:`linear-gradient(135deg,${G},${GD})`,
+                    display:"flex",alignItems:"center",justifyContent:"center",
+                    fontSize:32,fontWeight:900,color:"#fff",
+                    border:"3px solid "+th.border }}>
+                    {currentUser.photo
+                      ? <img src={currentUser.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover",borderRadius:"50%"}}/>
+                      : editName?.[0]?.toUpperCase()||"A"}
+                  </div>
+                  <div style={{ position:"absolute",bottom:0,right:0,
+                    width:28,height:28,borderRadius:14,background:G,border:"2.5px solid "+th.card,
+                    display:"flex",alignItems:"center",justifyContent:"center",fontSize:13 }}>📷</div>
+                </div>
+              </div>
+              <div style={{ marginBottom:12 }}>
+                <label style={{ fontSize:12,fontWeight:600,color:th.sub,display:"block",marginBottom:6 }}>
+                  {isUz?"Ism Familiya":"Имя Фамилия"} *
+                </label>
+                <input value={editName} onChange={e=>setEditName(e.target.value)}
+                  placeholder={isUz?"Ismingizni kiriting":"Введите имя"}
+                  style={{ width:"100%",padding:"12px 14px",borderRadius:12,
+                    border:`1.5px solid ${editName?G:th.border2}`,
+                    background:th.card,fontSize:15,outline:"none",color:th.text,
+                    boxSizing:"border-box",fontFamily:"inherit" }}/>
+              </div>
+              <div style={{ marginBottom:20 }}>
+                <label style={{ fontSize:12,fontWeight:600,color:th.sub,display:"block",marginBottom:6 }}>
+                  📍 {isUz?"Shahar":"Город"}
+                </label>
+                <input value={editCity} onChange={e=>setEditCity(e.target.value)}
+                  placeholder={isUz?"Masalan: Toshkent":"Например: Ташкент"}
+                  style={{ width:"100%",padding:"12px 14px",borderRadius:12,
+                    border:`1.5px solid ${th.border2}`,
+                    background:th.card,fontSize:15,outline:"none",color:th.text,
+                    boxSizing:"border-box",fontFamily:"inherit" }}/>
+              </div>
+              <div style={{ display:"flex",gap:10 }}>
+                <Btn dark={dark} variant="ghost" onClick={()=>setShowEditProfile(false)} style={{ flex:1 }}>
+                  {isUz?"Bekor":"Отмена"}
+                </Btn>
+                <Btn dark={dark} onClick={()=>{
+                  if(editName.trim()&&onUpdateProfile){
+                    onUpdateProfile({ name:editName.trim(), city:editCity.trim() });
+                  }
+                  setShowEditProfile(false);
+                }} style={{ flex:2,background:G }}>
+                  ✅ {isUz?"Saqlash":"Сохранить"}
+                </Btn>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
 
       {/* ═══ JONLI EFIR BANNER ═══ */}
