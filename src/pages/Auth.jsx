@@ -80,19 +80,40 @@ export default function Auth({ lang, dark, onDone, onGuest, onLangChange }) {
       </div>
 
       <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
-        {/* Logo — to'liq OsonTop logosi */}
-        <div style={{ marginBottom: 16 }}>
-          <OsonTopLogoFull width={190} />
+        {/* Logo — yashil fon uchun oq versiya */}
+        <svg width="110" height="110" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginBottom:12 }}>
+          <line x1="3"  y1="44" x2="20" y2="44" stroke="white" strokeWidth="5.5" strokeLinecap="round"/>
+          <line x1="6"  y1="55" x2="19" y2="55" stroke="white" strokeWidth="4"   strokeLinecap="round" opacity="0.75"/>
+          <line x1="9"  y1="66" x2="20" y2="66" stroke="white" strokeWidth="3"   strokeLinecap="round" opacity="0.5"/>
+          <path d="M34 36 C34 21 72 21 72 36" stroke="white" strokeWidth="7" strokeLinecap="round" fill="none"/>
+          <rect x="20" y="34" width="62" height="52" rx="13" fill="rgba(255,255,255,0.25)" stroke="white" strokeWidth="2.5"/>
+          <circle cx="43" cy="52" r="9" fill="white"/>
+          <path d="M27 86 C27 70 59 70 59 86" fill="white"/>
+          <circle cx="62" cy="58" r="7" fill="#FBB614"/>
+          <path d="M51 86 C51 74 73 74 73 86" fill="#FBB614"/>
+          <g transform="translate(66, 26) rotate(-15)">
+            <path d="M0 4.5C0 2 2 0 4.5 0L22 0L22 19L4.5 19C2 19 0 17 0 14.5Z" fill="#FBB614"/>
+            <path d="M22 0L30 9.5L22 19Z" fill="#F59E0B"/>
+            <circle cx="5.5" cy="9.5" r="2.5" fill="white"/>
+            <line x1="9" y1="5.5"  x2="20" y2="5.5"  stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+            <line x1="9" y1="9.5"  x2="20" y2="9.5"  stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+            <line x1="9" y1="13.5" x2="17" y2="13.5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+          </g>
+        </svg>
+        {/* OsonTop matn */}
+        <div style={{ marginBottom:6 }}>
+          <span style={{ color:"#fff", fontSize:38, fontWeight:900, letterSpacing:-1 }}>Oson</span>
+          <span style={{ color:"rgba(255,255,255,0.75)", fontSize:38, fontWeight:900, letterSpacing:-1 }}>Top</span>
         </div>
-        <p style={{ color:"rgba(255,255,255,0.85)", fontSize:17, textAlign:"center", lineHeight:1.6, marginBottom:8 }}>
-          {tx.tagline}
-        </p>
-        <p style={{ color:"rgba(255,255,255,0.55)", fontSize:13, textAlign:"center" }}>
-          {lang==="uz"?"O'zbekistonda millionlab e'lonlar":"Миллионы объявлений в Узбекистане"}
-        </p>
+        {/* Slogan */}
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:20 }}>
+          <div style={{ width:28, height:1.5, background:"rgba(255,255,255,0.5)", borderRadius:1 }}/>
+          <span style={{ color:"rgba(255,255,255,0.8)", fontSize:13, fontWeight:500 }}>Birga olamiz, birga tejaymiz!</span>
+          <div style={{ width:28, height:1.5, background:"rgba(255,255,255,0.5)", borderRadius:1 }}/>
+        </div>
 
         {/* Feature pills */}
-        <div style={{ display:"flex", gap:8, marginTop:24, flexWrap:"wrap", justifyContent:"center" }}>
+        <div style={{ display:"flex", gap:8, flexWrap:"wrap", justifyContent:"center" }}>
           {["🔒 Xavfsiz bitim","✅ MyID tasdiqlov","📍 GPS qidiruv"].map((f,i)=>(
             <span key={i} style={{
               background:"rgba(255,255,255,0.15)", borderRadius:20,
