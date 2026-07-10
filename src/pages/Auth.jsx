@@ -9,27 +9,27 @@ function OsonTopSplashIcon() {
   return (
     <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Tezlik chiziqlari */}
-      <line x1="3"  y1="34" x2="15" y2="34" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.9"/>
-      <line x1="5"  y1="42" x2="14" y2="42" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.65"/>
-      <line x1="6"  y1="50" x2="15" y2="50" stroke="white" strokeWidth="2"   strokeLinecap="round" opacity="0.45"/>
-      {/* Tutqi */}
-      <path d="M28 28 C28 18 52 18 52 28" stroke="rgba(255,255,255,0.7)" strokeWidth="5.5" strokeLinecap="round" fill="none"/>
-      {/* Sumka */}
-      <rect x="14" y="26" width="52" height="44" rx="11" fill="rgba(255,255,255,0.25)"/>
-      <rect x="14" y="26" width="52" height="44" rx="11" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none"/>
-      {/* Katta odam — bosh */}
-      <circle cx="35" cy="43" r="7" fill="white" opacity="0.95"/>
-      {/* Katta odam — tana */}
-      <path d="M22 70 C22 57 48 57 48 70" fill="white" opacity="0.95"/>
-      {/* Kichik odam — bosh */}
-      <circle cx="50" cy="47" r="5" fill="white" opacity="0.75"/>
-      <path d="M41 70 C41 60 59 60 59 70" fill="white" opacity="0.75"/>
-      {/* Narx tagi */}
-      <g transform="translate(51, 22) rotate(-20)">
-        <rect width="20" height="15" rx="4" fill="#F59E0B"/>
-        <circle cx="5" cy="5" r="2.2" fill="white"/>
-        <line x1="8"  y1="9"   x2="17" y2="9"   stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-        <line x1="8"  y1="12.5" x2="15" y2="12.5" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
+      <line x1="2"  y1="33" x2="16" y2="33" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+      <line x1="4"  y1="42" x2="15" y2="42" stroke="white" strokeWidth="3" strokeLinecap="round" opacity="0.7"/>
+      <line x1="6"  y1="51" x2="16" y2="51" stroke="white" strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/>
+      {/* Sumka tutqichi */}
+      <path d="M30 28 C30 17 56 17 56 28" stroke="white" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.9"/>
+      {/* Sumka tanasi — oq */}
+      <rect x="18" y="26" width="50" height="44" rx="12" fill="white"/>
+      {/* Katta odam bosh — yashil */}
+      <circle cx="37" cy="42" r="8" fill="#16A34A"/>
+      {/* Katta odam tana */}
+      <path d="M22 70 C22 55 52 55 52 70" fill="#16A34A"/>
+      {/* Kichik odam bosh */}
+      <circle cx="52" cy="47" r="6" fill="#22C55E" opacity="0.85"/>
+      {/* Kichik odam tana */}
+      <path d="M42 70 C42 60 62 60 62 70" fill="#22C55E" opacity="0.85"/>
+      {/* Narx tagi sariq */}
+      <g transform="translate(52, 20) rotate(-18)">
+        <rect width="22" height="17" rx="5" fill="#F59E0B"/>
+        <circle cx="5.5" cy="5.5" r="2.5" fill="white"/>
+        <line x1="9" y1="10"   x2="19" y2="10"   stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+        <line x1="9" y1="13.5" x2="17" y2="13.5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
       </g>
     </svg>
   );
