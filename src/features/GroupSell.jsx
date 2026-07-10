@@ -204,6 +204,9 @@ const AI_QA = {
 // ════════════════════════════════════════════════════════
 // DEMO DATA
 // ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
+// GROUP CARD — rasmga mos compact ko'rinish
+// ════════════════════════════════════════════════════════
 function GSCard({ gs, lang, dark, onOpen, isJoined }) {
   const th = theme(dark);
   const tx = T[lang];
@@ -212,165 +215,122 @@ function GSCard({ gs, lang, dark, onOpen, isJoined }) {
   const progress = gs.currentMembers / gs.requiredMembers;
   const remaining = gs.requiredMembers - gs.currentMembers;
   const discount = Math.round((1 - gs.groupPrice / gs.normalPrice) * 100);
+  const timeStr = expired ? (isUz?"Tugadi":"Истёк") :
+    `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 
   return (
-    <div style={{ background:th.card, borderRadius:20, overflow:"hidden", marginBottom:14,
-      border:`1px solid ${th.border}`, boxShadow:"0 4px 20px rgba(0,0,0,0.08)" }}>
-
-      {/* Banner */}
-      <div style={{ background:`linear-gradient(135deg,${gs.color},${gs.color}BB)`, position:"relative" }}>
-        {/* NEW badge */}
-        <div style={{ position:"absolute", top:10, left:10, zIndex:5,
-          background:"#EF4444", color:"#fff", fontSize:10, fontWeight:900,
-          padding:"3px 8px", borderRadius:20, letterSpacing:0.5 }}>NEW 🔥</div>
-        {/* Viewers */}
-        <div style={{ position:"absolute", top:10, right:10, zIndex:5,
-          background:"rgba(0,0,0,0.35)", backdropFilter:"blur(6px)",
-          color:"#fff", fontSize:9, fontWeight:700, padding:"3px 8px", borderRadius:20 }}>
-          👁 {Math.floor(Math.random()*20)+8} {isUz?"ko'rmoqda":"смотрят"}
+    <div onClick={()=>onOpen(gs)} style={{
+      background:th.card, borderRadius:16, marginBottom:10,
+      border:`1px solid ${th.border}`,
+      boxShadow:"0 2px 12px rgba(0,0,0,0.06)",
+      cursor:"pointer", overflow:"hidden",
+    }}>
+      {/* Asosiy row */}
+      <div style={{ display:"flex", gap:12, padding:"12px 12px 0" }}>
+        {/* Mahsulot rasmi/emoji */}
+        <div style={{
+          width:64, height:64, borderRadius:12, flexShrink:0,
+          background:`linear-gradient(135deg,${gs.color}22,${gs.color}44)`,
+          display:"flex", alignItems:"center", justifyContent:"center", fontSize:32,
+          border:`1.5px solid ${gs.color}30`, overflow:"hidden",
+        }}>
+          {gs.image
+            ? <img src={gs.image} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+            : gs.emoji}
         </div>
 
-        {/* Rasm / emoji */}
-        <div style={{ height:140, display:"flex", alignItems:"center",
-          justifyContent:"center", flexDirection:"column", gap:6 }}>
-          <div style={{ fontSize:64, filter:"drop-shadow(0 4px 12px rgba(0,0,0,0.2))" }}>{gs.emoji}</div>
-          <div style={{ background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)",
-            borderRadius:16, padding:"3px 10px", display:"flex", alignItems:"center", gap:4 }}>
-            {[1,2,3,4,5].map(n=>(
-              <span key={n} style={{ fontSize:9, color:"#F59E0B" }}>★</span>
-            ))}
-            <span style={{ fontSize:9, color:"rgba(255,255,255,0.8)", marginLeft:2 }}>5.0</span>
-          </div>
-        </div>
-
-        {/* Nom + countdown */}
-        <div style={{ padding:"8px 14px 12px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-          <div>
-            <div style={{ color:"#fff", fontWeight:800, fontSize:14, lineHeight:1.2 }}>{gs.title[lang]}</div>
-            <div style={{ background:"rgba(255,255,255,0.2)", borderRadius:6, padding:"1px 7px",
-              fontSize:10, fontWeight:800, color:"#fff", display:"inline-block", marginTop:3 }}>
-              -{discount}% {isUz?"chegirma":"скидка"}
+        {/* Ma'lumot */}
+        <div style={{ flex:1, minWidth:0 }}>
+          <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:4 }}>
+            <div style={{ fontSize:13, fontWeight:700, color:th.text, lineHeight:1.3,
+              overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
+              {gs.title[lang]}
+            </div>
+            {/* Countdown */}
+            <div style={{
+              background: isUrgent ? "#EF444415" : gs.color+"15",
+              color: isUrgent ? "#EF4444" : gs.color,
+              fontSize:10, fontWeight:800, padding:"3px 7px", borderRadius:8,
+              flexShrink:0, fontFamily:"monospace",
+            }}>
+              {timeStr}
             </div>
           </div>
-          {!expired ? (
-            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:2 }}>
-              <div style={{ fontSize:8, color: isUrgent?"#FCA5A5":"rgba(255,255,255,0.65)", fontWeight:700 }}>
-                ⏰ {isUz?"TUGASHIGA:":"ДО КОНЦА:"}
-              </div>
-              <div style={{ display:"flex", alignItems:"center", gap:2 }}>
-                <TUnit value={h} label={isUz?"SOAT":"ЧАС"} urgent={isUrgent}/>
-                <TSep urgent={isUrgent}/>
-                <TUnit value={m} label={isUz?"DAQ":"МИН"} urgent={isUrgent}/>
-                <TSep urgent={isUrgent}/>
-                <TUnit value={s} label={isUz?"SON":"СЕК"} urgent={isUrgent}/>
-              </div>
-            </div>
-          ) : (
-            <div style={{ background:"rgba(255,255,255,0.15)", borderRadius:8, padding:"6px 10px",
-              color:"#fff", fontSize:11, fontWeight:700 }}>⏰ {isUz?"Tugadi":"Завершено"}</div>
-          )}
-        </div>
-      </div>
 
-      {/* Kontent */}
-      <div style={{ padding:"12px 14px" }}>
-        {/* Narxlar */}
-        <div style={{ display:"flex", gap:8, alignItems:"center", marginBottom:12,
-          background:th.card2, borderRadius:12, padding:"10px 12px" }}>
-          <div style={{ flex:1 }}>
-            <div style={{ fontSize:9, color:th.sub, marginBottom:1 }}>{isUz?"Oddiy narx":"Обычная цена"}</div>
-            <div style={{ fontWeight:700, color:th.sub, textDecoration:"line-through", fontSize:13 }}>
+          {/* Narxlar: chizilgan eski + yashil yangi */}
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:5 }}>
+            <span style={{ fontSize:11, color:th.sub, textDecoration:"line-through", fontWeight:500 }}>
               {formatPrice(gs.normalPrice)} {tx.sum}
-            </div>
-          </div>
-          <span style={{ fontSize:14, color:th.sub }}>→</span>
-          <div style={{ flex:1 }}>
-            <div style={{ fontSize:9, color:ACCENT, marginBottom:1 }}>🤝 {isUz?"Guruh narxi":"Цена группы"}</div>
-            <div style={{ fontWeight:900, color:ACCENT, fontSize:17 }}>
-              {formatPrice(gs.groupPrice)} <span style={{ fontSize:11 }}>{tx.sum}</span>
-            </div>
-          </div>
-          <div style={{ background:G+"15", borderRadius:10, padding:"6px 8px", border:`1px solid ${G}25`, textAlign:"center" }}>
-            <div style={{ fontSize:8, color:G, fontWeight:700 }}>{isUz?"Tejash":"Экономия"}</div>
-            <div style={{ fontWeight:900, color:G, fontSize:12 }}>
-              {formatPrice(gs.normalPrice - gs.groupPrice)}
-            </div>
-          </div>
-        </div>
-
-        {/* Progress */}
-        <div style={{ marginBottom:12 }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}>
-            <span style={{ fontSize:11, fontWeight:700, color:th.text }}>
-              {gs.currentMembers} / {gs.requiredMembers} {isUz?"a'zo":"участников"}
             </span>
-            <span style={{ fontSize:11, fontWeight:800, color:remaining<=2?"#EF4444":G }}>
+            <span style={{ fontSize:15, fontWeight:900, color:G }}>
+              {formatPrice(gs.groupPrice)} {tx.sum}
+            </span>
+            <span style={{ background:G+"18", color:G, fontSize:10, fontWeight:800,
+              padding:"1px 6px", borderRadius:6 }}>
+              -{discount}%
+            </span>
+          </div>
+
+          {/* A'zolar */}
+          <div style={{ display:"flex", alignItems:"center", gap:5, marginTop:5 }}>
+            <div style={{ display:"flex" }}>
+              {gs.members.slice(0,4).map((m,i)=>(
+                <div key={i} style={{ marginLeft:i>0?-6:0, zIndex:4-i,
+                  width:20, height:20, borderRadius:10,
+                  background:`linear-gradient(135deg,${m.color},${m.color}BB)`,
+                  border:`1.5px solid ${th.card}`,
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  fontSize:9, fontWeight:800, color:"#fff" }}>
+                  {m.avatar}
+                </div>
+              ))}
+              {gs.members.length > 4 && (
+                <div style={{ marginLeft:-6, width:20, height:20, borderRadius:10,
+                  background:th.card2, border:`1.5px solid ${th.card}`,
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  fontSize:8, color:th.sub, fontWeight:700 }}>
+                  +{gs.members.length-4}
+                </div>
+              )}
+            </div>
+            <span style={{ fontSize:10, color:th.sub }}>
+              {gs.currentMembers}/{gs.requiredMembers} {isUz?"a'zo":"участников"}
+            </span>
+            <span style={{ fontSize:10, fontWeight:700, color:remaining<=2?"#EF4444":G, marginLeft:"auto" }}>
               {isUz?`Yana ${remaining} kishi`:`Ещё ${remaining}`}
             </span>
           </div>
-          <div style={{ height:8, background:th.card2, borderRadius:4, overflow:"hidden", border:`1px solid ${th.border}` }}>
-            <div style={{ height:"100%", width:`${progress*100}%`,
-              background:`linear-gradient(to right,${gs.color},${ACCENT})`,
-              borderRadius:4, transition:"width 1s cubic-bezier(0.34,1.56,0.64,1)", position:"relative" }}>
-              <div style={{ position:"absolute", right:0, top:"50%", transform:"translate(50%,-50%)",
-                width:14, height:14, borderRadius:7, background:"#fff",
-                border:`2.5px solid ${ACCENT}`, boxShadow:"0 2px 5px rgba(0,0,0,0.15)" }} />
-            </div>
-          </div>
-          <div style={{ display:"flex", justifyContent:"space-between", marginTop:3 }}>
-            {Array.from({length:gs.requiredMembers}).map((_,i)=>(
-              <div key={i} style={{ width:5, height:5, borderRadius:3,
-                background:i<gs.currentMembers?ACCENT:th.card2 }} />
-            ))}
-          </div>
         </div>
+      </div>
 
-        {/* A'zolar */}
-        <div style={{ display:"flex", alignItems:"center", marginBottom:12 }}>
-          {gs.members.slice(0,5).map((mem,i)=>(
-            <div key={i} style={{ marginLeft:i>0?-8:0, zIndex:10-i }}>
-              <Av member={mem} size={28} showBadge />
-            </div>
-          ))}
-          {gs.members.length>5 && (
-            <div style={{ width:28, height:28, borderRadius:14, background:th.card2,
-              border:"2px solid #fff", display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:9, fontWeight:800, color:th.sub, marginLeft:-8 }}>+{gs.members.length-5}</div>
-          )}
-          {/* Bo'sh joylar + */}
-          {Array.from({length:Math.min(3,gs.requiredMembers-gs.members.length)}).map((_,i)=>(
-            <div key={"p"+i} style={{ width:28, height:28, borderRadius:14, background:"transparent",
-              border:`2px dashed ${th.border}`, display:"flex", alignItems:"center", justifyContent:"center",
-              fontSize:14, color:th.sub, marginLeft:-8 }}>+</div>
-          ))}
-          <div style={{ marginLeft:10, flex:1 }}>
-            <div style={{ fontSize:9, color:th.sub }}>{isUz?"qo'shilgan":"участвуют"}</div>
-            <div style={{ fontSize:9, color:ACCENT, fontWeight:700, marginTop:1 }}>
-              🏆 {isUz?"Lider":"Лидер"}: {gs.members.find(m=>m.role==="leader")?.name}
-            </div>
-          </div>
-          {/* Coin reward */}
-          {gs.coins && (
-            <div style={{ background:"#F59E0B15", borderRadius:10, padding:"4px 8px", border:"1px solid #F59E0B30" }}>
-              <div style={{ fontSize:9, color:"#F59E0B", fontWeight:800 }}>🪙 {gs.coins} Coin</div>
-            </div>
-          )}
+      {/* Progress bar */}
+      <div style={{ padding:"10px 12px 12px" }}>
+        <div style={{ height:6, background:th.card2, borderRadius:3, overflow:"hidden" }}>
+          <div style={{
+            height:"100%", width:`${Math.min(100,progress*100)}%`,
+            background:`linear-gradient(to right,${gs.color},${G})`,
+            borderRadius:3, transition:"width 1s cubic-bezier(0.34,1.56,0.64,1)",
+          }} />
         </div>
-
-        {/* CTA */}
-        <PBtn onClick={()=>onOpen(gs)} disabled={expired || gs.currentMembers>=gs.requiredMembers} color={gs.color}>
-          {isJoined
-            ? `💬 ${isUz?"Chatni ochish":"Открыть чат"}`
-            : expired ? `⏰ ${isUz?"Tugadi":"Завершено"}`
-            : gs.currentMembers>=gs.requiredMembers ? `🔒 ${isUz?"To'ldi":"Заполнено"}`
-            : `🤝 ${isUz?"Guruhga qo'shilish":"Присоединиться"}`}
-        </PBtn>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:6 }}>
+          <div style={{ display:"flex", gap:6 }}>
+            {isJoined && (
+              <span style={{ background:G+"15", color:G, fontSize:10, fontWeight:700,
+                padding:"2px 8px", borderRadius:20 }}>✓ {isUz?"Qo'shildim":"Вступил"}</span>
+            )}
+            {gs.coins && (
+              <span style={{ background:"#F59E0B15", color:"#F59E0B", fontSize:10, fontWeight:700,
+                padding:"2px 8px", borderRadius:20 }}>🪙 {gs.coins}</span>
+            )}
+          </div>
+          <span style={{ fontSize:10, color:th.sub }}>
+            {Math.round(progress*100)}% {isUz?"to'ldi":"заполнено"}
+          </span>
+        </div>
       </div>
     </div>
   );
 }
-
-
 // ════════════════════════════════════════════════════════
 // 5-BOSQICHLI WIZARD — GROUP YARATISH
 // ════════════════════════════════════════════════════════

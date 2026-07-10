@@ -253,7 +253,7 @@ export function OsonTopLogoFull({ width = 220 }) {
         fontSize="13.5"
         fill="#16A34A"
         letterSpacing="0.3"
-      >Birga olamiz, birga tejaymiz!</text>
+      >Birga olamiz, birga sotamiz!</text>
       {/* O'ng chiziq */}
       <line x1="182" y1="186" x2="212" y2="186" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>

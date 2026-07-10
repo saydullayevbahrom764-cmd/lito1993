@@ -523,22 +523,29 @@ export default function Profile({
     </div>
   );
 
-  // Menyu elementlari
+  // Menyu elementlari — rasmga mos
   const menuItems = [
-    { icon:"📋", label:tx.myAds,      color:G,         action:()=>setView("myads") },
-    { icon:"🤝", label:"GroupSell",   color:"#6366F1", action:()=>onGroupSell?.(),
-      badge:"NEW" },
-    { icon:"❤️", label:tx.favorites,  color:"#EF4444", action:()=>setView("favorites") },
-    { icon:"🤝", label:lang==="uz"?"Narx takliflarim":"Мои предложения", color:"#10B981", action:()=>onOffers?.() },
-    { icon:"📊", label:lang==="uz"?"Dashboard":"Дашборд", color:"#8B5CF6", action:()=>onDashboard?.() },
-    { icon:"🏘️", label:"Mahalla",     color:"#10B981", action:()=>onMahalla?.() },
+    // ── Mening bo'limlarim ──
+    { icon:"📋", label:lang==="uz"?"Mening e'lonlarim":"Мои объявления",
+      sub:lang==="uz"?`${myListings?.length||6} ta e'lon`:`${myListings?.length||6} объявлений`,
+      color:G, action:()=>setView("myads") },
+    { icon:"🤝", label:"GroupSell",
+      sub:lang==="uz"?"2 ta faol group":"2 активных группы",
+      color:"#6366F1", action:()=>onGroupSell?.(), badge:"Yangi" },
+    // ── Moliyaviy ──
+    { icon:"🤝", label:lang==="uz"?"Narx takliflarim":"Мои предложения",
+      color:"#10B981", action:()=>onOffers?.() },
+    { icon:"📊", label:lang==="uz"?"Dashboard":"Дашборд",
+      sub:lang==="uz"?"Statistikam":"Моя статистика",
+      color:"#8B5CF6", action:()=>onDashboard?.() },
+    { icon:"🏘️", label:"Mahalla", color:"#10B981", action:()=>onMahalla?.() },
     { icon:"🤝", label:lang==="uz"?"Birga olamiz":"Купим вместе", color:"#3B82F6", action:()=>onGroupBuy?.() },
     { icon:"🏆", label:lang==="uz"?`Reyting · ${xp} XP`:`Рейтинг · ${xp} XP`, color:"#F59E0B", action:()=>onGamification?.() },
-    { icon:"✅", label:tx.verifyId,   color:"#1DA1F2", action:()=>setShowVerify(true) },
+    { icon:"✅", label:tx.verifyId, color:"#1DA1F2", action:()=>setShowVerify(true) },
     { icon:"🎥", label:tx.liveStream||"Jonli efir", color:"#EF4444",
       action:()=>{ if(isVerified) onStartLive?.(); else setShowVerify(true); } },
-    { icon:"⚙️", label:tx.settings,   color:"#6B7280", action:()=>setView("settings") },
-    { icon:"ℹ️", label:tx.about,      color:"#3B82F6", action:()=>setView("about") },
+    { icon:"⚙️", label:tx.settings, color:"#6B7280", action:()=>setView("settings") },
+    { icon:"ℹ️", label:tx.about,    color:"#3B82F6", action:()=>setView("about") },
   ];
 
   // O'z profilimni rasm 2 ko'rinishida ko'rsatish
@@ -588,21 +595,22 @@ export default function Profile({
           </div>
         </div>
 
-        {/* Statistika */}
-        <div style={{ display:"flex", gap:8, marginBottom:16 }}>
+        {/* Statistika — rasmga mos: E'lonlar / Faol GroupSell / Reyting / Tejalgan */}
+        <div style={{ display:"flex", gap:6, marginBottom:16 }}>
           {[
-            { val: myListings?.length||0,              label: lang==="uz"?"E'lonlar":"Объявления",  icon:"📋" },
-            { val: currentUser.followers||0,           label: lang==="uz"?"Obunachilar":"Подписчики", icon:"👥" },
-            { val: (currentUser.rating||0).toFixed(1), label: lang==="uz"?"Baholash":"Рейтинг",    icon:"⭐" },
-            { val: `${(18).toLocaleString()} mln`,    label: lang==="uz"?"Tejaldi":"Сэкономлено",  icon:"💰", highlight:true },
+            { val: myListings?.length||6,              label: lang==="uz"?"E'lonlarim":"Объявления",    icon:"📋", color:G },
+            { val: 2,                                  label: lang==="uz"?"Faol GroupSell":"GroupSell", icon:"🤝", color:"#6366F1" },
+            { val: (currentUser.rating||4.9).toFixed(1), label: lang==="uz"?"Reytingim":"Рейтинг",    icon:"⭐", color:"#F59E0B" },
+            { val: "18 mln",                           label: lang==="uz"?"Jami tejalgan":"Сэкономлено", icon:"💰", color:G, highlight:true },
           ].map((s,i) => (
-            <div key={i} style={{ flex:1, background:s.highlight?G+"12":th.card2, borderRadius:12,
-              padding:"10px 6px", textAlign:"center", border:`1px solid ${s.highlight?G+"30":th.border}` }}>
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:2 }}>
-                <span style={{ fontSize:12 }}>{s.icon}</span>
-                <span style={{ fontSize:14, fontWeight:800, color:s.highlight?G:th.text }}>{s.val}</span>
-              </div>
-              <div style={{ fontSize:9, color:s.highlight?G:th.sub, marginTop:2, fontWeight:s.highlight?700:400 }}>{s.label}</div>
+            <div key={i} style={{
+              flex:1, borderRadius:12, padding:"10px 4px", textAlign:"center",
+              background: s.highlight ? G+"15" : th.card2,
+              border:`1px solid ${s.highlight ? G+"40" : th.border}`,
+            }}>
+              <div style={{ fontSize:13, marginBottom:2 }}>{s.icon}</div>
+              <div style={{ fontSize:13, fontWeight:900, color:s.color, lineHeight:1.1 }}>{s.val}</div>
+              <div style={{ fontSize:8, color:th.sub, marginTop:2, fontWeight:500, lineHeight:1.2 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -664,23 +672,30 @@ export default function Profile({
           border:`1px solid ${th.border}`, marginBottom:16 }}>
           {menuItems.map((item,i,arr) => (
             <div key={i} onClick={item.action} style={{
-              display:"flex", alignItems:"center", gap:14, padding:"14px 16px",
+              display:"flex", alignItems:"center", gap:14, padding:"13px 16px",
               borderBottom:i<arr.length-1?`1px solid ${th.border}`:"none", cursor:"pointer" }}>
-              <div style={{ width:36, height:36, borderRadius:10,
-                background:item.color+"20",
+              <div style={{ width:38, height:38, borderRadius:11,
+                background:item.color+"18",
                 display:"flex", alignItems:"center", justifyContent:"center",
                 fontSize:18, flexShrink:0 }}>{item.icon}</div>
-              <span style={{ flex:1, fontSize:14, color:th.text }}>{item.label}</span>
-              {item.icon==="🎥" && !isVerified && (
-                <span style={{ fontSize:10, background:"#F59E0B20", color:"#F59E0B",
-                  padding:"2px 7px", borderRadius:6, fontWeight:700 }}>
-                  {lang==="uz"?"Tasdiqlov kerak":"Нужна верификация"}
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:th.text }}>{item.label}</div>
+                {item.sub && (
+                  <div style={{ fontSize:11, color:th.sub, marginTop:1 }}>{item.sub}</div>
+                )}
+              </div>
+              {item.badge && (
+                <span style={{ fontSize:10, background:"#FACC15", color:"#1A1A1A",
+                  padding:"3px 9px", borderRadius:20, fontWeight:800, flexShrink:0 }}>
+                  {item.badge}
                 </span>
               )}
-              {item.badge && (
-                <span style={{ fontSize:9, background:"#EF4444", color:"#fff",
-                  padding:"2px 7px", borderRadius:10, fontWeight:900 }}>
-                  {item.badge}
+              {item.icon==="🎥" && !isVerified && (
+                <span style={{ fontSize:10, background:"#F59E0B20", color:"#F59E0B",
+                  padding:"2px 7px", borderRadius:6, fontWeight:700, flexShrink:0 }}>
+                  {lang==="uz"?"Tasdiqlov kerak":"Верификация"}
+                </span>
+              )}
                 </span>
               )}
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
